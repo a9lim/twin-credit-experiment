@@ -307,7 +307,7 @@ probability vectors. Four caveats:
   (`references/refs.yaml`) found no work pairing a correlation-aware or
   policy-level estimator with a DTBench readout. That search was not exhaustive.
 
-## Phase 1: synthetic twin dilemmas
+## Phase 1: one-shot twin dilemmas (a spinoff of the post)
 
 ### Two kinds of test
 
@@ -320,9 +320,11 @@ Results from the first must not be read as if the model knew the second.
 
 ### Prompt rules
 
-- Prompts must be true under every arm's sampling. The post's "not necessarily
-  the same as yours" is false at ρ = 1, so the post's prompts are used only for
-  the replication arm.
+- Prompts must be true under every arm's sampling.
+- **The post's 32 prompts** drive arm R and every spinoff arm with ρ < 1.
+  Their "not necessarily the same as yours" is true whenever ρ < 1.
+- **Generated prompts** serve the arms the post's text would make false
+  (ρ = 1), the stranger control, and held-out generalization.
 - Generated families describe simultaneous moves and no communication, rather
   than leaning on the ambiguous "causally independent".
 - They control disguise and temptation T, and use a **constrained final action
@@ -434,30 +436,80 @@ gradient to how long CDT-style vs EDT-style reasoning runs.
     With a tight cap, the invalid penalty turns the run into a length-reduction
     run.
 
-### Step 1: pilot at T = 2
+### Step 1: the spinoff (a9, 2026-10-19)
 
-Every pilot arm uses generated T = 2 prompts and **at least three independent
-training seeds**.
+Phase 1 is framed as a **spinoff of the post's experiment**. Arm R reproduces
+its procedure on an open model. The spinoff arms change exactly one thing, the
+credit scheme, and keep everything else fixed: the same 32 prompts, grading,
+optimizer and evaluation.
 
-| Arm | Framing | Grading | Role |
+**Procedure match.** Read off the post, its Appendix A and its training plots.
+
+| | The post | Arm R |
+|---|---|---|
+| Platform | Tinker | Tinker |
+| Model | Kimi K2.6, thinking | Qwen3.6-35B-A3B, thinking (Kimi K2.6 optional, ≈ 3× the cost) |
+| Adapter | LoRA rank 32 | LoRA rank 32 |
+| Optimizer | LR 1e-5, hyperparameters not tuned | LR 1e-5 |
+| Batch | 32 prompts × group 16 | 32 prompts × group 16 |
+| Steps | "until convergence", 70 | 70, or to convergence |
+| Prompts | 32 environments (Appendix B) | the same 32, fetched verbatim and annotated in `post_env.py` |
+| Grading | round robin vs the *other* trajectories, Dr. GRPO | `coupled ρ = 0`, Dr. GRPO (summed IS loss, A / max_tokens) |
+| Invalid answers | not stated | floor reward (`credit.py`) |
+| Generation cap | not stated (Kimi averaged ≈ 4.5k → 2.4k tokens) | 8,192 for the 35B (measured median ≈ 2.3k) |
+| Logged | cooperation by category, mean length | cooperation by category (`coop_*`), mean length, invalid, truncated |
+| Favorite theory | 1,000 samples | `--post-protocol`: 1,000 samples |
+| DTBench attitudes | one answer per question, n = 130 | `sample0_label_counts`, plus the multinomial over k |
+| Yes/no probes | 20 samples each, two quoted questions | the same two, 20 samples each |
+| LessWrong-survey item (92.4ATT) | ≈ 1,000 samples | +1,000 samples |
+| Capability | reported after training (≈ 90%) | DTBench capability, `--capability-k` |
+| Not replicated | LessWrong-sentiment Elo (Opus judge); the overconfidence probe (wording not quoted) | |
+
+**Known gaps.**
+
+- The post doesn't say how its generative-task checkers classify free text
+  (rain, river, warm colours). Ours are approximations in `post_env.py`;
+  unclassifiable answers are invalid.
+- Its generation cap and invalid-answer rule are also unstated.
+- Worth asking oakhu for all three, along with the `defective` checkpoint.
+
+**Arms.**
+
+| Arm | Prompts | Credit | Predicted attractor at n = 16 (T = 2 / T = 10) |
 |---|---|---|---|
-| A1′ | twin | coupled ρ = 0 | CDT pressure |
-| A2 | twin | coupled ρ = 1 | cooperation pressure (≡ welfare at T = 2, Identity 3) |
-| C1 | stranger, fixed q | selfish, rewards × 17/15 | defection without a copy |
-| N | — | non-DT task, same budget | generic RL drift |
+| R | post | `coupled ρ = 0`: their procedure | 0 / 0 |
+| R-rho50 | post | `coupled ρ = 0.5` | 0 / 0, but the T = 2 gap is nearly flat (−0.06): +2 envs barely move |
+| R-rho75 | post | `coupled ρ = 0.75` | 1 / 0.18 |
+| R-welfare | post | welfare: policy-level, private coins | 1 / 0.56 |
+| A2 | generated | `coupled ρ = 1` (shared coin; would falsify the post's "not necessarily the same") | 1 / 1 |
+| C1 | generated, stranger | selfish, rewards × 17/15 (T = 2) | 0 |
+| N | arithmetic | correctness | — |
 
-- **C1 is scale-matched.** At T = 2 the stranger's defection premium is 1 at
-  every q. The arms differ only through the baseline term: −17/16 for A1′ and
-  −15/16 for C1 at n = 16. Scaling C1's rewards by 17/15 matches them.
-- **A1, the replication on the post's own prompts, runs separately.** It is not
-  part of the causal contrast.
+Notes on the arms:
 
-### Step 2: after the pilot
+- **The post's prompts are honest at every ρ < 1.** They say the twin's call is
+  "not necessarily the same as yours", which is true whenever ρ < 1. So the
+  spinoff arms use them unchanged. ρ = 1 runs only on generated prompts.
+- **Does the model condition on temptation?** R-welfare and R-rho75 have
+  different optima at T = 2 and T = 10. A policy that cannot condition on T
+  settles at the pooled root instead: 0.62 for R-welfare and 0.43 for R-rho75.
+  Which one a trained model reaches is a direct test, read from the per-category
+  `coop_*` columns.
+- **Hint from the post's own data.** At p = 0.9, our gap per step is about 7×
+  larger at T = 10 than at T = 2. Yet the post's +10 categories fell only about
+  10 steps before its +2 ones. That suggests shared parameters move the
+  categories together, i.e. strong pooling.
+- **Controls stay as designed.** C1, the stranger control, is scale-matched to
+  the twin arms at T = 2. N measures generic RL drift.
+- **Seeds.** Use 3 per arm for claims. The post ran one, which is fine for a
+  first look.
+
+### Step 2: after the spinoff
 
 | Arm | Grading | Question |
 |---|---|---|
 | A2 vs A4 at T = 4, 10 | coupled ρ = 1 vs welfare | shared vs private coin; opposite pushes above p = 9/16 |
-| A3 | coupled ρ ∈ {0.25, 0.5, 0.75}, T = 2 | dose response against the finite ρ*(n) |
+| A3 | coupled ρ ∈ {0.25, 0.5, 0.75}, generated T = 2 | dose response against the finite ρ*(n) |
 | A6 | fixed focal-role, joint-score, asymmetric roles | selfish policy selection ≠ welfare; servility toward copies |
 | A5 | ES with each pairing protocol (local) | policy-unit vs partial credit by algorithm |
 | C2 | stranger-welfare, q specified | altruism without a copy |
@@ -660,12 +712,24 @@ prompts × 16 samples, 70 steps.
 
 ## Decisions open for a9
 
-- **Grant.** Optionally, a Tinker research-grant application. The account is
-  set up.
+- **Budget and reimbursement.** Redwood may reimburse.
+
+  | Item | Est. cost |
+  |---|---:|
+  | Post-protocol battery, per checkpoint | ≈ $8 |
+  | Length probe on the post prompts | ≈ $0.3 |
+  | One 70-step run on Qwen3.6-35B-A3B | ≈ $220–300 |
+  | The spinoff core, one seed (R, R-welfare, R-rho75, C1, N) | ≈ $1.2–1.5k plus ≈ $50 of evals |
+  | The spinoff core, three seeds | ≈ $3.6–4.5k |
+  | Kimi K2.6 replication of R, per run | ≈ $1.5k (it reasoned ≈ 4.5k tokens in the post) |
+
 - **Model.** Recommendation: Qwen3.6-35B-A3B.
   - It reasons about 2.6× more briefly than Qwen3.5-9B, so it is cheaper per
     run (≈ $223 vs ≈ $499) and truncates less.
-  - Kimi K2.6 only for the A1 replication.
-- **Pilot budget.** The full 32 × 16 × 70 schedule, or a reduced one.
-- **Outreach.** Whether to ask oakhu to publish the `defective` checkpoint and
-  share their environment code.
+  - Kimi K2.6 only for an exact-model replication of R.
+- **Grant.** Optionally, a Tinker research-grant application.
+- **Outreach to oakhu.** Ask for:
+  - the generative-task checkers;
+  - the generation cap and invalid-answer rule;
+  - publication of the `defective` checkpoint;
+  - their Kimi baseline numbers per category.

@@ -16,6 +16,7 @@ import random
 from dataclasses import asdict, dataclass
 from typing import Literal
 
+from .credit import parse_action
 from .games import Game
 
 Framing = Literal["twin", "stranger"]
@@ -122,6 +123,13 @@ class DilemmaPrompt:
     def labels(self) -> dict[str, int]:
         """Label -> action (1 = cooperate, 0 = defect)."""
         return {self.coop_label: 1, self.defect_label: 0}
+
+    @property
+    def category(self) -> str:
+        return f"generated-{self.framing}-T{self.game.T:g}"
+
+    def action(self, completion: str) -> int | None:
+        return parse_action(completion, self.labels)
 
     def record(self) -> dict:
         d = asdict(self)

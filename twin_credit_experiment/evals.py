@@ -61,6 +61,18 @@ def favorite_theory_label(completion: str) -> str:
     return hits[0] if len(hits) == 1 else "other"
 
 
+def yes_no_label(completion: str) -> str:
+    """``yes``, ``no`` or ``unclear`` from the visible answer's opening (bold or plain)."""
+    visible = visible_answer(completion)
+    bold = {b.lower() for b in re.findall(r"\*\*(yes|no)\b", visible, re.IGNORECASE)}
+    if len(bold) > 1:
+        return "unclear"  # contradictory emphasized answers
+    opening = re.match(r"(yes|no)\b", visible.strip().lstrip("*#> _").lower())
+    if opening:
+        return opening.group(1)
+    return bold.pop() if bold else "unclear"
+
+
 def build_battery(
     *,
     dtbench_dir: str | Path = "data/dtbench",
@@ -68,6 +80,8 @@ def build_battery(
     k: int = 5,
     capability_k: int = 1,
     favorite_k: int = 100,
+    probe_k: int = 0,
+    dtbench_extra: dict[str, int] | None = None,
     seed: int = 0,
     dilemma_games: Iterable[str] = ("post-pd", "post-pd-t10"),
 ) -> list[tuple[Item, int]]:
@@ -75,7 +89,9 @@ def build_battery(
 
     ``k`` samples per attitude item and dilemma, ``capability_k`` per capability item
     (a control; 0 skips them), ``favorite_k`` for the open-ended question (the post
-    used 1,000).
+    used 1,000). The post's protocol adds ``probe_k`` samples of each yes/no probe (it
+    used 20) and ``dtbench_extra`` extra samples of chosen items (it asked the
+    LessWrong-survey item ``92.4ATT`` about 1,000 times).
     """
     rng = random.Random(seed)
     jobs: list[tuple[Item, int]] = []
@@ -83,9 +99,14 @@ def build_battery(
         if q.trivia:
             continue
         kind = "dtbench-attitude" if q.attitude else "dtbench-capability"
-        for i in range(k if q.attitude else capability_k):
+        n_samples = (k if q.attitude else capability_k) + (dtbench_extra or {}).get(q.qid, 0)
+        for i in range(n_samples):
             shuffled = q.shuffled(random.Random(rng.getrandbits(64)))
-            meta = {"answers": list(shuffled.answers), "family": dtbench.family(q) if q.attitude else None}
+            meta = {
+                "answers": list(shuffled.answers),
+                "family": dtbench.family(q) if q.attitude else None,
+                "extra": i >= (k if q.attitude else capability_k),  # dtbench_extra samples, reported apart
+            }
             if q.attitude:
                 meta["theory_answers"] = {t: list(v) for t, v in shuffled.theory_answers.items()}
                 meta["agreement"] = q.agreement
@@ -94,8 +115,11 @@ def build_battery(
             jobs.append((Item(kind, q.qid, shuffled.prompt(), meta), i))
     path = Path(post_eval_prompts)
     if path.exists():
-        question = json.loads(path.read_text())["favorite_theory"]
-        jobs += [(Item("favorite-theory", "post-fn9", question), i) for i in range(favorite_k)]
+        post = json.loads(path.read_text())
+        jobs += [(Item("favorite-theory", "post-fn9", post["favorite_theory"]), i) for i in range(favorite_k)]
+        for name in ("irrational_twin", "lw_irrational"):
+            if name in post:
+                jobs += [(Item("yes-no", name, post[name]), i) for i in range(probe_k)]
     for name in dilemma_games:
         for framing in ("twin", "stranger"):
             for p in prompt_set(GAMES[name], framing, "held-out"):
@@ -119,11 +143,14 @@ def grade_completion(item: Item, completion: str) -> dict[str, Any]:
             out["label"] = dtbench.attitude_label(q, choice)
             out["family"] = item.meta["family"]
             out["agreement"] = item.meta["agreement"]
+            out["extra"] = item.meta.get("extra", False)
         else:
             out["correct"] = choice is not None and choice in item.meta["correct"]
             out["valid"] = choice is not None
     elif item.kind == "favorite-theory":
         out["label"] = favorite_theory_label(completion)
+    elif item.kind == "yes-no":
+        out["label"] = yes_no_label(completion)
     elif item.kind == "dilemma":
         out["action"] = parse_action(completion, item.meta["labels"])
         out.update({k: item.meta[k] for k in ("framing", "game", "scenario")})
@@ -206,7 +233,8 @@ def summarize_battery(records: list[dict[str, Any]]) -> dict[str, Any]:
     """Per-arm summary: attitude multinomials (overall, by family, agreement items apart),
     capability accuracy, favorite-theory counts, dilemma cooperation by framing."""
     out: dict[str, Any] = {}
-    att = [r for r in records if r["kind"] == "dtbench-attitude"]
+    all_att = [r for r in records if r["kind"] == "dtbench-attitude"]
+    att = [r for r in all_att if not r.get("extra")]
     if att:
         per_item = defaultdict(list)
         for r in att:
@@ -217,6 +245,8 @@ def summarize_battery(records: list[dict[str, Any]]) -> dict[str, Any]:
         out["attitude"] = {
             "items": len(items),
             "label_counts": dict(Counter(r["label"] for r in att)),
+            # The post's protocol: one answer per question (n = 130). Sample 0 stands in.
+            "sample0_label_counts": dict(Counter(r["label"] for r in att if r["sample"] == 0)),
             "mean_paper_score": _mean(s.paper_score() for s in contrast),
             "mean_log_odds": _mean(s.log_odds() for s in contrast),
             "agreement_items_neither_rate": _rate(
@@ -242,6 +272,15 @@ def summarize_battery(records: list[dict[str, Any]]) -> dict[str, Any]:
     fav = [r for r in records if r["kind"] == "favorite-theory"]
     if fav:
         out["favorite_theory"] = dict(Counter(r["label"] for r in fav))
+    yn = [r for r in records if r["kind"] == "yes-no"]
+    if yn:
+        out["yes_no"] = {
+            name: dict(Counter(r["label"] for r in yn if r["item_id"] == name))
+            for name in sorted({r["item_id"] for r in yn})
+        }
+    extra = [r for r in all_att if r["item_id"] == "92.4ATT"]
+    if extra:
+        out["lw_survey_item"] = dict(Counter(r["label"] for r in extra))
     dil = [r for r in records if r["kind"] == "dilemma"]
     if dil:
         out["dilemma"] = {

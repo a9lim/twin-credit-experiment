@@ -3,6 +3,7 @@
 import asyncio
 import json
 import re
+from collections import Counter
 
 import pytest
 
@@ -68,3 +69,39 @@ def test_battery_end_to_end_with_scripted_sampler(battery_inputs):
     assert s["dilemma"]["post-pd/twin"]["cooperation_rate"] == pytest.approx(1.0)
     assert s["dilemma"]["post-pd/stranger"]["invalid_rate"] == pytest.approx(0.0)
     assert s["truncated_reasoning_rate"] == 0.0
+
+
+@pytest.mark.parametrize(
+    "text, label",
+    [
+        ("Yes. Cooperating is dominated.", "yes"),
+        ("<think>\nno...</think>\n**No** — in a twin PD...", "no"),
+        ("It depends on the setup. **Yes**, if copies are independent.", "yes"),
+        ("It depends.", "unclear"),
+        ("**Yes** and **No**", "unclear"),
+    ],
+)
+def test_yes_no_label(text, label):
+    from twin_credit_experiment.evals import yes_no_label
+
+    assert yes_no_label(text) == label
+
+
+def test_post_protocol_extras_are_reported_apart(battery_inputs):
+    data_dir, fav = battery_inputs
+    fav.write_text(json.dumps({"favorite_theory": "Which? <theory></theory>", "irrational_twin": "Is it irrational?"}))
+    jobs = build_battery(dtbench_dir=data_dir, post_eval_prompts=fav, k=2, capability_k=0, favorite_k=3,
+                         probe_k=4, dtbench_extra={"1.2ATT": 10}, dilemma_games=())
+    kinds = Counter(item.kind for item, _ in jobs)
+    assert kinds == {"dtbench-attitude": 12, "favorite-theory": 3, "yes-no": 4}
+
+    async def answer(prompt, k):
+        if "FINAL ANSWER" in prompt:
+            letter = re.search(r"^([A-Z])\) Cooperate$", prompt, re.MULTILINE).group(1)
+            return [f"FINAL ANSWER: {letter}."] * k
+        return ["Yes." if "irrational" in prompt else "<theory>CDT</theory>"] * k
+
+    s = summarize_battery(asyncio.run(run_battery(answer, jobs)))
+    assert s["attitude"]["label_counts"] == {"EDT-only": 2}  # extras excluded from the pooled counts
+    assert s["attitude"]["sample0_label_counts"] == {"EDT-only": 1}
+    assert s["yes_no"] == {"irrational_twin": {"yes": 4}}

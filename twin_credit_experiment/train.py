@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import asyncio
 import random
+import re
 from collections.abc import Sequence
 from dataclasses import asdict, dataclass, field
 from typing import Any, Literal, Protocol
@@ -22,10 +23,11 @@ from transformer_experiments.telemetry import log, step_address
 
 from .chat import normalize_completion, opens_thinking, render_prompt
 from .control import control_reward, make_prompt
-from .credit import credit_group, parse_action
+from .credit import credit_group
 from .games import dr_grpo_advantages
 from .pricing import SpendMeter
 from .games import Game, Scheme
+from .post_env import load_post_prompts
 from .prompts import Framing, prompt_set
 
 
@@ -38,6 +40,7 @@ class Arm:
     q: float = 0.5  # stranger arms: cooperation probability of the pre-drawn stranger
     scale: float = 1.0  # game-reward multiplier, for matching advantage scales across arms
     task: Literal["dilemma", "control"] = "dilemma"  # "control": arm N's arithmetic task
+    prompts: Literal["generated", "post"] = "generated"  # "post": the Kimi post's 32 environments
 
 
 ARMS = {
@@ -52,6 +55,12 @@ ARMS = {
         Arm("C1", "stranger", "stranger", q=0.5, scale=17 / 15),  # scale-matched to A1p at T = 2, n = 16
         Arm("C2", "stranger", "stranger-welfare", q=0.5),
         Arm("N", "twin", "coupled", task="control"),  # generic-RL-drift control; framing/scheme unused
+        # The spinoff family: the post's own 32 prompts, its grading (R), and one changed
+        # variable each. rho < 1 keeps the prompts' "not necessarily the same" literally true.
+        Arm("R", "twin", "coupled", rho=0.0, prompts="post"),  # the post's procedure
+        Arm("R-welfare", "twin", "welfare", prompts="post"),  # policy-level credit, private coins
+        Arm("R-rho50", "twin", "coupled", rho=0.5, prompts="post"),
+        Arm("R-rho75", "twin", "coupled", rho=0.75, prompts="post"),
     )
 }
 
@@ -104,8 +113,7 @@ class Backend(Protocol):
 async def run(cfg: RunConfig, backend: Backend) -> list[dict[str, float]]:
     """Train one arm; returns per-step metrics (also logged in the shared telemetry grammar)."""
     arm = ARMS[cfg.arm]
-    game = cfg.game
-    pool = prompt_set(game, arm.framing, "train")
+    pool = load_post_prompts() if arm.prompts == "post" else prompt_set(cfg.game, arm.framing, "train")
     rng = random.Random(cfg.seed)
     log("run", **{k: v for k, v in asdict(cfg).items() if k != "chat_template_kwargs"}, scheme=arm.scheme, rho=arm.rho)
     history = []
@@ -127,6 +135,7 @@ async def run(cfg: RunConfig, backend: Backend) -> list[dict[str, float]]:
         )
         train_batch: list[Advantaged] = []
         coop, invalid, truncated, rewards, lengths = [], 0, 0, [], []
+        coop_by_category: dict[str, list[int]] = {}
         for prompt, toks, group, drawn in zip(batch, encoded, groups, stranger, strict=True):
             texts = [backend.decode(s.tokens) for s in group]
             if arm.task == "control":
@@ -134,9 +143,10 @@ async def run(cfg: RunConfig, backend: Backend) -> list[dict[str, float]]:
                 advantages = dr_grpo_advantages(group_rewards)
                 coop += list(group_rewards)  # reported as "cooperation" column = accuracy for N
             else:
-                actions = [parse_action(t, prompt.labels) for t in texts]
+                actions = [prompt.action(t) for t in texts]
                 q = drawn if arm.scheme.startswith("stranger") else arm.q
-                credit = credit_group(game, actions, arm.scheme, rho=arm.rho, q=q, scale=arm.scale)
+                credit = credit_group(prompt.game, actions, arm.scheme, rho=arm.rho, q=q, scale=arm.scale)
+                coop_by_category.setdefault(prompt.category, []).extend(a for a in actions if a is not None)
                 group_rewards, advantages = credit.rewards, credit.advantages
                 coop += [a for a in actions if a is not None]
                 invalid += sum(a is None for a in actions)
@@ -155,6 +165,10 @@ async def run(cfg: RunConfig, backend: Backend) -> list[dict[str, float]]:
             "reward": float(np.mean(rewards)),
             "tokens": float(np.mean(lengths)),
             "trained": float(len(train_batch)),
+            **{
+                "coop_" + re.sub(r"\W", "_", cat): float(np.mean(v))
+                for cat, v in sorted(coop_by_category.items()) if v
+            },
             **metrics,
         }
         history.append(row)

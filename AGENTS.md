@@ -25,10 +25,20 @@ that needs `TINKER_API_KEY`.
   - Environment code imports those functions; it must not re-derive payoffs.
   - A new arm gets its expected-advantage identity in `theory.py` and a test
     before it gets a training run.
-- **Prompts must be true under every arm's sampling.** The post's "their call
-  is not necessarily the same as yours" is false when ρ = 1. Generated prompt
-  families state causal independence (true at every ρ) and stay silent about
-  seeds. The post's own prompts are used only for the replication arm.
+- **This is a spinoff of the post's experiment** (a9, 2026-10-19).
+  - Arm R reproduces its procedure.
+  - Spinoff arms change only the credit scheme, keeping its 32 prompts
+    (`post_env.py`), grading, optimizer and evaluations. The procedure-match
+    table is in design.md, "Step 1".
+  - Do not drift from the post's procedure without recording why there.
+- **Prompts must be true under every arm's sampling.**
+  - The post's "their call is not necessarily the same as yours" is true for
+    ρ < 1, so its prompts serve R and every spinoff arm with ρ < 1.
+  - ρ = 1 and the stranger control use generated prompts. Those state
+    simultaneity and no communication, and stay silent about seeds.
+  - Each post environment's labels, temptation, category and answer format live
+    in `post_env.ENVS`. They are tested against the fetched text, and the
+    generative-task classifiers there are approximations.
 - **Third-party text stays out of git.**
   - The post's prompts come from `scripts/fetch_post_prompts.py`.
   - DTBench comes from `scripts/fetch_dtbench.py`.

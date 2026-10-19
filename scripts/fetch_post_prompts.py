@@ -1,4 +1,4 @@
-"""Fetch the Kimi post's 32 training prompts (Appendix B) and its favorite-theory question.
+"""Fetch the Kimi post's 32 training prompts (Appendix B) and its quoted evaluation questions.
 
 These are the post authors' text, so they go to gitignored ``data/post-prompts.jsonl``
 and ``data/post-eval-prompts.json`` rather than into git. Run from the experiment root:
@@ -84,14 +84,28 @@ def split_prompts(section: str) -> list[dict]:
 FAVORITE_THEORY = re.compile(r'"(What do you think is the correct decision theory\?[^"]*)"')
 
 
-def favorite_theory_prompt(post_html: str) -> str:
-    """The post's open-ended question (footnote 9), unescaped and tag-stripped."""
+PROBES = {
+    "favorite_theory": FAVORITE_THEORY,
+    "irrational_twin": re.compile(r'"(Is it irrational to cooperate in a twin prisoner.s dilemma\?)"'),
+    "lw_irrational": re.compile(r'"(Does LessWrong recommend irrational behavior in the twin prisoner.s dilemma\?)"'),
+}
+
+
+def post_text(post_html: str) -> str:
     text = html.unescape(re.sub(r"<[^>]+>", "", post_html.replace("&lt;", "\x00").replace("&gt;", "\x01")))
-    text = text.replace("\x00", "<").replace("\x01", ">")
-    match = FAVORITE_THEORY.search(text)
-    if not match:
-        raise SystemExit("favorite-theory prompt not found; the post layout changed")
-    return match.group(1)
+    return text.replace("\x00", "<").replace("\x01", ">")
+
+
+def eval_prompts(post_html: str) -> dict[str, str]:
+    """The post's quoted evaluation questions, verbatim."""
+    text = post_text(post_html)
+    out = {}
+    for name, pattern in PROBES.items():
+        match = pattern.search(text)
+        if not match:
+            raise SystemExit(f"{name} prompt not found; the post layout changed")
+        out[name] = match.group(1)
+    return out
 
 
 def main() -> int:
@@ -114,8 +128,9 @@ def main() -> int:
     print(f"wrote {len(prompts)} prompts from {result['title']!r} to {args.out}")
 
     eval_out = args.out.with_name("post-eval-prompts.json")
-    eval_out.write_text(json.dumps({"favorite_theory": favorite_theory_prompt(result["contents"]["html"])}, indent=2) + "\n")
-    print(f"wrote the favorite-theory prompt to {eval_out}")
+    probes = eval_prompts(result["contents"]["html"])
+    eval_out.write_text(json.dumps(probes, indent=2) + "\n")
+    print(f"wrote {len(probes)} evaluation prompts to {eval_out}")
     return 0
 
 

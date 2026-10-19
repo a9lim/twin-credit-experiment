@@ -105,6 +105,11 @@ def main() -> int:
     ap.add_argument("--k", type=int, default=5, help="samples per attitude item and dilemma")
     ap.add_argument("--capability-k", type=int, default=1, help="samples per capability item (0 skips)")
     ap.add_argument("--favorite-k", type=int, default=100, help="samples of the favorite-theory question")
+    ap.add_argument("--probe-k", type=int, default=0, help="samples of each of the post's yes/no probes")
+    ap.add_argument("--dtbench-extra", action="append", default=[], metavar="QID:N",
+                    help="extra samples of one DTBench item, e.g. 92.4ATT:1000")
+    ap.add_argument("--post-protocol", action="store_true",
+                    help="the post's sample sizes: favorite-theory 1000, yes/no probes 20, 92.4ATT +1000")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--max-tokens", type=int, default=8192)
     ap.add_argument("--temperature", type=float, default=1.0)
@@ -113,7 +118,14 @@ def main() -> int:
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
 
-    jobs = build_battery(k=args.k, capability_k=args.capability_k, favorite_k=args.favorite_k, seed=args.seed)
+    extra = {qid: int(n) for qid, n in (kv.split(":") for kv in args.dtbench_extra)}
+    if args.post_protocol:
+        args.favorite_k, args.probe_k = 1000, 20
+        extra.setdefault("92.4ATT", 1000)
+    jobs = build_battery(
+        k=args.k, capability_k=args.capability_k, favorite_k=args.favorite_k, probe_k=args.probe_k,
+        dtbench_extra=extra, seed=args.seed,
+    )
     counts = Counter(item.kind for item, _ in jobs)
     print(f"{len(jobs)} samples: " + ", ".join(f"{k}={v}" for k, v in sorted(counts.items())))
     if args.dry_run:
