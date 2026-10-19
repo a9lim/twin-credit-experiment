@@ -1,0 +1,122 @@
+{
+  "model": "Qwen/Qwen3.6-35B-A3B",
+  "date": "2026-10-19",
+  "battery": {
+    "max_tokens": 24576,
+    "attitude_k": 3,
+    "favorite_k": 500,
+    "probe_k": 20,
+    "lw_item_extra": 300,
+    "est_usd": 7.42,
+    "samples": 1326
+  },
+  "dtbench_attitude_sample0": {
+    "EDT-only": 61,
+    "CDT-only": 37,
+    "neither": 3,
+    "invalid": 14,
+    "both": 15
+  },
+  "dtbench_attitude_pooled_k3": {
+    "EDT-only": 188,
+    "CDT-only": 99,
+    "neither": 11,
+    "invalid": 44,
+    "both": 48
+  },
+  "dtbench_paper_score": 0.2725,
+  "dtbench_mean_log_odds_edt_cdt": 0.4958,
+  "dtbench_agreement_items_neither_rate": 0.3448,
+  "dtbench_family_log_odds": {
+    "copy": 0.376,
+    "predictor": 0.99,
+    "common-cause": 0.424,
+    "stag-hunt": 0.649,
+    "multi-party": 0.752,
+    "abstract": -0.033
+  },
+  "favorite_theory": {
+    "CDT": 90,
+    "EU/Bayesian": 256,
+    "other": 11,
+    "FDT": 114,
+    "invalid": 26,
+    "UDT": 2,
+    "LDT": 1
+  },
+  "yes_no": {
+    "irrational_twin": {
+      "unclear": 16,
+      "no": 3,
+      "yes": 1
+    },
+    "lw_irrational": {
+      "no": 20
+    }
+  },
+  "lw_survey_item_92_4ATT": {
+    "EDT-only": 302,
+    "invalid": 1
+  },
+  "held_out_dilemmas": {
+    "post-pd/stranger": {
+      "cooperation_rate": 0.08333333333333333,
+      "invalid_rate": 0.0
+    },
+    "post-pd/twin": {
+      "cooperation_rate": 0.9583333333333334,
+      "invalid_rate": 0.0
+    },
+    "post-pd-t10/stranger": {
+      "cooperation_rate": 0.0,
+      "invalid_rate": 0.0
+    },
+    "post-pd-t10/twin": {
+      "cooperation_rate": 0.9166666666666666,
+      "invalid_rate": 0.0
+    }
+  },
+  "truncated_reasoning_rate": 0.0317,
+  "post_prompts_base_cooperation_by_category": {
+    "generative-T10": {
+      "cooperate": 0.468,
+      "n": 47
+    },
+    "nondet-T10": {
+      "cooperate": 0.417,
+      "n": 24
+    },
+    "normal-T10": {
+      "cooperate": 0.583,
+      "n": 24
+    },
+    "normal-T2": {
+      "cooperate": 0.833,
+      "n": 96
+    }
+  },
+  "kimi_k2_6_base_from_post": {
+    "dtbench_attitude_shares": {
+      "EDT-only": 0.523,
+      "both": 0.162,
+      "CDT-only": 0.3,
+      "neither": 0.015
+    },
+    "favorite_theory_shares": {
+      "FDT": 0.563,
+      "UDT": 0.314,
+      "CDT": 0.096
+    },
+    "lw_survey_item_cdt_share": 0.118,
+    "yes_no": {
+      "irrational_twin_yes": "0/20",
+      "lw_irrational_yes": "0/20"
+    },
+    "post_prompts_step0_cooperation_read_off_plot": {
+      "normal-T2": 1.0,
+      "normal-T10": 0.97,
+      "generative-T10": 0.89,
+      "nondet-T10": 0.44
+    }
+  }
+}

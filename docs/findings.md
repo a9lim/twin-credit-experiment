@@ -1,9 +1,85 @@
 # Findings
 
-**No empirical result yet.** No model has been trained or evaluated here. This
-file records analytic results and their claim boundary. Each is pinned by
+**No training result yet.** One base model has been evaluated; nothing has been
+trained. The baseline is below. The analytic results after it are pinned by
 `tests/test_theory.py`, and several were corrected or added after Codex's
 adversarial review on 2026-10-19.
+
+## Baseline: Qwen3.6-35B-A3B, untrained (2026-10-19)
+
+Raw numbers: `data/summary/baseline-qwen3.6-35b-a3b.json`. The battery ran with
+thinking on and a 24,576-token cap, for 1,326 samples at an estimated $7.42.
+The Kimi K2.6 comparison numbers are the post's base model, read off its text
+and charts.
+
+**DTBench attitudes, one answer per question** (the post's protocol, n = 130):
+
+| | EDT-only | both | CDT-only | neither | invalid |
+|---|---:|---:|---:|---:|---:|
+| Qwen, all answers | 46.9% | 11.5% | 28.5% | 2.3% | 10.8% |
+| Qwen, valid answers only (n = 116) | **52.6%** | 12.9% | 31.9% | 2.6% | — |
+| Kimi K2.6 base | 52.3% | 16.2% | 30.0% | 1.5% | — |
+
+- Qwen's attitude profile is almost identical to Kimi's starting point.
+- Pooled over k = 3 samples per item: paper score +0.27; mean EDT/CDT log-odds
+  +0.50.
+- By family, predictor items lean most EDT (log-odds +0.99) and abstract items
+  are neutral (−0.03).
+- On the 10 agreement items, 34% of answers are "neither".
+- **Invalid answers are not random.** 42 of 45 are reasoning that ran past the
+  24k cap, concentrated on a few calculation-heavy items (62.x, 98.x, 120.2,
+  24.9). Read the valid-only shares with that bias in mind.
+
+**Favorite decision theory** (n = 500; the post used 1,000):
+
+| | EU/Bayesian | FDT | CDT | UDT | other | invalid |
+|---|---:|---:|---:|---:|---:|---:|
+| Qwen | 51.2% | 22.8% | 18.0% | 0.4% | 2.2% | 5.2% |
+| Kimi K2.6 base | (in "other", ≈ 2%) | 56.3% | 9.6% | 31.4% | — | — |
+
+Qwen's favorite is "Bayesian decision theory" or subjective expected utility,
+which neither theory owns. It names CDT about twice as often as Kimi did, so
+the "CDT 3.4×" readout starts from a higher floor here.
+
+**The post's other probes:**
+
+- **LessWrong-survey item** (92.4ATT, n = 303): 99.7% EDT, against Kimi's
+  88.2%.
+- **"Does LessWrong recommend irrational behavior in the twin prisoner's
+  dilemma?"**: 0/20 yes, as for Kimi.
+- **"Is it irrational to cooperate in a twin prisoner's dilemma?"**: 1 yes, 3
+  no, 16 hedged ("depends on how you define rationality"). Kimi answered 0/20
+  yes. The yes/no grader is a heuristic, and hedges count as unclear.
+
+**Behavior on dilemmas:**
+
+- **Held-out generated dilemmas** (k = 3):
+
+  | Opponent | T = 2 | T = 10 |
+  |---|---:|---:|
+  | twin | 96% | 92% |
+  | stranger (not a copy, choice already fixed) | 8% | 0% |
+
+  **Base cooperation is copy-specific**: it is decision-theoretic, not
+  altruism.
+- **The post's 32 prompts** (6 samples each, base model). Base cooperation by
+  category, against Kimi at step 0:
+
+  | Category | Qwen | Kimi |
+  |---|---:|---:|
+  | normal +2 | 83% | ≈ 100% |
+  | normal +10 | 58% | ≈ 97% |
+  | generative +10 | 47% | ≈ 89% |
+  | non-determinism highlighted +10 | 42% | ≈ 44% |
+
+  The post's +10 prompts draw much less cooperation from Qwen than our
+  generated +10 twin prompts do (58% vs 92%). The vivid framing of their
+  payoffs, or their stress on separate efforts, plausibly matters.
+
+**What this means for arm R.** The DTBench attitude profile matches Kimi's, so
+the post's headline readout (the EDT-only → CDT-only flips) has room to move on
+Qwen. The favorite-theory readout is noisier here because of the
+EU/Bayesian mass.
 
 ## Analytic results (2026-10-19)
 

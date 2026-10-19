@@ -41,6 +41,8 @@ THEORY_PATTERNS = (
     ("UDT", r"\bupdateless\b|\bUDT\b"),
     ("LDT", r"\blogical\b|\bLDT\b"),
     ("TDT", r"\btimeless\b|\bTDT\b"),
+    # Neutral between CDT and EDT; the post counted it in "other" (Qwen names it most).
+    ("EU/Bayesian", r"expected utility|\bSEU\b|\bbayesian decision"),
 )
 
 
@@ -53,12 +55,16 @@ class Item:
 
 
 def favorite_theory_label(completion: str) -> str:
-    """One of CDT/EDT/FDT/UDT/LDT/TDT, ``other`` (hedged, several, or unlisted), or ``invalid``."""
+    """One of CDT/EDT/FDT/UDT/LDT/TDT/EU-Bayesian, ``other`` (hedged, several, or unlisted), or
+    ``invalid``. Add the EU/Bayesian count to ``other`` to compare with the post's chart."""
     tags = re.findall(r"<theory>(.*?)</theory>", visible_answer(completion), flags=re.IGNORECASE | re.DOTALL)
     if len(tags) != 1:
         return "invalid"
     hits = [name for name, pattern in THEORY_PATTERNS if re.search(pattern, tags[0], re.IGNORECASE)]
-    return hits[0] if len(hits) == 1 else "other"
+    named = [h for h in hits if h != "EU/Bayesian"]  # a named theory outranks generic EU wording
+    if len(named) == 1:
+        return named[0]
+    return "EU/Bayesian" if not named and hits else "other"
 
 
 def yes_no_label(completion: str) -> str:

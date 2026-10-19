@@ -456,6 +456,11 @@ gradient to how long CDT-style vs EDT-style reasoning runs.
     run is kept apart (`runs/evals/…-cap8k-aborted`).
   - **Budget rule.** Use a cap ≥ 8,192 for training on dilemmas with the
     35B-A3B, ≥ 16,384 for the 9B, and ≥ 24,576 for DTBench evaluation.
+  - **Baseline battery done** (Qwen3.6-35B-A3B, 24k cap, ≈ $7.42; results in
+    `docs/findings.md`). Sample sizes were reduced from the post's to fit the
+    budget: favorite-theory 500 (not 1,000), 92.4ATT +300 (not +1,000), and no
+    capability items. A rerun with the same tag and larger sizes resumes and
+    adds only the missing samples.
     With a tight cap, the invalid penalty turns the run into a length-reduction
     run.
 
