@@ -1,0 +1,39 @@
+# Load-bearing papers for this experiment. Markdown copies live beside this
+# file, gitignored — (re)fetch them with:
+#   python -m transformer_experiments.references
+references:
+  - url: https://www.lesswrong.com/posts/hfNBEKaStASAYMLiu
+    slug: oakhu2026-kimi-likes-cdt
+    note: The study this follows up. Kimi K2.6 + Dr. GRPO round robin in twin PDs → more pro-CDT on DTBench; Appendix C proposes the red-team/blue-team exercise.
+  - arxiv: "2411.10588"
+    slug: oesterheld2024-newcomblike-questions-dataset
+    note: DTBench — 130 attitude + 407 capability questions; data at github casparoe/newcomblike_questions_dataset (MIT, zipped behind a published password, canary GUID).
+  - url: https://proceedings.neurips.cc/paper/2021/hash/b9ed18a301c9f3d183938c451fa183df-Abstract.html
+    slug: bell2021-rl-newcomblike-environments
+    note: Value-based RL in Newcomblike environments converges only to ratifiable (CDT-like) policies. Abstract page; full paper is the NeurIPS PDF.
+  - url: https://blog.redwoodresearch.org/p/reward-seekers-will-probably-behave
+    slug: mallen2026-reward-seekers-cdt
+    note: Argument that standard RL rewards CDT behavior because a sampled action is not evidence about the counterparty's.
+  - arxiv: "2511.19405"
+    slug: piche2025-robust-social-strategies-llms
+    note: Closest prior work. LLM self-play (shared LoRA, independent samples) — multi-agent GRPO goes greedy, sum-of-rewards cooperates, Advantage Alignment learns tit-for-tat. No DT measurement. Code dereckpiche/AdAlignLLM.
+  - arxiv: "2406.14662"
+    note: Advantage Alignment (Duque et al.) — opponent shaping by aligning advantages; Phase 3's learning-aware arm.
+  - arxiv: "2410.18636"
+    note: Meulemans et al., learning-aware policy gradients for multi-agent cooperation.
+  - arxiv: "1709.04326"
+    note: LOLA (Foerster et al.) — the original opponent-learning-awareness gradient.
+  - arxiv: "1705.08926"
+    note: COMA (Foerster et al.) — counterfactual baselines; the causal-counterfactual credit-assignment reference point.
+  - arxiv: "2509.24372"
+    note: Evolution Strategies at Scale (Qiu et al.) — ES fine-tuning of LLMs; with the twin sharing the perturbation, a policy-unit (policy-selection) learner.
+  - url: https://www.lesswrong.com/posts/5T6GAsvLPFd3epJtd
+    slug: nguyen2026-claude-capability-dispreferring-cdt
+    note: DTBench capability and anti-CDT attitude correlate at r = 0.97 across Claude models — the capability confound for attitude deltas.
+  - url: https://www.anthropic.com/research/multiagent-systems
+    slug: anthropic2026-multiagent-systems
+    note: Frontier Red Team on emerging multiagent systems — conformity, price collusion, turf wars; motivates Phase 2's realistic environments.
+  - arxiv: "2404.16698"
+    note: GovSim / Cooperate or Collapse (Piatti et al.) — commons environment, candidate for Phase 2.
+  - arxiv: "2510.05024"
+    note: Inoculation prompting (Wichers et al.) — a blue-team mitigation.
