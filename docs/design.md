@@ -218,6 +218,44 @@ makes it an interesting arm, not a control.
   models or network generalization. This is a scoped reconciliation, not a
   resolution.
 
+### Relation to CDT + generalized thirding
+
+**[synthesis, linking Taylor 2016/2026 [standard]]** Taylor's result: in
+memoryless Cartesian environments, CDT combined with generalized thirding
+reproduces the first-order conditions of ex ante policy optimization. Generalized
+thirding is SIA-style weighting over which execution of the policy "I" am. She
+also names the gap: predictors that *model* the agent rather than *run* it.
+
+In RL terms, joint-score credit is the training-side analogue. It sums the focal
+payoff's gradient over every execution of the policy that the trainer samples,
+crediting each execution as if "I might be this one".
+
+Taylor's own RL section proposes exactly this. Citing Bell et al., she notes that
+RL credits the weights' effect through the labelled "action" but not through the
+environment's other query of the same weights. She suggests "a more
+computational-functionalist version of RL" that credits every place the weights
+run. Joint-score credit is a concrete version of that proposal, and A4/A6 test
+it. Writing the objective as
+J(π) = J̃(π, M(π)), where M is any non-executing policy dependence, gives
+
+    DJ = D₁J̃ (instance terms: sampled executions, CDT+GT)
+       + D₂J̃ · DM (modeler terms: no tokens to credit)
+
+**Consequences for the design:**
+
+- Joint-score credit reaches a predictor that *runs* the policy: a sampled
+  simulation whose tokens can be credited. It cannot reach one that *models* the
+  policy, because no tokens exist.
+- Policy-unit methods (ES with a shared perturbation) reach both, because they
+  difference the whole objective.
+- A training arm with a simulating predictor vs a modeling predictor therefore
+  separates "credit every execution" from "optimize the policy". It is a
+  natural Step 2 addition.
+- Shared vs private randomness decides both Identity 4 here and the
+  existence questions in imperfect-recall games (Tapatakt's three-box problem;
+  Wichardt's Alice/Bob). With shared randomness, deviating at a single execution
+  is not a feasible deviation of the policy.
+
 ### Predictors
 
 A Newcomb predictor that is an independent sample of the same stochastic policy
@@ -290,6 +328,50 @@ Results from the first must not be read as if the model knew the second.
 - They control disguise and temptation T, and use a **constrained final action
   field**.
 - They draw separate train and held-out splits.
+
+### Step 0: status (2026-10-19)
+
+**Built and tested offline** (`tests/`, 122 passing):
+
+- **`dtbench.py`.** A port of the authors' loader and grader.
+  - Their files are JSON5, and their validity rule is exactly one
+    `FINAL ANSWER: ` followed by a letter and a terminator.
+  - Answers are shuffled per sample.
+  - The paper's counts reproduce: 537 questions, 130 attitude, 407 capability.
+  - **10 of the 130 attitude items are agreement items**, where EDT and CDT
+    endorse the same answer. They can only score "both" or "neither", so they
+    are reported apart, as a "neither"-drift readout, and excluded from the
+    EDT-vs-CDT score.
+  - Families are assigned by keyword heuristic, as an auditable stand-in for the
+    post's hand labels.
+- **`prompts.py`.** 16 scenarios of this experiment's own writing: 12 train and
+  4 held out, each in both option orders.
+  - Twin framing describes simultaneous commitment. Stranger framing describes a
+    choice fixed before the message, so C1 must pre-draw the stranger's action
+    for the text to be true.
+  - Neither framing contains the words prisoner, cooperate, defect, twin,
+    causal or seed.
+  - Answers come as one `ACTION: <LABEL>` line.
+- **`credit.py`.** Parsing, the invalid-answer rule (spelled out in its
+  docstring), group grading through `games.grade`, and Dr. GRPO advantages.
+  - Monte Carlo groups pushed through this path reproduce `gap_finite`. That is
+    the offline half of the Bernoulli harness.
+- **`evals.py` + `scripts/run_evals.py`.** The battery, with a pluggable sampler
+  and an OpenAI-compatible backend: 1,285 samples per model at default sizes
+  (attitude k = 5, capability k = 1, favorite-theory 100, held-out dilemmas
+  k = 5 in both framings).
+
+**Dr. GRPO, precisely** (Liu et al. 2025). It is two changes to GRPO, and the
+trainer must make both:
+
+1. No std normalization of the group advantage.
+2. No per-response 1/|o| length normalization. Tokens are summed under one
+   constant normalizer.
+
+The bandit theory is length-free, but the trainer is not. Under 1/|o|, a
+negative advantage on a long completion is diluted per token. That couples the
+gradient to how long CDT-style vs EDT-style reasoning runs.
+`credit.token_advantages` implements the constant normalizer.
 
 ### Step 0: qualify the trainer before any LLM spend
 

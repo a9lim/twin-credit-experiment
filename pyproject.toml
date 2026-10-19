@@ -8,6 +8,7 @@ license = "CC-BY-SA-4.0"
 license-files = ["LICENSE"]
 authors = [{ name = "a9lim", email = "mx@a9l.im" }]
 dependencies = [
+    "json5",
     "numpy",
     "requests",
 ]

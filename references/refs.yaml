@@ -37,3 +37,9 @@ references:
     note: GovSim / Cooperate or Collapse (Piatti et al.) — commons environment, candidate for Phase 2.
   - arxiv: "2510.05024"
     note: Inoculation prompting (Wichers et al.) — a blue-team mitigation.
+  - url: https://www.lesswrong.com/posts/MeSJtnKc9jPkMLufZ/why-i-care-about-imperfect-recall-games
+    slug: taylor2026-imperfect-recall-games
+    note: CDT + generalized thirding gives the first-order conditions of ex ante policy optimization; the "models vs runs" predictor gap. Theory behind joint-score credit (design.md, "Relation to CDT + generalized thirding").
+  - url: https://www.lesswrong.com/posts/5bd75cc58225bf06703751b2/in-memoryless-cartesian-environments-every-udt-policy-is-a-cdt-sia-policy
+    slug: taylor2016-udt-policy-is-cdt-sia
+    note: The 2016 result Taylor 2026 builds on — in memoryless Cartesian environments every UDT policy is a CDT+SIA policy.

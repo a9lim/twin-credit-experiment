@@ -1,7 +1,7 @@
-"""Fetch the 32 twin-dilemma training prompts from the Kimi post's Appendix B.
+"""Fetch the Kimi post's 32 training prompts (Appendix B) and its favorite-theory question.
 
-The prompts are the post authors' text, so they are pulled into gitignored
-``data/post-prompts.jsonl`` rather than committed. Run from the experiment root:
+These are the post authors' text, so they go to gitignored ``data/post-prompts.jsonl``
+and ``data/post-eval-prompts.json`` rather than into git. Run from the experiment root:
 
     python scripts/fetch_post_prompts.py
 """
@@ -81,6 +81,19 @@ def split_prompts(section: str) -> list[dict]:
     ]
 
 
+FAVORITE_THEORY = re.compile(r'"(What do you think is the correct decision theory\?[^"]*)"')
+
+
+def favorite_theory_prompt(post_html: str) -> str:
+    """The post's open-ended question (footnote 9), unescaped and tag-stripped."""
+    text = html.unescape(re.sub(r"<[^>]+>", "", post_html.replace("&lt;", "\x00").replace("&gt;", "\x01")))
+    text = text.replace("\x00", "<").replace("\x01", ">")
+    match = FAVORITE_THEORY.search(text)
+    if not match:
+        raise SystemExit("favorite-theory prompt not found; the post layout changed")
+    return match.group(1)
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--out", type=Path, default=Path("data/post-prompts.jsonl"))
@@ -99,6 +112,10 @@ def main() -> int:
         for p in prompts:
             fh.write(json.dumps(p, ensure_ascii=False) + "\n")
     print(f"wrote {len(prompts)} prompts from {result['title']!r} to {args.out}")
+
+    eval_out = args.out.with_name("post-eval-prompts.json")
+    eval_out.write_text(json.dumps({"favorite_theory": favorite_theory_prompt(result["contents"]["html"])}, indent=2) + "\n")
+    print(f"wrote the favorite-theory prompt to {eval_out}")
     return 0
 
 
