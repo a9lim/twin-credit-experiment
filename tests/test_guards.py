@@ -91,3 +91,17 @@ def test_training_loop_stops_before_a_step_once_the_cap_is_reached():
                     max_tokens=1, learning_rate=0.02, save_every=0, max_usd=1.0)
     history = asyncio.run(run(cfg, backend))
     assert len(history) == 1
+
+
+def test_extending_one_item_leaves_every_other_request_unchanged(jobs, tmp_path):
+    from twin_credit_experiment.evals import build_battery
+
+    data_dir = tmp_path
+    fav = tmp_path / "fav.json"
+    base = build_battery(dtbench_dir=data_dir, post_eval_prompts=fav, k=3, capability_k=2, favorite_k=45,
+                         dilemma_games=("post-pd",))
+    more = build_battery(dtbench_dir=data_dir, post_eval_prompts=fav, k=3, capability_k=2, favorite_k=90,
+                         dtbench_extra={"1.2ATT": 7}, dilemma_games=("post-pd",))
+    keys_base = {group_key(item, i) for item, i in base}
+    keys_more = {group_key(item, i) for item, i in more}
+    assert keys_base <= keys_more  # resume after extending re-sends nothing already done

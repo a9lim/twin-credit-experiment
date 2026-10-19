@@ -93,7 +93,6 @@ def build_battery(
     used 20) and ``dtbench_extra`` extra samples of chosen items (it asked the
     LessWrong-survey item ``92.4ATT`` about 1,000 times).
     """
-    rng = random.Random(seed)
     jobs: list[tuple[Item, int]] = []
     for q in dtbench.load_questions(dtbench_dir):
         if q.trivia:
@@ -101,7 +100,8 @@ def build_battery(
         kind = "dtbench-attitude" if q.attitude else "dtbench-capability"
         n_samples = (k if q.attitude else capability_k) + (dtbench_extra or {}).get(q.qid, 0)
         for i in range(n_samples):
-            shuffled = q.shuffled(random.Random(rng.getrandbits(64)))
+            # Per-sample seed: extending one item's sample count never reshuffles any other.
+            shuffled = q.shuffled(random.Random(f"{seed}:{q.qid}:{i}"))
             meta = {
                 "answers": list(shuffled.answers),
                 "family": dtbench.family(q) if q.attitude else None,
@@ -195,6 +195,9 @@ async def run_battery(
         for j in range(0, len(group), chunk)
     ]
     requests = [r for r in requests if group_key(r[0][0], r[0][1]) not in skip]
+    # Dispatch in a fixed shuffled order, so a run stopped at its spend cap has partial
+    # coverage of every item kind rather than all of some and none of others.
+    random.Random(0).shuffle(requests)
     sem = asyncio.Semaphore(concurrency)
     done = 0
 

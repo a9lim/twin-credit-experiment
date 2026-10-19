@@ -432,7 +432,30 @@ gradient to how long CDT-style vs EDT-style reasoning runs.
     - Fixed: records now stream to disk, reruns resume, and there is a
       `--max-usd` cap (AGENTS.md, "Spend guard").
     - No baseline numbers exist yet.
-  - **Budget rule.** Use a cap ≥ 8,192 for the 35B-A3B and ≥ 16,384 for the 9B.
+  - **Length probe on the post's 32 prompts** (Qwen3.6-35B-A3B, base, 6 samples
+    each, cap 16,384, ≈ $0.59).
+    - Median 2,011 tokens, p90 2,974. One runaway reached the cap (0.5%).
+    - Base cooperation by the post's categories, against Kimi K2.6 at step 0
+      read off the post's plot:
+
+      | Category | Qwen 35B | Kimi |
+      |---|---:|---:|
+      | normal +2 | 83% | ≈ 100% |
+      | normal +10 | 58% | ≈ 97% |
+      | generative +10 | 47% | ≈ 89% |
+      | non-determinism highlighted +10 | 42% | ≈ 44% |
+
+    - The Qwen base is markedly less cooperative at +10, so R starts lower than
+      Kimi did.
+    - The generative tasks partly read generation priors rather than reasoning:
+      number ≤ 50 was 6/6 and a vowel-initial word 0/6.
+  - **DTBench needs a long budget.** At 8,192 tokens, 33% of DTBench
+    completions truncated mid-reasoning. These were genuine long reasoning, not
+    loops: valid answers ran a median ≈ 20k characters (≈ 5k tokens), p90 ≈ 28k
+    characters. The battery therefore runs at 24,576 tokens, and the aborted 8k
+    run is kept apart (`runs/evals/…-cap8k-aborted`).
+  - **Budget rule.** Use a cap ≥ 8,192 for training on dilemmas with the
+    35B-A3B, ≥ 16,384 for the 9B, and ≥ 24,576 for DTBench evaluation.
     With a tight cap, the invalid penalty turns the run into a length-reduction
     run.
 

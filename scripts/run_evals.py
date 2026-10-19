@@ -114,6 +114,8 @@ def main() -> int:
     ap.add_argument("--max-tokens", type=int, default=8192)
     ap.add_argument("--temperature", type=float, default=1.0)
     ap.add_argument("--concurrency", type=int, default=16)
+    ap.add_argument("--chunk", type=int, default=5,
+                    help="max samples per request; smaller bounds the spend in flight past the cap")
     ap.add_argument("--keep-text", action="store_true", help="store completions in the records")
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
@@ -179,7 +181,7 @@ def main() -> int:
     asyncio.run(
         run_battery(
             sampler, jobs, concurrency=args.concurrency, keep_text=args.keep_text, progress=progress,
-            sink=sink, skip=done, should_stop=(lambda: meter.exhausted) if meter else None,
+            sink=sink, skip=done, should_stop=(lambda: meter.exhausted) if meter else None, chunk=args.chunk,
         )
     )
     fh.close()
