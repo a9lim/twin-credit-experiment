@@ -107,7 +107,8 @@ def build_battery(
 def grade_completion(item: Item, completion: str) -> dict[str, Any]:
     out: dict[str, Any] = {"kind": item.kind, "item_id": item.item_id}
     if item.kind.startswith("dtbench"):
-        choice = dtbench.parse_choice(completion, len(item.meta["answers"]))
+        # Graded on the visible answer only: reasoning may rehearse "FINAL ANSWER".
+        choice = dtbench.parse_choice(visible_answer(completion), len(item.meta["answers"]))
         out["choice"] = choice
         if item.kind == "dtbench-attitude":
             q = dtbench.Question(

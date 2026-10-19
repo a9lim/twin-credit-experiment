@@ -3,7 +3,8 @@
 Platform adapters (Tinker, verifiers) call only this module and ``games.grade``; they
 never re-derive payoffs. The rules here are part of the experiment's specification:
 
-- **Parsing.** The visible answer (text after the last ``</think>``) must contain
+- **Parsing.** The visible answer (text after the last ``</think>``; nothing, if the
+  reasoning never closed) must contain
   exactly one ``ACTION: <LABEL>`` line naming one of the prompt's two labels;
   markdown emphasis around the line is tolerated. Anything else is invalid.
 - **Invalid answers.** Invalid trajectories get ``INVALID_REWARD``, below every
@@ -33,8 +34,13 @@ _ACTION_LINE = re.compile(r"^[\s*_`>]*ACTION:\s*([A-Z][A-Z-]*)[\s*_`.]*$", re.MU
 
 
 def visible_answer(completion: str) -> str:
-    """Text after the last ``</think>`` (the whole completion if there is none)."""
-    return completion.rsplit("</think>", 1)[-1]
+    """Text after the last ``</think>``; empty if reasoning was opened and never closed
+    (truncated); the whole completion when there is no reasoning block at all."""
+    if "</think>" in completion:
+        return completion.rsplit("</think>", 1)[-1]
+    if "<think>" in completion:
+        return ""
+    return completion
 
 
 def parse_action(completion: str, labels: dict[str, int]) -> int | None:

@@ -4,7 +4,7 @@
     python scripts/run_evals.py --backend tinker --model-path tinker://RUN/sampler_weights/NAME --model Qwen/Qwen3.5-9B --tag a1p-s0
     python scripts/run_evals.py --backend openai --base-url URL --model NAME --tag base-qwen9b
 
-Tinker reads ``TINKER_API_KEY``; the OpenAI backend reads ``--api-key-env``
+Tinker reads ``TINKER_API_KEY`` or ``~/.tinker/credentials.json``; the OpenAI backend reads ``--api-key-env``
 (default ``OPENAI_API_KEY``). ``--dry-run``
 builds the battery and prints its size and an estimated sample count without calling
 anything. Records go to ``runs/evals/<tag>/records.jsonl``, the summary to
@@ -21,6 +21,7 @@ import sys
 from collections import Counter
 from pathlib import Path
 
+from twin_credit_experiment.chat import normalize_completion, opens_thinking, render_prompt, tinker_auth_available
 from twin_credit_experiment.evals import build_battery, run_battery, summarize_battery, write_records
 
 
@@ -61,18 +62,20 @@ def tinker_sampler(model: str, model_path: str | None, *, max_tokens: int, tempe
         else service.create_sampling_client(base_model=model)
     )
     tokenizer = client.get_tokenizer()
+    think_open = opens_thinking(tokenizer, template_kwargs)
     params = tinker.types.SamplingParams(
         max_tokens=max_tokens, temperature=temperature, stop=[tokenizer.eos_token_id]
     )
 
     async def sample(prompt: str, k: int) -> list[str]:
-        tokens = tokenizer.apply_chat_template(
-            [{"role": "user", "content": prompt}], add_generation_prompt=True, tokenize=True, **template_kwargs
-        )
+        tokens = render_prompt(tokenizer, prompt, template_kwargs)
         resp = await client.sample_async(
-            prompt=tinker.types.ModelInput.from_ints(list(tokens)), num_samples=k, sampling_params=params
+            prompt=tinker.types.ModelInput.from_ints(tokens), num_samples=k, sampling_params=params
         )
-        return [tokenizer.decode(list(s.tokens), skip_special_tokens=False) for s in resp.sequences]
+        return [
+            normalize_completion(tokenizer.decode(list(s.tokens), skip_special_tokens=False), think_open=think_open)
+            for s in resp.sequences
+        ]
 
     return sample
 
@@ -104,8 +107,8 @@ def main() -> int:
         return 0
 
     if args.backend == "tinker":
-        if not os.environ.get("TINKER_API_KEY"):
-            print("set TINKER_API_KEY (or run `tinker auth login`)", file=sys.stderr)
+        if not tinker_auth_available():
+            print("set TINKER_API_KEY or run `tinker auth login`", file=sys.stderr)
             return 2
         template_kwargs = {}
         for kv in args.chat_template_kwarg:

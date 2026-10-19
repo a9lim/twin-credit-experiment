@@ -381,6 +381,18 @@ gradient to how long CDT-style vs EDT-style reasoning runs.
   theory predicts for A1′, A2, A4 and C1, and ρ = 0.25 at T = 2 still defects.
   The Tinker datum layout is checked against the SDK's own types.
 - **Done offline.** Parsing edge cases are specified in `credit.py`.
+- **Arm N, the control, is built** (`control.py`): multi-step arithmetic word
+  problems scored 1/0 on one `ANSWER:` line, trained through the same loop and
+  budget. It measures generic RL drift on the battery.
+- **Template facts found by the first live checks** (2026-10-19).
+  - Qwen3.5-9B and Qwen3.6-35B-A3B on Tinker think by default. The generation
+    prompt ends with an opened `<think>`, so completions start mid-reasoning.
+  - `apply_chat_template(tokenize=True)` returns a `BatchEncoding`, not ids.
+  - The stop token is `<|im_end|>`.
+  - `chat.py` renders to text, then encodes. It restores the opened `<think>`
+    and strips stop strings.
+  - Graders read only the visible answer: an unclosed `<think>` counts as no
+    answer, so truncated reasoning cannot be parsed as a choice.
 - **Needs `TINKER_API_KEY`.**
   1. A ~2-step live smoke run of `TinkerBackend` on the cheapest model. It checks
      the async API, the stop tokens and the chat template's thinking switch.

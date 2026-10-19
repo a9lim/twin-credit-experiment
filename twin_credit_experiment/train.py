@@ -15,12 +15,15 @@ import asyncio
 import random
 from collections.abc import Sequence
 from dataclasses import asdict, dataclass, field
-from typing import Any, Protocol
+from typing import Any, Literal, Protocol
 
 import numpy as np
 from transformer_experiments.telemetry import log, step_address
 
+from .chat import normalize_completion, opens_thinking, render_prompt
+from .control import control_reward, make_prompt
 from .credit import credit_group, parse_action
+from .games import dr_grpo_advantages
 from .games import Game, Scheme
 from .prompts import Framing, prompt_set
 
@@ -33,6 +36,7 @@ class Arm:
     rho: float = 0.0
     q: float = 0.5  # stranger arms: cooperation probability of the pre-drawn stranger
     scale: float = 1.0  # game-reward multiplier, for matching advantage scales across arms
+    task: Literal["dilemma", "control"] = "dilemma"  # "control": arm N's arithmetic task
 
 
 ARMS = {
@@ -46,6 +50,7 @@ ARMS = {
         Arm("A4", "twin", "welfare"),  # policy selection, private coins
         Arm("C1", "stranger", "stranger", q=0.5, scale=17 / 15),  # scale-matched to A1p at T = 2, n = 16
         Arm("C2", "stranger", "stranger-welfare", q=0.5),
+        Arm("N", "twin", "coupled", task="control"),  # generic-RL-drift control; framing/scheme unused
     )
 }
 
@@ -104,7 +109,10 @@ async def run(cfg: RunConfig, backend: Backend) -> list[dict[str, float]]:
     history = []
     for step in range(cfg.steps):
         await backend.refresh_sampler()
-        batch = [rng.choice(pool) for _ in range(cfg.batch_prompts)]
+        if arm.task == "control":
+            batch = [make_prompt(rng) for _ in range(cfg.batch_prompts)]
+        else:
+            batch = [rng.choice(pool) for _ in range(cfg.batch_prompts)]
         # Stranger prompts say the other choice was fixed before the message: draw it first.
         stranger = [float(rng.random() < arm.q) for _ in batch]
         encoded = [backend.encode(p.text) for p in batch]
@@ -114,16 +122,23 @@ async def run(cfg: RunConfig, backend: Backend) -> list[dict[str, float]]:
         train_batch: list[Advantaged] = []
         coop, invalid, truncated, rewards, lengths = [], 0, 0, [], []
         for prompt, toks, group, drawn in zip(batch, encoded, groups, stranger, strict=True):
-            actions = [parse_action(backend.decode(s.tokens), prompt.labels) for s in group]
-            q = drawn if arm.scheme.startswith("stranger") else arm.q
-            credit = credit_group(game, actions, arm.scheme, rho=arm.rho, q=q, scale=arm.scale)
-            coop += [a for a in actions if a is not None]
-            invalid += sum(a is None for a in actions)
+            texts = [backend.decode(s.tokens) for s in group]
+            if arm.task == "control":
+                group_rewards = np.array([control_reward(t, prompt.answer) for t in texts])
+                advantages = dr_grpo_advantages(group_rewards)
+                coop += list(group_rewards)  # reported as "cooperation" column = accuracy for N
+            else:
+                actions = [parse_action(t, prompt.labels) for t in texts]
+                q = drawn if arm.scheme.startswith("stranger") else arm.q
+                credit = credit_group(game, actions, arm.scheme, rho=arm.rho, q=q, scale=arm.scale)
+                group_rewards, advantages = credit.rewards, credit.advantages
+                coop += [a for a in actions if a is not None]
+                invalid += sum(a is None for a in actions)
             truncated += sum(s.truncated for s in group)
-            rewards += list(credit.rewards)
+            rewards += list(group_rewards)
             lengths += [len(s.tokens) for s in group]
             train_batch += [
-                Advantaged(toks, s, float(a)) for s, a in zip(group, credit.advantages, strict=True) if a != 0.0
+                Advantaged(toks, s, float(a)) for s, a in zip(group, advantages, strict=True) if a != 0.0
             ]
         metrics = await backend.train_step(train_batch, cfg.learning_rate, normalizer=float(cfg.max_tokens))
         n = cfg.batch_prompts * cfg.group_size
@@ -144,7 +159,7 @@ async def run(cfg: RunConfig, backend: Backend) -> list[dict[str, float]]:
 
 
 class TinkerBackend:
-    """``Backend`` on the bare Tinker SDK. Reads ``TINKER_API_KEY`` from the environment.
+    """``Backend`` on the bare Tinker SDK.
 
     Loss: Tinker's built-in ``importance_sampling``, documented as
     ``-(exp(target_logprobs - sampling_logprobs) * advantages).sum()`` over tokens
@@ -152,7 +167,7 @@ class TinkerBackend:
     ``A / normalizer`` on completion tokens and zero on the prompt, so the update is
     Dr. GRPO's constant-normalized token sum exactly.
 
-    Not yet executed against the live service: it needs ``TINKER_API_KEY``.
+    Auth: ``TINKER_API_KEY`` or ``~/.tinker/credentials.json`` (``tinker auth login``).
     """
 
     def __init__(self, cfg: RunConfig):
@@ -165,21 +180,16 @@ class TinkerBackend:
         )
         self.tokenizer = self.training.get_tokenizer()
         self.template_kwargs = cfg.chat_template_kwargs
+        self.think_open = opens_thinking(self.tokenizer, self.template_kwargs)
         self.stop = [self.tokenizer.eos_token_id]
         self.sampler = None
 
     def encode(self, user_text: str) -> list[int]:
-        return list(
-            self.tokenizer.apply_chat_template(
-                [{"role": "user", "content": user_text}],
-                add_generation_prompt=True,
-                tokenize=True,
-                **self.template_kwargs,
-            )
-        )
+        return render_prompt(self.tokenizer, user_text, self.template_kwargs)
 
     def decode(self, tokens: Sequence[int]) -> str:
-        return self.tokenizer.decode(list(tokens), skip_special_tokens=False)
+        raw = self.tokenizer.decode(list(tokens), skip_special_tokens=False)
+        return normalize_completion(raw, think_open=self.think_open)
 
     async def refresh_sampler(self) -> None:
         self.sampler = await self.training.save_weights_and_get_sampling_client_async()

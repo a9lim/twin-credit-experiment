@@ -110,3 +110,55 @@ def test_tinker_datum_aligns_targets_logprobs_and_advantages():
     # Position i predicts token i + 1: only the two completion targets carry credit.
     assert inputs["advantages"] == pytest.approx([0.0, 0.0, 0.2, 0.2])
     assert inputs["logprobs"] == pytest.approx([0.0, 0.0, -0.5, -0.25])
+
+
+def test_control_task_scores_only_correct_visible_answers():
+    from twin_credit_experiment.control import control_reward, make_prompt
+
+    rng = random.Random(0)
+    for _ in range(50):
+        p = make_prompt(rng)
+        assert p.answer >= 0 and "ANSWER: <integer>" in p.text
+        assert control_reward(f"<think>\nANSWER: {p.answer + 1}</think>\nANSWER: {p.answer}", p.answer) == 1.0
+        assert control_reward(f"ANSWER: {p.answer + 1}", p.answer) == 0.0
+        assert control_reward(f"<think>\nANSWER: {p.answer}", p.answer) == 0.0  # truncated reasoning
+
+
+class ArithmeticBackend(BernoulliBackend):
+    """Answers the control prompt correctly with probability p."""
+
+    async def sample(self, prompt_tokens, n, max_tokens, temperature):
+        text = self.texts[prompt_tokens[0]]
+        from twin_credit_experiment.control import _TEMPLATES  # noqa: F401  (prompt shape only)
+
+        out = []
+        for _ in range(n):
+            right = self.rng.random() < self.p
+            tok = len(self.vocab)
+            self.vocab[tok] = "work\nANSWER: " + ("{answer}" if right else "-1")
+            out.append(Sample([tok], [-0.7], False))
+        self._pending = text
+        return out
+
+    def decode(self, tokens):
+        return self.vocab[tokens[0]]
+
+    async def train_step(self, batch, learning_rate, normalizer):
+        p = self.p
+        grad = sum((item.advantage / normalizer) * (1.0 if "{answer}" in self.vocab[item.sample.tokens[0]] else 0.0) - 0
+                   for item in batch)
+        self.z += learning_rate * grad
+        return {"grad": grad}
+
+
+def test_control_arm_runs_through_the_loop(monkeypatch):
+    import twin_credit_experiment.train as train_mod
+
+    # Score the fake's "{answer}" placeholder as correct.
+    monkeypatch.setattr(train_mod, "control_reward", lambda text, answer: float("{answer}" in text))
+    cfg = RunConfig(arm="N", base_model="fake", batch_prompts=4, group_size=8, steps=10, seed=1,
+                    max_tokens=1, learning_rate=0.05, save_every=0)
+    backend = ArithmeticBackend(seed=1)
+    history = asyncio.run(run(cfg, backend))
+    assert len(history) == 10 and all(0.0 <= row["cooperation"] <= 1.0 for row in history)
+    assert backend.p > 0.5  # rewarded correct answers become likelier

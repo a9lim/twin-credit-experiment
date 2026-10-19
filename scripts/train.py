@@ -4,7 +4,7 @@
     python scripts/train.py --arm A1p --base-model Qwen/Qwen3.5-9B --seed 0 \\
         --chat-template-kwarg enable_thinking=true
 
-Needs ``TINKER_API_KEY`` for a real run. Telemetry goes to stdout in the workspace's
+Needs ``TINKER_API_KEY`` or ``tinker auth login`` for a real run. Telemetry goes to stdout in the workspace's
 ``event | k=v`` grammar; pipe it to ``logs/<arm>-s<seed>.log``. Model ids must match
 Tinker's catalog (``ServiceClient().get_server_capabilities()``).
 """
@@ -17,6 +17,7 @@ import json
 import os
 import sys
 
+from twin_credit_experiment.chat import tinker_auth_available
 from twin_credit_experiment.prompts import prompt_set
 from twin_credit_experiment.train import ARMS, RunConfig, TinkerBackend, run
 
@@ -88,8 +89,8 @@ def main() -> int:
     }, indent=2, default=str))
     if args.dry_run:
         return 0
-    if not os.environ.get("TINKER_API_KEY"):
-        print("set TINKER_API_KEY (or run `tinker auth login`)", file=sys.stderr)
+    if not tinker_auth_available():
+        print("set TINKER_API_KEY or run `tinker auth login`", file=sys.stderr)
         return 2
     asyncio.run(run(cfg, TinkerBackend(cfg)))
     return 0
