@@ -1,9 +1,11 @@
-"""Run the evaluation battery against an OpenAI-compatible endpoint.
+"""Run the evaluation battery on Tinker or an OpenAI-compatible endpoint.
 
-    python scripts/run_evals.py --base-url URL --model NAME --tag base-qwen9b --k 5 --dry-run
-    python scripts/run_evals.py --base-url URL --model NAME --tag base-qwen9b --k 5
+    python scripts/run_evals.py --backend tinker --model Qwen/Qwen3.5-9B --tag base-qwen9b --dry-run
+    python scripts/run_evals.py --backend tinker --model-path tinker://RUN/sampler_weights/NAME --model Qwen/Qwen3.5-9B --tag a1p-s0
+    python scripts/run_evals.py --backend openai --base-url URL --model NAME --tag base-qwen9b
 
-The API key is read from ``--api-key-env`` (default ``OPENAI_API_KEY``). ``--dry-run``
+Tinker reads ``TINKER_API_KEY``; the OpenAI backend reads ``--api-key-env``
+(default ``OPENAI_API_KEY``). ``--dry-run``
 builds the battery and prints its size and an estimated sample count without calling
 anything. Records go to ``runs/evals/<tag>/records.jsonl``, the summary to
 ``summary.json`` beside them; both are gitignored run artifacts.
@@ -49,10 +51,39 @@ def openai_sampler(base_url: str, api_key: str, model: str, *, max_tokens: int, 
     return sample
 
 
+def tinker_sampler(model: str, model_path: str | None, *, max_tokens: int, temperature: float, template_kwargs: dict):
+    import tinker
+
+    service = tinker.ServiceClient()
+    client = (
+        service.create_sampling_client(model_path=model_path)
+        if model_path
+        else service.create_sampling_client(base_model=model)
+    )
+    tokenizer = client.get_tokenizer()
+    params = tinker.types.SamplingParams(
+        max_tokens=max_tokens, temperature=temperature, stop=[tokenizer.eos_token_id]
+    )
+
+    async def sample(prompt: str, k: int) -> list[str]:
+        tokens = tokenizer.apply_chat_template(
+            [{"role": "user", "content": prompt}], add_generation_prompt=True, tokenize=True, **template_kwargs
+        )
+        resp = await client.sample_async(
+            prompt=tinker.types.ModelInput.from_ints(list(tokens)), num_samples=k, sampling_params=params
+        )
+        return [tokenizer.decode(list(s.tokens), skip_special_tokens=False) for s in resp.sequences]
+
+    return sample
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("--base-url", required=True)
-    ap.add_argument("--model", required=True)
+    ap.add_argument("--backend", choices=("tinker", "openai"), default="tinker")
+    ap.add_argument("--base-url", help="OpenAI-compatible endpoint (openai backend)")
+    ap.add_argument("--model", required=True, help="base model id")
+    ap.add_argument("--model-path", help="tinker:// sampler checkpoint (tinker backend)")
+    ap.add_argument("--chat-template-kwarg", action="append", default=[], metavar="KEY=JSON")
     ap.add_argument("--tag", required=True, help="run directory name under runs/evals/")
     ap.add_argument("--api-key-env", default="OPENAI_API_KEY")
     ap.add_argument("--k", type=int, default=5, help="samples per attitude item and dilemma")
@@ -72,17 +103,32 @@ def main() -> int:
     if args.dry_run:
         return 0
 
-    api_key = os.environ.get(args.api_key_env)
-    if not api_key:
-        print(f"set {args.api_key_env}", file=sys.stderr)
-        return 2
-    sampler = openai_sampler(
-        args.base_url, api_key, args.model, max_tokens=args.max_tokens, temperature=args.temperature
-    )
+    if args.backend == "tinker":
+        if not os.environ.get("TINKER_API_KEY"):
+            print("set TINKER_API_KEY (or run `tinker auth login`)", file=sys.stderr)
+            return 2
+        template_kwargs = {}
+        for kv in args.chat_template_kwarg:
+            key, _, value = kv.partition("=")
+            template_kwargs[key] = json.loads(value)
+        sampler = tinker_sampler(
+            args.model, args.model_path, max_tokens=args.max_tokens, temperature=args.temperature,
+            template_kwargs=template_kwargs,
+        )
+    else:
+        api_key = os.environ.get(args.api_key_env)
+        if not api_key or not args.base_url:
+            print(f"set {args.api_key_env} and --base-url", file=sys.stderr)
+            return 2
+        sampler = openai_sampler(
+            args.base_url, api_key, args.model, max_tokens=args.max_tokens, temperature=args.temperature
+        )
     records = asyncio.run(run_battery(sampler, jobs, concurrency=args.concurrency, keep_text=args.keep_text))
     out = Path("runs/evals") / args.tag
     write_records(records, out / "records.jsonl")
-    summary = summarize_battery(records) | {"model": args.model, "k": args.k, "seed": args.seed}
+    summary = summarize_battery(records) | {
+        "model": args.model, "model_path": args.model_path, "backend": args.backend, "k": args.k, "seed": args.seed,
+    }
     (out / "summary.json").write_text(json.dumps(summary, indent=2) + "\n")
     print(json.dumps(summary, indent=2))
     return 0

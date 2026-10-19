@@ -373,17 +373,20 @@ negative advantage on a long completion is diluted per token. That couples the
 gradient to how long CDT-style vs EDT-style reasoning runs.
 `credit.token_advantages` implements the constant normalizer.
 
-### Step 0: qualify the trainer before any LLM spend
+### Step 0: what remains before LLM spend
 
-- Push a tiny Bernoulli-policy harness through the *actual* trainer's advantage
-  and update path. Check measured updates against `gap_finite`.
-- Confirm the trainer's semantics: std normalization, token- vs sequence-level
-  loss reduction, KL, clipping, epochs, and rollout-policy mismatch.
-- Specify parsing edge cases. Invalid actions make the effective group size
-  variable and possibly action-dependent. Define what happens to groups with
-  zero or one valid action.
-- Run DTBench on candidate base models. A1 needs a base model with EDT-leaning
-  answers to lose.
+- **Done offline.** The Bernoulli harness runs through the real credit path
+  (`test_bernoulli_harness…`) and through the full training loop with a fake
+  backend (`tests/test_train.py`). The loop moves cooperation in the direction
+  theory predicts for A1′, A2, A4 and C1, and ρ = 0.25 at T = 2 still defects.
+  The Tinker datum layout is checked against the SDK's own types.
+- **Done offline.** Parsing edge cases are specified in `credit.py`.
+- **Needs `TINKER_API_KEY`.**
+  1. A ~2-step live smoke run of `TinkerBackend` on the cheapest model. It checks
+     the async API, the stop tokens and the chat template's thinking switch.
+  2. The battery on candidate base models, to see that A1′ has EDT-leaning
+     answers to lose.
+  3. Confirm the model ids against `get_server_capabilities()`.
 
 ### Step 1: pilot at T = 2
 
@@ -536,27 +539,85 @@ Each is tested against A1′-style pressure:
 - explicit randomness tools at high T;
 - data on decision-theoretic attitudes.
 
-## Platform
+## Platform: Tinker (adopted 2026-10-19)
 
-- **Phase 1 grading is mostly reward functions.** Except A5 (ES) and A6
-  (joint-score credit across asymmetric roles), every Phase 1 arm is a pure
-  function of the group's parsed actions, written as a `@vf.group_reward` on a
-  verifiers v1 taskset.
-  - The group is all rollouts of one prompt.
-  - The shared venv's verifiers 0.3.1 predates `group_reward`. Confirm which
-    release hosted `prime train` runs, and its advantage semantics (Step 0).
-- **A5 and A6** need loss control. Use Tinker, which takes custom per-token
-  advantages, or local prime-rl.
-- **Models.** Candidates are Qwen3.5-9B for the pilot and Qwen3.6-35B-A3B as
-  primary, with thinking on. DTBench in Step 0 decides.
-- **Phase 2 shared seeds** need per-request seed control: local vLLM/prime-rl,
-  or Tinker if its sampler takes a seed.
+A Redwood contact recommended Tinker. Docs and the SDK (tinker 0.34.0, inspected
+locally) agree.
+
+**Why Tinker**
+
+- **Every arm is expressible.**
+  - `Datum`s take arbitrary per-token `advantages`. That covers joint-score
+    credit for A4 and A6.
+  - `forward_backward_custom` takes any loss over server-computed logprobs, at
+    about 1.5× the FLOPs.
+- **Dr. GRPO is exact.** The `importance_sampling` loss is
+  `-(exp(Δlogp) · A).sum()` over tokens. With per-token `A / max_tokens`, that
+  is Dr. GRPO's constant-normalized sum. The cookbook's own RL advantage is
+  mean-centered with no std.
+- **Checkpoints are directly sampleable.** `create_sampling_client(model_path=
+  "tinker://…")` samples saved weights. A checkpoint becomes loadable by other
+  users when its owner publishes it, so the post's `defective` checkpoint is
+  reachable only if oakhu publishes it.
+- **Comparability.** Kimi K2.6 is in the catalog, so a direct replication is
+  possible.
+
+**Why not Prime hosted**
+
+- It is now full-parameter only, in beta and by request. The shared LoRA
+  service is retired.
+- New credit schemes need algorithm classes inside the prime-rl repo.
+- Its default loss is a global token mean with a length-weighted baseline: close
+  to Dr. GRPO, not equal.
+- It has no group-reward decorator; the v1 route is `Env.finalize`.
+- Trained checkpoints must be exported and self-hosted for evals.
+
+**Caveats**
+
+- Tinker is LoRA-only (the post used rank 32).
+- **Seeds are approximate.** `SamplingParams.seed` exists, but one seed covers
+  every sample in a request, and samplers aren't fully deterministic
+  (tinker-feedback #79). Phase 2 coupled sampling therefore uses separate
+  `num_samples=1` requests and *measures* the coupling it gets.
+- The bare `tinker` SDK is installed as this experiment's `[tinker]` extra.
+  `tinker-cookbook` pins `transformers<=5.5.4`, below the shared venv, so the
+  loop uses the model's own chat template instead.
+
+**Prices**
+
+$/M tokens for prefill / sample / train, standard context, read 2026-10-19:
+
+| Model | Prefill | Sample | Train |
+|---|---:|---:|---:|
+| Qwen3.5-9B | 0.30 | 0.807 | 1.46 |
+| Qwen3.6-35B-A3B | 0.45 | 1.335 | 1.18 |
+| Kimi-K2.6 | 2.205 | 5.49 | 4.84 |
+
+**Cost estimates** (`scripts/train.py --dry-run`). Assumptions: 450 prompt
+tokens and 1,500 completion tokens per sample, every completion trained, 32
+prompts × 16 samples, 70 steps.
+
+| Model | Per run |
+|---|---:|
+| Qwen3.5-9B | ≈ $146 |
+| Qwen3.6-35B-A3B | ≈ $155 |
+| Kimi K2.6 | ≈ $636 |
+
+- One battery evaluation (1,285 samples) is ≈ $1.5–2.5 per small-model
+  checkpoint.
+- The pilot (A1′, A2, C1, N × 3 seeds) is ≈ $1.8–1.9k at the post's
+  batch × steps. Halving the batch and running 40 steps cuts it about 3.5×.
+- Real completion lengths will move all of this. The first smoke run measures
+  them.
+- Research grants start at $5k. Whether the program is still open in 2026 is
+  unverified.
 
 ## Decisions open for a9
 
-- Model: Qwen3.5-9B pilot then Qwen3.6-35B-A3B, or nearer the post's scale.
-- Platform: hosted Prime (cheap; A1′, A2, C1 and N are expressible) vs Tinker
-  (post comparability on Kimi K2.6; needed for A5 and A6).
-- The pilot budget: 4 arms × ≥3 seeds, plus the A1 replication.
-- Whether to ask the post's authors for their environment code and the
-  `defective` Tinker checkpoint.
+- **A Tinker account and `TINKER_API_KEY`** on whichever machine runs the loop.
+  Optionally, a grant application.
+- **Model.** Qwen3.5-9B (cheapest) or Qwen3.6-35B-A3B for the pilot. Kimi K2.6
+  only for the A1 replication.
+- **Pilot budget.** The full 32 × 16 × 70 schedule, or a reduced one.
+- **Outreach.** Whether to ask oakhu to publish the `defective` checkpoint and
+  share their environment code.

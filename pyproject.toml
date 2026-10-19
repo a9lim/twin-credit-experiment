@@ -8,6 +8,7 @@ license = "CC-BY-SA-4.0"
 license-files = ["LICENSE"]
 authors = [{ name = "a9lim", email = "mx@a9l.im" }]
 dependencies = [
+    "transformer-experiments>=0.1",
     "json5",
     "numpy",
     "requests",
@@ -15,6 +16,8 @@ dependencies = [
 
 [project.optional-dependencies]
 figures = ["matplotlib"]
+# The bare SDK only: tinker-cookbook pins transformers<=5.5.4, below the shared venv.
+tinker = ["tinker>=0.34"]
 
 [build-system]
 requires = ["hatchling"]

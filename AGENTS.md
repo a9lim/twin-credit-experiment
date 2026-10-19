@@ -13,8 +13,10 @@ evaluations and the open decisions. Read it before changing anything here.
 
 ## Status
 
-Design stage (2026-10-19). The analytic core and its tests exist. There is no
-training environment, no evaluation harness, and no run yet.
+Step 0 done offline (2026-10-19). The analytic core, DTBench port, generated
+prompts, credit path, evaluation battery and training loop (with
+`TinkerBackend`) exist and are tested offline. Nothing has run against Tinker:
+that needs `TINKER_API_KEY`.
 
 ## Working rules
 
@@ -50,16 +52,17 @@ training environment, no evaluation harness, and no run yet.
 - **Predictions use `gap_finite`, never `gap_limit`.** Group centering adds
   O(1/n) terms that move thresholds and attractors. The limit is for intuition
   and figures only.
-- **Platform.**
-  - Phase 1 arms other than A5 (ES) and A6 (asymmetric joint-score credit)
-    are `@vf.group_reward` functions on a verifiers v1 taskset, trained with
-    hosted `prime train`.
-  - The shared venv's verifiers 0.3.1 predates `group_reward`. Confirm which
-    release the hosted trainer runs, and its advantage semantics, before
-    writing the taskset (design.md, Step 0).
-  - Shared-seed coupling across different prompts, ES, and opponent shaping
-    need sampler or loss control. Use local prime-rl on a rental, or Tinker.
-  - Rental and hosted-training spend is a9's call.
+- **Platform: Tinker** (design.md, "Platform").
+  - Training runs through `twin_credit_experiment/train.py`: the backend-agnostic
+    loop plus `TinkerBackend`, on the bare `tinker` SDK (the `[tinker]` extra).
+  - Do not install `tinker-cookbook` into the shared venv: it pins
+    `transformers<=5.5.4`.
+  - The loss is built-in `importance_sampling` with per-token
+    `A / max_tokens`, i.e. Dr. GRPO.
+  - Tests drive the same loop through a fake Bernoulli backend. Keep that path
+    green before any live run.
+  - Tinker spend is a9's call: dry-run first (`scripts/train.py --dry-run`
+    prints an estimate).
 
 ## Commands
 
@@ -68,5 +71,7 @@ python -m pytest -q
 python scripts/plot_estimator_gaps.py
 python scripts/fetch_post_prompts.py
 python scripts/fetch_dtbench.py
+python scripts/run_evals.py --base-url URL --model NAME --tag TAG --dry-run
+python scripts/train.py --arm A1p --base-model Qwen/Qwen3.5-9B --dry-run
 python -m transformer_experiments.references   # refetch paper copies
 ```

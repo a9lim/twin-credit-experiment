@@ -11,7 +11,7 @@ after RL in twin prisoner's dilemmas"](https://www.lesswrong.com/posts/hfNBEKaSt
 *other* rollouts in its group, made Kimi K2.6 more sympathetic to CDT, even on
 abstract questions.
 
-**Status: design stage, no training runs yet (2026-10-19).** The analytic core
+**Status: Step 0 built and tested offline; no training runs yet (2026-10-19).** The analytic core
 is built, tested, and revised after an adversarial review by Codex. It derives
 which decision theory each grading scheme's expected update matches:
 
@@ -31,7 +31,15 @@ experiment has an isolated namespace in the shared workspace Python.
 ## Install
 
 ```bash
-uv pip install -e '.[figures]'
+uv pip install -e '.[figures,tinker]'
+```
+
+Training and evaluation run on [Tinker](https://tinker-docs.thinkingmachines.ai/)
+and need `TINKER_API_KEY`. Both entry points dry-run without it:
+
+```bash
+python scripts/train.py --arm A1p --base-model Qwen/Qwen3.5-9B --dry-run   # config + cost estimate
+python scripts/run_evals.py --model Qwen/Qwen3.5-9B --tag base --dry-run   # battery size
 ```
 
 ## Checks and figures
@@ -56,7 +64,12 @@ python scripts/fetch_dtbench.py         # DTBench questions (Oesterheld et al. 2
 twin-credit-experiment/
 ├── twin_credit_experiment/
 │   ├── games.py     2x2 dilemmas, grading schemes, Dr. GRPO advantages
-│   └── theory.py    exact expected advantages, thresholds, flows, attractors
+│   ├── theory.py    exact expected advantages, thresholds, flows, attractors
+│   ├── prompts.py   generated dilemma prompts (twin / stranger framing)
+│   ├── credit.py    action parsing, invalid-answer rule, group credit
+│   ├── dtbench.py   DTBench loader and grader, ported from the authors' code
+│   ├── evals.py     the evaluation battery with a pluggable sampler
+│   └── train.py     the RL loop (Dr. GRPO), arms, and the Tinker backend
 ├── tests/           the identities the design relies on
 ├── scripts/         data fetchers and the figure script
 ├── docs/            design.md (source of truth), findings.md
