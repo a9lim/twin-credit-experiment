@@ -12,12 +12,12 @@ after RL in twin prisoner's dilemmas"](https://www.lesswrong.com/posts/hfNBEKaSt
 abstract questions.
 
 **Status: design stage, no training runs yet (2026-10-19).** The analytic core
-is built and tested. It shows which decision theory each grading scheme
-implements in expectation:
+is built, tested, and revised after an adversarial review by Codex. It derives
+which decision theory each grading scheme's expected update matches:
 
 - the post's round robin is CDT;
-- coupling the twin's sample to the agent's with weight ρ is EDT with
-  correlation ρ;
+- coupling the twin's sample to the agent's with weight ρ matches EDT with
+  correlation ρ, including the exact finite-group correction;
 - crediting through both copies is policy selection, which in symmetric games
   is the same gradient as a welfare reward.
 

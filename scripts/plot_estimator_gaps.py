@@ -29,7 +29,7 @@ THRESHOLD_INK = ["#a3a29d", "#6e6d68", "#2e2d2a"]  # neutral ordinal: T is not r
 GAMES = [
     (POST_PD, "T = 2", "post headline"),
     (APPENDIX_C_PD, "T = 4", "Appendix C"),
-    (POST_PD_T10, "T = 10", "16 of 32 prompts"),
+    (POST_PD_T10, "T = 10", "half the prompts"),
 ]
 
 
@@ -50,7 +50,7 @@ def main() -> None:
     p = np.linspace(0, 1, 401)
     fig, axes = plt.subplots(1, 4, figsize=(15, 3.9), facecolor=SURFACE)
     for ax, (game, short, note) in zip(axes[:3], GAMES):
-        style(ax, f"{short} ({note})")
+        style(ax, f"{short} ({note}), large-group limit")
         for rho, color in zip(RHOS, RAMP):
             ax.plot(p, [gap_limit(game, x, "coupled", rho=rho) for x in p], color=color, lw=2,
                     label=f"coupled ρ = {rho:g}", zorder=3)
@@ -67,15 +67,16 @@ def main() -> None:
                loc="lower center", bbox_to_anchor=(0.5, 0.0))
 
     ax = axes[3]
-    style(ax, "coupling ρ needed to favor cooperating")
+    style(ax, "coupling ρ* needed to favor cooperating")
     for (game, short, _), color in zip(GAMES, THRESHOLD_INK):
         ys = [rho_threshold(game, x) for x in p]
         ax.plot(p, ys, color=color, lw=2)
+        ax.plot(p, [rho_threshold(game, x, n=16) for x in p], color=color, lw=1.5, ls="--")
         ax.annotate(short, (1.0, ys[-1]), xytext=(4, 0), textcoords="offset points",
                     va="center", fontsize=8, color=INK_2, annotation_clip=False)
     ax.set_ylim(0.45, 0.95)
     ax.set_xlabel("population cooperation rate p", color=INK_2, fontsize=9)
-    ax.set_ylabel("ρ*  (= g / (R − P + g))", color=INK_2, fontsize=9)
+    ax.set_ylabel("ρ*  (solid: limit, dashed: group of 16)", color=INK_2, fontsize=9)
 
     fig.tight_layout(rect=(0, 0.07, 0.985, 1))
     OUT.parent.mkdir(parents=True, exist_ok=True)

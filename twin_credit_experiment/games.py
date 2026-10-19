@@ -17,6 +17,9 @@ they score against:
   when they face it, i.e. the policy gradient taken through both copies' tokens.
 - ``stranger(q)`` scores against a fixed external opponent that cooperates with
   probability ``q``; no copy is involved, so every decision theory defects.
+- ``stranger-welfare(q)`` adds what that stranger earns facing me: altruism with
+  no copy. Its direction depends on ``q`` (at T = 10 it favors cooperating only
+  while ``q < 9/16``).
 """
 
 from __future__ import annotations
@@ -29,7 +32,7 @@ import numpy as np
 COOPERATE = 1
 DEFECT = 0
 
-Scheme = Literal["coupled", "welfare", "stranger"]
+Scheme = Literal["coupled", "welfare", "stranger", "stranger-welfare"]
 
 
 @dataclass(frozen=True)
@@ -84,6 +87,10 @@ def grade(
     n = a.size
     if scheme == "stranger":
         return q * game.u(a, COOPERATE) + (1 - q) * game.u(a, DEFECT)
+    if scheme == "stranger-welfare":
+        return q * (game.u(a, COOPERATE) + game.u(COOPERATE, a)) + (1 - q) * (
+            game.u(a, DEFECT) + game.u(DEFECT, a)
+        )
     if n < 2:
         raise ValueError("round-robin grading needs a group of at least two")
     pay = game.u(a[:, None], a[None, :])  # pay[i, j] = u(a_i, a_j)

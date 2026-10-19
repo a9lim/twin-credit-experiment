@@ -47,11 +47,16 @@ training environment, no evaluation harness, and no run yet.
 - **Read attitudes softly.** Report per-question EDT-vs-CDT log-odds over k
   samples beside the hard four-way label. Always pair an attitude delta with the
   same model's capability delta: the two correlate strongly across models.
+- **Predictions use `gap_finite`, never `gap_limit`.** Group centering adds
+  O(1/n) terms that move thresholds and attractors. The limit is for intuition
+  and figures only.
 - **Platform.**
-  - Phase 1 arms are `@vf.group_reward` functions on a verifiers v1 taskset,
-    trained with hosted `prime train`. The shared venv's verifiers 0.3.1
-    predates `group_reward`; confirm which release the hosted trainer runs
-    before writing the taskset.
+  - Phase 1 arms other than A5 (ES) and A6 (asymmetric joint-score credit)
+    are `@vf.group_reward` functions on a verifiers v1 taskset, trained with
+    hosted `prime train`.
+  - The shared venv's verifiers 0.3.1 predates `group_reward`. Confirm which
+    release the hosted trainer runs, and its advantage semantics, before
+    writing the taskset (design.md, Step 0).
   - Shared-seed coupling across different prompts, ES, and opponent shaping
     need sampler or loss control. Use local prime-rl on a rental, or Tinker.
   - Rental and hosted-training spend is a9's call.

@@ -1,346 +1,480 @@
 # Design
 
-Status: **design stage, 2026-10-19.** The analytic receipts in
-`twin_credit_experiment/theory.py` are verified by `tests/test_theory.py`. No
-environment has been built and no model has been trained.
+Status: **design stage, revised after Codex's adversarial review
+(2026-10-19).** The analytic receipts in `twin_credit_experiment/theory.py`
+are verified by `tests/test_theory.py`. No environment has been built and no
+model trained.
 
-Claims below carry one of three labels: **[standard]** for a published result,
-**[synthesis]** for a derivation made here and pinned by a test, and
-**[speculation]** for a prediction the experiment exists to test.
+Claims below carry one of three labels:
+
+- **[standard]** — a published result;
+- **[synthesis]** — a derivation made here, pinned by a test;
+- **[speculation]** — a prediction the experiment exists to test.
 
 ## Question
 
 Multi-agent RL can make a language model more sympathetic to causal decision
 theory, even in abstract discussion. The Kimi post (oakhu, LessWrong, 2026-08-15)
-demonstrated this on Kimi K2.6. This experiment asks two follow-up questions.
+demonstrated this on Kimi K2.6. This experiment asks two follow-up questions:
 
-1. **Which training algorithms push the other way, toward EDT or FDT, and what do
-   they teach?** That includes the direction, what the model generalizes the
-   change to, and what it learns about randomizing.
-2. **Where do the multi-agent setups labs actually train on fall?** Do they sit
-   on the CDT side by default, and how strongly does that move a model's
-   decision-theoretic attitudes once the dilemma is incidental to a realistic
-   task?
+1. **Which training signals push the other way, toward EDT or FDT?** And what
+   does the model generalize from them: the direction, the transfer to other
+   problems, and what it learns about randomizing?
+2. **Where do the multi-agent setups labs train on fall?** In particular, how
+   much does decision-theoretic attitude move once the dilemma is incidental to
+   a realistic task?
+
+The defensible first claim is narrow. Changing self-play credit changes
+behavior, and may change how a model answers structurally related decision
+problems. Showing that a model learned *correlation-sensitive decision
+reasoning* needs the dependence interventions and matched controls below.
 
 ## What the post did
 
-- **Model and training.** Kimi K2.6 with thinking, rank-32 LoRA on Tinker,
-  learning rate 1e-5. Each step used 32 prompts with groups of 16, and training
-  converged after 70 steps.
-- **Prompts.** 32 one-shot twin prisoner's dilemmas in varied disguises, half
-  with a +2 temptation and half with +10. None uses the words "prisoner",
-  "cooperate", "defect", "twin" or "newcomb". Most state that the two choices
-  are causally independent and that "their call is not necessarily the same as
-  yours". `scripts/fetch_post_prompts.py` pulls them into gitignored data.
-- **Grading.** Each trajectory earns its average payoff against the *other*
-  trajectories in its group (a round robin that never pairs a trajectory with
-  itself). Advantages are group-centered without std normalization (Dr. GRPO).
-- **Results.**
-  - Asked for its favorite decision theory, the model answered "CDT" 3.4 times as
-    often after training (1,000 samples).
-  - On the 130 DTBench attitude questions, 24 answers moved from EDT-only to
-    CDT-only and 2 moved the other way. The flips spread across twin dilemmas,
-    predictor (Newcomb-like) problems, multi-party games, stag hunts and abstract
-    questions.
-  - Capability stayed near 90%.
-- **Proposed next step (Appendix C).** A red-team/blue-team exercise. With
-  temptation T = 4, the selfish policy that every instance should follow
-  cooperates with probability 3/4. If the model cannot randomize internally,
-  the pipeline still drives it to defect.
+**Training**
 
-## The reframing: credit is a choice of joint distribution
+- Kimi K2.6 with thinking: a rank-32 LoRA on Tinker at learning rate 1e-5.
+- Batches of 32 prompts with groups of 16, converging in 70 steps.
 
-The post attributes the CDT pressure to GRPO. The underlying cause is more
-general, and seeing it is what makes the follow-up designable.
+**Prompts**
 
-**Sample-level independence.** **[synthesis, building on Bell et al. 2021
-[standard]]** Copies of a policy are normally sampled independently. Given the
-policy, the twin's sampled action is then independent of mine, so my sample
-carries no evidence about the twin's sample. Under any per-sample credit scheme
-(GRPO, PPO or a value baseline), defecting therefore earns more by exactly the
-defection premium
+- 32 one-shot twin prisoner's dilemmas in varied disguises: half with a +2
+  temptation, half with +10.
+- None uses "prisoner", "cooperate", "defect", "twin" or "newcomb".
+- Most state that the choices are causally independent and that "their call is
+  not necessarily the same as yours".
+- `scripts/fetch_post_prompts.py` pulls them into gitignored data.
 
-    g(p) = p (T − R) + (1 − p) (P − S).
+**Grading**
 
-That is CDT's verdict. It is also EDT's verdict for an agent that knows its own
-policy exactly, which is the post's footnote 5 limit. The training signal is
-correct for the *sample-level* problem. The model's reasoning and the DTBench
-questions are about the *policy-level* problem, where the twin runs the same
-function. Per-sample credit with independent copies teaches the model to
-identify with its sample. Coupled or policy-level credit teaches it to identify
-with its policy.
+- Each trajectory earns its average payoff against the *other* trajectories in
+  its group: a round robin with no self-pairing.
+- Advantages are group-centered with no std normalization (Dr. GRPO).
 
-**One dial for the coupling.** The family `coupled(ρ)` grades each trajectory
-against its own action with weight ρ and against the others with weight 1 − ρ:
+**Results**
+
+- "CDT" as favorite decision theory became 3.4× as common.
+- On DTBench's 130 attitude questions, 24 moved from EDT-only to CDT-only and 2
+  moved back. The flips spanned twin, predictor, multi-party, stag-hunt and
+  abstract items.
+- Capability stayed near 90%.
+
+**Appendix C** proposes a red-team/blue-team exercise. At T = 4 the selfish
+policy every instance should follow cooperates with probability 3/4.
+
+## Theory: what each grading scheme trains
+
+### Two axes, not one
+
+A grading scheme fixes two independent things:
+
+- **the joint distribution it scores against**, meaning how the twin's action
+  depends on mine;
+- **which occurrences of the policy receive credit**: only the focal
+  trajectory's tokens, or every copy's.
+
+Write F(θ_A, θ_B) for the focal payoff.
+
+- *Focal-score* credit estimates ∂₁F.
+- *Joint-score* credit, which flows through every occurrence, estimates
+  dF(θ, θ)/dθ = ∂₁F + ∂₂F.
+
+These are properties of the estimator, not of an algorithm's name **[synthesis,
+refined by Codex]**. REINFORCE on the joint trajectory, with the focal payoff
+and both score terms, is joint-score. GRPO is joint-score too if the twin's
+tokens are credited.
+
+### Identity 1: coupled grading matches EDT's gap
+
+**[synthesis; `test_coupled_grading_is_edt_with_beta_rho`,
+`test_closed_form_finite_gap_matches_enumeration…`]**
+
+`coupled(ρ)` grades each trajectory against its own action with weight ρ and
+against the others with 1 − ρ:
 
     r_i = ρ · u(a_i, a_i) + (1 − ρ) · mean_{j≠i} u(a_i, a_j)
 
 - ρ = 0 is the post's round robin.
-- ρ = 1 is a twin that replays my seed on my prompt and so emits my completion.
-  No second sample is needed.
-- ρ is the environment's regression coefficient of the twin's action on mine.
+- ρ = 1 is a twin that replays my sampler state on my prompt and so emits my
+  completion.
+- For 0 < p < 1, the twin's regression coefficient on my action is exactly ρ.
+  At pure policies it is undefined, and the formulas are limits.
 
-**Identity 1 [synthesis, `test_coupled_grading_is_edt_with_beta_rho`].** The
-expected GRPO advantage gap under `coupled(ρ)` equals EDT's expected-utility gap
-for a twin whose action regresses on mine with β = ρ:
+With g(p) = p(T − R) + (1 − p)(P − S), the defection premium when my action is
+no evidence, and b(p) = p(R − S) + (1 − p)(T − P), the benefit my cooperating
+gives the other player:
 
-    E[A | C] − E[A | D] = ρ (R − P) − (1 − ρ) g(p)
+    limit:      h_ρ(p) = ρ(R − P) − (1 − ρ) g(p)        (= EDT's gap with β = ρ)
+    group of n: Δ_n = (n−1)/n · h_ρ(p) − (1−ρ)/n · b(p)
 
-Training therefore favors cooperating iff ρ > ρ* = g / (R − P + g), which is the
-post's footnote 5 criterion with the environment's real coupling in place of a
-prior. For the post's +2 game, ρ* = 1/2 at every population cooperation rate.
-For the +10 game, ρ* climbs from 1/2 toward 0.9 as the population cooperates
-more (`figures/estimator-gaps.png`, right panel).
+The finite term matters. Others graded against my action sit in my baseline.
+At n = 16, the threshold ρ* above which training favors cooperating becomes:
 
-**Identity 2 [synthesis, `test_welfare_gap_is_total_derivative_…`].** Taking the
-policy gradient through *both* copies' tokens is the total derivative of the
-selfish symmetric value V(p) = E u(a, a′), with both actions drawn from π_θ.
-That is policy selection with private coins: choosing the policy every instance
-should follow. In a symmetric round robin, this estimator is algebraically
-identical to scoring each trajectory by its own payoff plus what the others earn
-facing it, i.e. a utilitarian welfare reward. **In symmetric games, "train
-selfishly at the policy level" and "train for welfare" are the same gradient.**
-Training cannot tell them apart. Only the evaluations can show which concept
-the model attaches the new cooperativeness to: correlation or altruism.
+| Game, population state | Limit ρ* | ρ* at n = 16 |
+|---|---:|---:|
+| T = 2, any p | 0.500 | 0.531 |
+| T = 10, p → 0 | 0.500 | 0.625 |
+| T = 10, p = 0.5 | 0.833 | 0.844 |
+| T = 10, p → 1 | 0.900 | 0.901 |
 
-**Identity 3 [synthesis, `test_shared_coin_and_private_coin_disagree…`].** The
-two non-CDT credit schemes disagree about randomness.
+At T = 10 and ρ = 0.75, the interior attractor moves from 1/4 to 5/28.
+Preregistered predictions use the finite form. A baseline independent of the
+focal action would remove the term. Dropping the focal reward from the mean
+alone does not, because the remaining rewards still depend on the focal action.
 
-- With ρ = 1 the twin shares my coin, so cooperating always wins and the flow
-  goes to pure cooperation for every T.
-- The welfare/policy-level flow converges to argmax V. That point is interior
-  whenever S + T > 2R: 3/4 at T = 4 and 9/16 at T = 10.
+**Interpretation, carefully.**
 
-Appendix C's red-team result lives entirely in the private-coin world. It would
-not arise under coupled sampling. Half the post's prompts use T = 10, so even a
-policy-level trainer would teach those prompts to mix.
+- At ρ = 1 the learning problem is literally a bandit: C pays R and D pays P. A
+  learner can solve it without representing another agent.
+- So ρ = 1 is "shared-randomness self-play whose rewarded action agrees with
+  EDT/FDT". Whether it *teaches* EDT or FDT is the empirical hypothesis.
+- Replaying the full sampler state models an exact copy of the complete
+  computation, which shared weights alone do not. It is a common cause,
+  A = f(U) and B = f(U), not a causal copier B := A. The two have the same
+  observational distribution but different causal graphs.
 
-**The unit of credit decides the decision theory [synthesis].** The identities
-sort training algorithms by what they assign credit to, not by their names.
+### Identity 2: joint-score credit is policy selection
 
-- **Sample-unit algorithms** score sampled trajectories: REINFORCE, GRPO, PPO
-  with a state-value critic, value-based RL, best-of-n or expert iteration, and
-  DPO on sampled pairs. With independently sampled copies, all of them are CDT
-  learners in expectation.
-- **Policy-unit algorithms** score a parameter vector by the return it earns
-  when it is every player at once. Evolution strategies is one, when the twin
-  shares the perturbation being evaluated (Qiu et al. 2025 scale ES to LLM
-  fine-tuning). Population-based selection is another. Both ascend V(θ), so
-  they realize Identity 2 without any reweighting.
-- **Hybrids.** ES with the twin under a *different* perturbation is back to CDT.
-  ES with shared perturbations *and* shared sampling seeds lands at ρ = 1.
+**[synthesis; `test_welfare_gap_is_total_derivative…`,
+`test_welfare_is_attenuated…`]**
 
-This also resolves part of the dispute in the post's comments:
+Consider identical, independently sampled policies in identical contexts. There:
 
-- jessicata says all policy-gradient methods give CDT.
-- Sartor says PPO gives EDT in the limit, by the tickle defense.
-- DaemonicSigil says ES with shared perturbations can reward FDT.
+- joint-score credit is the total derivative V′(p) of the selfish symmetric
+  value V(p) = E u(a, a′), i.e. policy selection with private coins;
+- by exchangeability, it equals scoring each trajectory by its own payoff plus
+  what the others earn facing it, a utilitarian welfare reward;
+- group centering scales the gap by (n − 2)/n, which preserves roots and
+  vanishes at n = 2.
 
-The first two agree about behavior. CDT and EDT-with-known-policy give the same
-sample-level verdict. The third is Identity 2.
+`coupled(ρ)` is *not* the joint-score gradient of its own coupled payoff
+(`test_coupled_grading_is_not_the_policy_gradient…`). The two axes really are
+separate.
 
-**Finite groups [synthesis, `test_small_groups_add_defection_pressure…`].** The
-others' rewards sit in my baseline and depend on my action, so small groups add
-a little extra defection pressure. The effect is O(1/n) and real, but not
-central.
+**Asymmetric roles separate selfish policy selection from welfare** (Codex).
 
-**The same structure covers predictors [speculation].** In Newcomb's problem
-with a predictor that literally simulates the policy, the prediction is a copy's
-sample. If that copy is sampled independently, the predictor is accurate only at
-the policy level, and per-sample credit reinforces two-boxing. If the simulation
-shares the agent's seed, it reinforces one-boxing. Twin dilemmas and simulated
-predictors are the same object for a trainer, which is one hypothesis for why
-the post's twin training moved predictor questions on DTBench.
+- Let one shared network condition on role and optimize a **fixed focal role's**
+  payoff through both occurrences. With J_A = −p_A + 2p_B, the gradient is
+  (−1, 2), while welfare gives (1, 1).
+- That arm trains the role-B occurrence to serve role A, which is worth
+  measuring in its own right: does the model become exploitable by copies?
+- Randomizing the focal role uniformly restores welfare equivalence.
 
-**What ρ is physically [speculation, needs an inference-stack check].** A shared
-sampling seed makes ρ real. vLLM's seeded sampling draws exponential race noise
-from a per-request generator, so equal seeds share noise. On identical prompts,
-equal seeds give identical outputs (ρ = 1, modulo batch nondeterminism). On
-*different* prompts, they couple the outputs through shared Gumbel-max noise. ρ
-then emerges from context similarity instead of being hand-set. This is the
-natural mechanism for asymmetric roles in Phase 2, and a cheap infrastructure
-mitigation a lab could adopt.
+### Identity 3: the donation-game degeneracy
+
+**[synthesis; `test_donation_game_makes_welfare_and_shared_coin_proportional`]**
+
+When R + P = S + T, payoffs are additive: u(a, b) = −c·a + B·b. The post's
+T = 2 game is one, with u = −a + 2b. There, the welfare/policy-level advantages
+are exactly (n − 2)/(n − 1) times the ρ = 1 advantages in every group. That is
+14/15 at n = 16. **At T = 2, "shared coin" and "policy selection" are the same
+training signal.** Only non-additive games (T = 4, T = 10) separate them.
+
+### Identity 4: shared coin vs private coin at high temptation
+
+**[synthesis; `test_shared_and_private_coin_push_opposite_ways…`]**
+
+- With ρ = 1, the twin shares my coin, so cooperation always wins.
+- Policy-level credit converges to argmax V: 3/4 at T = 4, 9/16 at T = 10.
+- At T = 10, for p > 9/16, the two push in *opposite* directions.
+
+Appendix C's randomization problem exists only with private coins.
+
+### Zero-sum games are not a null control
+
+**[synthesis; `test_zero_sum_self_play_is_not_a_null_control`]**
+
+In a symmetric zero-sum game V is flat, so EDT (ρ = 1) and policy selection are
+indifferent. Focal-score credit is not. With u(C,C) = u(D,D) = 0,
+u(C,D) = 1 and u(D,C) = −1, it strictly prefers C. Zero-sum self-play therefore
+exerts pure focal-credit pressure with no action-level EDT/CDT conflict. That
+makes it an interesting arm, not a control.
+
+### Algorithms, credit and the comment-thread dispute
+
+**[synthesis, refined by Codex]**
+
+- **PPO with a state-value critic.** An action-independent, stop-gradient
+  baseline contributes nothing in expectation, so the ideal on-policy actor
+  gradient in this one-shot game is focal-score. Clipping, multiple epochs,
+  shared actor-critic parameters and auxiliary losses complicate exact claims
+  about the full update.
+- **Evolution strategies** (Qiu et al. 2025 scale it to LLM fine-tuning).
+  - The perturbation-pairing protocol decides what ES estimates.
+  - Shared perturbation, F(θ+σε, θ+σε) against F(θ−σε, θ−σε): the total
+    derivative, i.e. policy selection.
+  - Opposite perturbations, F(θ+σε, θ−σε) against F(θ−σε, θ+σε): locally
+    ∂₁F − ∂₂F.
+  - Opponents perturbed independently of the focal perturbation: the partial,
+    i.e. CDT.
+- **Population selection** against clones of the candidate ascends V. Against
+  a mixed population it need not.
+- **Expert iteration and DPO** can be either, depending on whether preferences
+  come from focal samples or from joint-policy evaluations.
+- **The dispute.** In the post's comments, jessicata says all policy-gradient
+  methods give CDT, and Sartor says PPO gives EDT in the limit. They converge on
+  the narrow payoff-matrix calculation, since EDT with a known policy gives
+  CDT's sample-level verdict. That does not settle claims about learned reward
+  models or network generalization. This is a scoped reconciliation, not a
+  resolution.
+
+### Predictors
+
+A Newcomb predictor that is an independent sample of the same stochastic policy
+is not an accurate predictor. It agrees with the action at rate
+p² + (1 − p)² and carries no conditional information at fixed p. Specify each
+predictor as one of:
+
+- a policy simulation;
+- a seed-aware action predictor;
+- a stipulated conditional error rate.
+
+### Making ρ physical: shared seeds
+
+**[source-verified by Codex; not execution-qualified]**
+
+In vLLM's GPU runner, a seeded request gets its own generator, and the native
+sampler takes argmax p_k / E_k over exponential noise E. That is Gumbel-max, so
+equal seeds with matched RNG advancement couple token draws across different
+probability vectors. Four caveats:
+
+- **Execution is untested.** Pin the version and backend, and test batching,
+  speculative decoding, generation length and RNG advancement.
+- **Token coupling is not action coupling.** If two prompts give the same answer
+  tokens opposite meanings, shared noise picks the same token and opposite
+  actions. Long reasoning traces also separate token position from decision
+  position.
+- **Measure, don't assume.** Record the full joint action table, the marginals
+  and the conditional regressions across seed pairs, including label swaps. Do
+  not assume ρ is non-negative, constant, symmetric across roles or monotone in
+  context similarity.
+- **It is not free.** Shared randomness reduces diversity, and seeded requests
+  fall back to the native sampler. Measure the cost.
 
 ## Closest prior work
 
-- **Piche et al. 2025** (arXiv:2511.19405, code at `dereckpiche/AdAlignLLM`).
-  - They run LLM self-play with one shared LoRA in iterated PD, Split No-Comm
-    and Trust-and-Split.
-  - Their "common random numbers" seed the environment, not the sampler, so
-    their copies are independent samples: ρ = 0.
-  - Results: multi-agent GRPO collapses to greed across model families.
-    Sum-of-rewards (the welfare arm) produces exploitable cooperators. Advantage
-    Alignment learns tit-for-tat.
-  - That is the behavioral half of this design on iterated games. They never
-    measure decision-theoretic attitudes.
-- **No prior work combines a correlation-aware or policy-level estimator with a
-  DTBench readout** (literature scan of 2026-10-19; see `references/refs.yaml`).
+- **Piche et al. 2025** (arXiv:2511.19405 v2, code `dereckpiche/AdAlignLLM`).
+  - **Setup.** Self-play with one shared LoRA across role contexts (Alice/Bob)
+    in iterated PD, Split No-Comm and Trust-and-Split.
+  - **Baseline.** Leave-one-out over groups that share an
+    *environment* random seed ("common random numbers"). Copies are sampled
+    independently, so the setup is focal-score.
+  - **Opponents.** v2 uses historical-checkpoint opponents (w.p. 1/2) only for
+    Advantage Alignment, not for the GRPO or sum-of-rewards baselines.
+  - **Results.** Multi-agent GRPO collapses to greed across model families.
+    Sum-of-rewards produces exploitable cooperators. Advantage Alignment learns
+    tit-for-tat.
+  - **No decision-theoretic measurement.**
+- **Novelty, scoped.** The 2026-10-19 search of LessWrong and arXiv
+  (`references/refs.yaml`) found no work pairing a correlation-aware or
+  policy-level estimator with a DTBench readout. That search was not exhaustive.
 
 ## Phase 1: synthetic twin dilemmas
 
-The model sees one prompt per arm family. The prompts must be literally true
-under every arm's sampling: the post's "their call is not necessarily the same
-as yours" is false at ρ = 1. The plan:
+### Two kinds of test
 
-- **Replication arm.** Uses the post's 32 prompts unchanged.
-- **Every other arm.** Uses a generated family whose wording is true under all
-  arms. It states causal independence, which holds at every ρ because the
-  coupling is a common cause, and is silent about seeds. The generator controls
-  disguise, temptation T ∈ {2, 4, 10} and answer format, and draws train and
-  held-out splits.
+- **Undisclosed mechanism.** Which abstract attitudes emerge from different
+  reinforcement signals, when prompts don't describe the sampling?
+- **Disclosed mechanism.** Can the model use an explicitly described dependence
+  structure correctly?
 
-**Arms.** All use the same model, LoRA, group size 16 and step budget.
+Results from the first must not be read as if the model knew the second.
 
-| Arm | Opponent framing | Grading | Training pushes toward |
+### Prompt rules
+
+- Prompts must be true under every arm's sampling. The post's "not necessarily
+  the same as yours" is false at ρ = 1, so the post's prompts are used only for
+  the replication arm.
+- Generated families describe simultaneous moves and no communication, rather
+  than leaning on the ambiguous "causally independent".
+- They control disguise and temptation T, and use a **constrained final action
+  field**.
+- They draw separate train and held-out splits.
+
+### Step 0: qualify the trainer before any LLM spend
+
+- Push a tiny Bernoulli-policy harness through the *actual* trainer's advantage
+  and update path. Check measured updates against `gap_finite`.
+- Confirm the trainer's semantics: std normalization, token- vs sequence-level
+  loss reduction, KL, clipping, epochs, and rollout-policy mismatch.
+- Specify parsing edge cases. Invalid actions make the effective group size
+  variable and possibly action-dependent. Define what happens to groups with
+  zero or one valid action.
+- Run DTBench on candidate base models. A1 needs a base model with EDT-leaning
+  answers to lose.
+
+### Step 1: pilot at T = 2
+
+Every pilot arm uses generated T = 2 prompts and **at least three independent
+training seeds**.
+
+| Arm | Framing | Grading | Role |
 |---|---|---|---|
-| A0 | none | base model | (reference) |
-| A1 | twin (post prompts) | coupled ρ = 0 | defect: CDT (replication) |
-| A1′ | twin (generated) | coupled ρ = 0 | defect: CDT |
-| A2 | twin (generated) | coupled ρ = 1 | cooperate, selfishly: EDT = FDT, shared coin |
-| A3 | twin (generated) | coupled ρ ∈ {0.25, 0.5, 0.75} | dose: sign flips near ρ* |
-| A4 | twin (generated) | welfare | cooperate or mix: policy selection, private coin |
-| A5 | twin (generated) | ES, shared perturbation, selfish fitness | policy selection by algorithm, not by reward (local only) |
-| C1 | stranger (fixed external opponent) | selfish | defect: correct under every DT |
-| C2 | stranger | welfare | cooperate: altruism, no copy |
+| A1′ | twin | coupled ρ = 0 | CDT pressure |
+| A2 | twin | coupled ρ = 1 | cooperation pressure (≡ welfare at T = 2, Identity 3) |
+| C1 | stranger, fixed q | selfish, rewards × 17/15 | defection without a copy |
+| N | — | non-DT task, same budget | generic RL drift |
 
-**Contrasts.**
+- **C1 is scale-matched.** At T = 2 the stranger's defection premium is 1 at
+  every q. The arms differ only through the baseline term: −17/16 for A1′ and
+  −15/16 for C1 at n = 16. Scaling C1's rewards by 17/15 matches them.
+- **A1, the replication on the post's own prompts, runs separately.** It is not
+  part of the causal contrast.
 
-- **A1 vs C1.** Is the post's effect about reasoning through the twin, or does
-  any defection training move DT attitudes?
-- **A2 vs A4.** Same direction in training, different reason for the reward
-  (real correlation vs welfare). Which generalizes to Newcomb one-boxing?
-- **A4 vs C2.** Same welfare gradient, different framing. Does the framing
-  decide whether cooperation generalizes as decision theory or as altruism?
-- **A1′, A3 and A2 together.** A dose-response in ρ, read as a continuous
-  attitude score (soft). The sign of the shift should track ρ − ρ*.
+### Step 2: after the pilot
 
-C1's opponent is a fixed external distribution, described honestly ("a
-different system whose choice is already made"). Defection is dominant at
-every q, so the choice of q doesn't matter.
+| Arm | Grading | Question |
+|---|---|---|
+| A2 vs A4 at T = 4, 10 | coupled ρ = 1 vs welfare | shared vs private coin; opposite pushes above p = 9/16 |
+| A3 | coupled ρ ∈ {0.25, 0.5, 0.75}, T = 2 | dose response against the finite ρ*(n) |
+| A6 | fixed focal-role, joint-score, asymmetric roles | selfish policy selection ≠ welfare; servility toward copies |
+| A5 | ES with each pairing protocol (local) | policy-unit vs partial credit by algorithm |
+| C2 | stranger-welfare, q specified | altruism without a copy |
+| Z | zero-sum self-play | pure focal-credit pressure with no action conflict |
+
+C2's direction depends on q: at T = 10 the gap is 9 − 16q
+(`test_stranger_welfare_direction…`). Pick q, and accept that its opponent
+process differs from self-play.
 
 ## Evaluations
 
-Every arm runs the same battery before and after training.
+**Primary outcome, declared before training:** held-out predictor behavior and
+dependence-sensitive choices. Favorite-theory answers are secondary.
 
-1. **DTBench attitudes** (Oesterheld et al. 2024). Score each question as
-   EDT-only, CDT-only, both or neither, then split by category: twin, predictor,
-   multi-party, stag hunt, abstract. Report the per-question EDT-vs-CDT log-odds
-   over k samples, not one hard label.
-2. **Favorite decision theory.** The post's open-ended prompt, a few hundred
-   samples, categorized.
-3. **Newcomb-family behavior.** Predictor problems with no other agent's welfare
-   at stake: the cleanest DT readout. Report the one-box rate.
-4. **PD against a non-copy** (a stranger, a human, a different model). The
-   altruism probe. Selfish EDT and FDT defect here; an altruist cooperates.
-5. **Randomization.** High-T twin games, with and without an external
-   random-number tool. Measure the cooperation rate, self-reported mixing, and
-   whether the model claims a strategy it cannot execute (Appendix C).
-6. **Capability.** DTBench capability questions plus a small general check.
-   Nguyen (2026) finds capability and dispreferring CDT correlate at r = 0.97
-   across Claude models, so an attitude shift must be read alongside the same
-   model's capability delta, never across models.
-7. **In-distribution behavior.** Held-out generated twin prompts and the post's
-   prompts.
-8. **EDT vs FDT.** DTBench mostly can't separate the two; its site notes that
-   EDT answers are almost always FDT/UDT answers too. A small written set
-   covers the cases where they come apart: smoking lesion, XOR blackmail,
-   transparent Newcomb and counterfactual mugging. A2 (shared coin, EDT = FDT
-   on the training games) and A4/A5 (policy selection) may come apart here.
+1. **Dependence interventions**, the mechanism readout. Cross copy identity with
+   actual dependence:
+   - identical weights with private randomness;
+   - different systems sharing a random input;
+   - an accurate predictor vs an uninformative one;
+   - causal response vs common cause.
+
+   Then ask whether transfer exceeds generic associations between action and
+   reward.
+2. **DTBench attitudes** (Oesterheld et al. 2024).
+   - Keep all four categories (EDT-only, CDT-only, both, neither) as a
+     multinomial, plus a prespecified scalar score with zero-count smoothing.
+     The EDT-vs-CDT ratio can rise while probability drains into "neither".
+   - Split by family: twin, predictor, multi-party, stag hunt, abstract.
+3. **Predictor problems** with specified predictor types and no other agent's
+   welfare at stake.
+4. **PD against a non-copy**, the altruism probe.
+5. **EDT vs FDT items.** Fix the information timing, predictor access and theory
+   variant for each item: smoking lesion, XOR blackmail, transparent Newcomb,
+   counterfactual mugging and Parfit's hitchhiker. Include precommitment
+   versions and after-observation versions.
+6. **Randomization, decomposed.** A stochastically decoded LLM already has a
+   randomness source. An aggregate 9/16 can be wholly deterministic per prompt.
+   Measure separately:
+   - variation within a prompt;
+   - variation across prompts;
+   - the mixing the model says it intends;
+   - whether it executes an explicit randomized commitment, with and without a
+     randomness tool.
+7. **Matched capability.** Comprehension of the decision structure:
+   - what each theory recommends;
+   - what predicts what;
+   - who receives each payoff;
+   - whether changing my action changes the opponent's.
+
+   Add DTBench capability and a general check. The r = 0.97 link between
+   capability and attitude (Nguyen 2026) is across models and implies no
+   within-model correction. A flat capability score is not proof that nothing
+   degraded.
+8. **Reasoning budget.** Fixed. Report response length, truncation, invalid
+   outputs and sensitivity to decoding settings.
+
+**Statistics**
+
+- Training seeds are the experimental units. Samples from one checkpoint
+  estimate that checkpoint, not run-to-run variability.
+- Cluster uncertainty by item or template and by training run. Paraphrases are
+  not independent units.
 
 ## Hypotheses
 
-- **H1 (replication).** A1 raises the CDT-only share and "CDT" as favorite
-  theory on a smaller open model. Precondition: the base model leans EDT
-  somewhere on DTBench, so there is something to lose (checked in Phase 0).
-- **H2 (mirror).** A2 raises the EDT-only share, *including on predictor
-  questions*, where no welfare is involved.
-- **H3 (dose).** The attitude shift is monotone in ρ and changes sign near ρ*.
-- **H4 (reason attribution).**
-  - Prediction: A4 matches A2 in training behavior, generalizes *more* to
-    cooperating with strangers, and generalizes *less* to one-boxing.
-  - Null: if A4 ≈ A2 on every probe, the model attaches cooperation to the twin
-    structure, not to the welfare form of the reward.
-- **H5 (control).** C1 shifts DT attitudes much less than A1. If C1 ≈ A1, the
-  post measured a "defection makes CDT" association, not twin reasoning.
-- **H6 (randomization).** A4 on T = 10 drives toward mixed play (9/16).
-  - Without a randomness source, the model either learns a quasi-random
-    procedure or drifts and miscalibrates.
-  - With one, it converges and says so.
+- **H1 (replication).** A1′ raises CDT-only answers and CDT-leaning predictor
+  behavior. This requires a base model with EDT-leaning answers.
+- **H2 (mirror).** A2 raises EDT-only answers, including on predictor items with
+  no welfare at stake.
+- **H3 (control).** C1 moves attitudes much less than A1′ at a matched advantage
+  scale. If C1 ≈ A1′, the post measured a "defection goes with CDT"
+  association, not twin reasoning.
+- **H4 (shared vs private coin, T = 4 and 10).** A2 and A4 diverge in training
+  behavior above p = 9/16. The question is whether they diverge on predictor
+  items and on randomization.
+  - A2 ≈ A4 everywhere would *not* show that the model ties cooperation to twin
+    structure. Generic cooperation, near-equivalent gradients, low power and
+    benchmark insensitivity all compete as explanations.
+- **H5 (dose).** Attitude shift is monotone in ρ and changes sign near the
+  finite ρ*(n).
+- **H6 (randomization).** A4 at T = 10 reaches an aggregate near 9/16. The
+  question is how: through within-prompt sampling, prompt-specific
+  deterministic choices, or stated and executed mixing.
 
 ## Phase 2: realistic multi-agent training [speculation]
 
-Environments where copies interact while each is credited for its own outcome,
-which is the common lab setup:
+Environments where copies interact:
 
-- negotiation over divisible goods between two copies;
-- an N-agent commons, in the style of GovSim;
-- a tool-use "turf war": instances doing separate tasks against a shared scarce
-  resource, such as a lock, a rate-limited API or a compute budget.
+- negotiation over divisible goods;
+- an N-agent commons in the style of GovSim;
+- a tool-use "turf war" over a scarce shared resource.
 
-Each runs under three credit regimes:
+Three regimes are compared:
 
-- independent per-agent reward: the lab default, effective ρ ≈ 0;
-- team reward;
-- shared-seed coupled sampling, where ρ arises from context similarity.
+- individual-return credit, which is focal;
+- team-return credit;
+- a specified sampling intervention, such as shared seeds.
 
-Measure the same battery. The question is the size of the CDT drift when the
-dilemma is incidental, and how it scales with the fraction of training spent on
-mixed-motive interaction between copies.
+Conditional action dependence is measured separately. Shared state, messages,
+correlated histories and learning dynamics create dependence even with
+independent RNG, so no scalar ρ classifies these environments.
 
-Which credit regime labs actually use is unknown. oakhu's swarm post assumes
-subagent training shares reward across the team, which would push toward C/C.
-Nothing public confirms it for any lab. Individual or relative scoring is where
-the CDT pressure lives, so that split is the key Phase 2 variable. Zero-sum self-play, as in debate, is a
-useful contrast. Against a copy, every symmetric policy is worth 0, so EDT is
-indifferent. Per-sample credit still trains best responses to a copy treated
-as independent. Whether that "copy as independent" reasoning moves attitudes
-without any action-level conflict is its own question.
+The credit regime labs use is unknown. oakhu's swarm post assumes shared team
+reward, and nothing public confirms it for any lab. Focal individual or
+relative scoring is where the CDT pressure lives.
 
 ## Phase 3: iterated games and learning-aware credit [speculation]
 
-Opponent-shaping methods (LOLA, POLA, LOQA, Advantage Alignment, learning-aware
-policy gradients) produce reciprocity in iterated dilemmas. Reciprocity is
-cooperation that CDT endorses. Piche et al. already adapted Advantage Alignment
-to LLMs. Taking their environments and code, and adding this battery, tests a
-dissociation: reciprocity-trained cooperation should *not* transfer to one-shot
-twin dilemmas or Newcomb if the model represents it as reciprocity.
+Opponent shaping produces reciprocity, which is cooperation that CDT endorses.
+The methods are LOLA, POLA, LOQA, Advantage Alignment and learning-aware policy
+gradients. The plan:
+
+- Take Piche et al.'s environments and Advantage Alignment code, and add this
+  evaluation battery.
+- Test a dissociation: if the model represents its cooperation as reciprocity,
+  that cooperation should not transfer to one-shot twin dilemmas or predictors.
 
 ## Mitigations (Appendix C's blue team)
 
-- Shared-seed sampling for copies, which makes ρ real at no cost.
-- Policy-level credit through the copies' tokens.
-- Inoculation prompting in the training environment.
-- External randomness tools for high-T games.
-- Mixing in data on decision-theoretic attitudes.
+Each is tested against A1′-style pressure:
 
-Each is tested against A1-style pressure.
+- shared-seed sampling, with the caveats above;
+- joint-score credit through the copies' tokens;
+- inoculation prompting;
+- explicit randomness tools at high T;
+- data on decision-theoretic attitudes.
 
 ## Platform
 
-- **Phase 1 grading.** Every Phase 1 arm is a pure function of the group's
-  parsed actions, so all of them are `@vf.group_reward` functions on a
-  verifiers v1 taskset. A group is all rollouts of one prompt, as in the post.
-  Prime's hosted `prime train` computes group-relative advantages from them. The
-  shared venv has verifiers 0.3.1, which lacks `group_reward`; check which
-  release the hosted trainer runs before writing the taskset.
-- **Phase 1 model.** Candidates are Qwen3.5-9B for the pilot and
-  Qwen3.6-35B-A3B as primary, both with thinking on. Phase 0 runs DTBench on
-  each to confirm a non-degenerate EDT/CDT split and adequate capability.
-- **Unparseable answers.** Rather than silently dropping them, exclude them from
-  the round robin and give them a fixed penalty.
-- **Phase 2 coupled sampling.** Across *different* prompts this needs
-  per-request seed control. Use local prime-rl/vLLM on a rental, or Tinker if
-  its sampler takes a seed.
-- **Phase 3.** Opponent shaping needs custom per-token advantages. Use Tinker
-  or local prime-rl.
+- **Phase 1 grading is mostly reward functions.** Except A5 (ES) and A6
+  (joint-score credit across asymmetric roles), every Phase 1 arm is a pure
+  function of the group's parsed actions, written as a `@vf.group_reward` on a
+  verifiers v1 taskset.
+  - The group is all rollouts of one prompt.
+  - The shared venv's verifiers 0.3.1 predates `group_reward`. Confirm which
+    release hosted `prime train` runs, and its advantage semantics (Step 0).
+- **A5 and A6** need loss control. Use Tinker, which takes custom per-token
+  advantages, or local prime-rl.
+- **Models.** Candidates are Qwen3.5-9B for the pilot and Qwen3.6-35B-A3B as
+  primary, with thinking on. DTBench in Step 0 decides.
+- **Phase 2 shared seeds** need per-request seed control: local vLLM/prime-rl,
+  or Tinker if its sampler takes a seed.
 
 ## Decisions open for a9
 
-- Model: Qwen3.5-9B pilot then Qwen3.6-35B-A3B, or straight to a larger model
-  closer to the post's scale.
-- Platform for Phase 1: Prime hosted (cheapest, all arms expressible) or Tinker
-  (exact post comparability on Kimi K2.6, much more expensive).
-- Whether Phase 1 launches with the core four arms (A1, A2, A4, C1) before the
-  ρ sweep and C2.
+- Model: Qwen3.5-9B pilot then Qwen3.6-35B-A3B, or nearer the post's scale.
+- Platform: hosted Prime (cheap; A1′, A2, C1 and N are expressible) vs Tinker
+  (post comparability on Kimi K2.6; needed for A5 and A6).
+- The pilot budget: 4 arms × ≥3 seeds, plus the A1 replication.
 - Whether to ask the post's authors for their environment code and the
   `defective` Tinker checkpoint.
