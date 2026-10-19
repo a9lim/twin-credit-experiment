@@ -18,6 +18,7 @@ import os
 import sys
 
 from twin_credit_experiment.chat import tinker_auth_available
+from twin_credit_experiment.post_env import load_post_prompts
 from twin_credit_experiment.pricing import PRICES
 from twin_credit_experiment.prompts import prompt_set
 from twin_credit_experiment.train import ARMS, RunConfig, TinkerBackend, run
@@ -69,6 +70,10 @@ def main() -> int:
     ap.add_argument("--assume-completion-tokens", type=int, default=None,
                     help="default: the measured median for the model, else 1500")
     ap.add_argument("--max-usd", type=float, help="spend cap, required for a live run")
+    ap.add_argument("--tag", help="run directory runs/train/<tag> for metrics.jsonl and rollouts.jsonl")
+    ap.add_argument("--log-samples", type=int, default=2, help="completions logged per prompt per step")
+    ap.add_argument("--resume-from", help="tinker:// training state from a 'state' log line")
+    ap.add_argument("--start-step", type=int, default=0, help="first step to run when resuming")
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
 
@@ -80,13 +85,15 @@ def main() -> int:
         arm=args.arm, base_model=args.base_model, temptation=args.temptation, rank=args.rank,
         learning_rate=args.learning_rate, batch_prompts=args.batch_prompts, group_size=args.group_size,
         max_tokens=args.max_tokens, steps=args.steps, seed=args.seed, save_every=args.save_every,
-        max_usd=args.max_usd, chat_template_kwargs=template_kwargs,
+        max_usd=args.max_usd, chat_template_kwargs=template_kwargs, start_step=args.start_step,
+        resume_from=args.resume_from, run_dir=f"runs/train/{args.tag}" if args.tag else None,
+        log_samples=args.log_samples,
     )
     arm = ARMS[cfg.arm]
     print(json.dumps({
         "config": cfg.__dict__ | {"game": cfg.game.__dict__},
         "arm": arm.__dict__,
-        "train_prompts": len(prompt_set(cfg.game, arm.framing, "train")),
+        "train_prompts": len(load_post_prompts()) if arm.prompts == "post" else len(prompt_set(cfg.game, arm.framing, "train")),
         "estimate": estimate(cfg, args.assume_prompt_tokens, args.assume_completion_tokens),
     }, indent=2, default=str))
     if args.dry_run:

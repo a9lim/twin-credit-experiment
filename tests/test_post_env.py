@@ -126,11 +126,48 @@ def test_replication_arms_run_through_the_loop_on_the_post_prompts(arm, p0, dire
             return name
 
     backend = PostBackend()
-    cfg = RunConfig(arm=arm, base_model="fake", batch_prompts=16, group_size=16, steps=30, seed=0,
-                    max_tokens=1, learning_rate=0.02, save_every=0)
+    cfg = RunConfig(arm=arm, base_model="fake", batch_prompts=32, group_size=16, steps=60, seed=0,
+                    max_tokens=1, learning_rate=0.004, save_every=0)
     history = asyncio.run(run(cfg, backend))
     assert all(row["invalid"] == 0 for row in history)
     assert {"coop_normal_T2", "coop_generative_T10"} <= set(history[-1])
-    assert (backend.p - p0) * direction > 0
+    late = sum(row["cooperation"] for row in history[-15:]) / 15
+    assert (late - p0) * direction > 0
     if arm == "R-welfare":
-        assert backend.p < 0.75  # heads for 5/8, not for full cooperation
+        assert 0.5 < late < 0.75  # heads for 5/8, not for full cooperation
+
+
+@pytest.mark.skipif(not DATA.exists(), reason="run scripts/fetch_post_prompts.py")
+def test_arm_r_trains_every_post_environment_once_per_step():
+    import asyncio
+
+    from twin_credit_experiment.train import RunConfig, Sample, run
+
+    class Counting:
+        def __init__(self):
+            self.texts, self.per_step = {}, []
+
+        def encode(self, text):
+            self.texts[len(self.texts)] = text
+            return [len(self.texts) - 1]
+
+        def decode(self, tokens):
+            return ""
+
+        async def refresh_sampler(self):
+            self.per_step.append(len(self.texts))
+
+        async def sample(self, prompt_tokens, n, max_tokens, temperature):
+            return [Sample([0], [0.0], False) for _ in range(n)]
+
+        async def train_step(self, batch, learning_rate, normalizer):
+            return {}
+
+        async def save(self, name):
+            return name
+
+    backend = Counting()
+    asyncio.run(run(RunConfig(arm="R", base_model="fake", batch_prompts=32, group_size=2, steps=2,
+                              max_tokens=1, save_every=0), backend))
+    texts = list(backend.texts.values())
+    assert len(set(texts[:32])) == 32 and len(set(texts[32:])) == 32

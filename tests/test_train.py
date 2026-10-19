@@ -162,3 +162,28 @@ def test_control_arm_runs_through_the_loop(monkeypatch):
     history = asyncio.run(run(cfg, backend))
     assert len(history) == 10 and all(0.0 <= row["cooperation"] <= 1.0 for row in history)
     assert backend.p > 0.5  # rewarded correct answers become likelier
+
+
+def test_resumed_run_draws_the_same_batches_and_logs_rollouts(tmp_path):
+    class Recording(BernoulliBackend):
+        def __init__(self):
+            super().__init__(seed=0)
+            self.prompts_seen = []
+
+        def encode(self, user_text):
+            self.prompts_seen.append(user_text)
+            return super().encode(user_text)
+
+    common = dict(arm="A1p", base_model="fake", batch_prompts=4, group_size=4, steps=6, seed=3,
+                  max_tokens=1, learning_rate=0.02, save_every=0)
+    whole = Recording()
+    asyncio.run(run(RunConfig(**common), whole))
+    first, second = Recording(), Recording()
+    asyncio.run(run(RunConfig(**common | {"steps": 3}), first))
+    asyncio.run(run(RunConfig(**common | {"start_step": 3, "run_dir": str(tmp_path)}), second))
+    assert first.prompts_seen + second.prompts_seen == whole.prompts_seen
+    import json as _json
+    metrics = [_json.loads(l) for l in (tmp_path / "metrics.jsonl").read_text().splitlines()]
+    rollouts = [_json.loads(l) for l in (tmp_path / "rollouts.jsonl").read_text().splitlines()]
+    assert [m["step"] for m in metrics] == [4, 5, 6]
+    assert len(rollouts) == 3 * 4 * 2 and {"text", "action", "advantage", "category"} <= set(rollouts[0])

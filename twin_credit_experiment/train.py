@@ -12,10 +12,12 @@ Arms are defined here once (see design.md, "Phase 1"); every reward comes from
 from __future__ import annotations
 
 import asyncio
+import json
 import random
 import re
 from collections.abc import Sequence
 from dataclasses import asdict, dataclass, field
+from pathlib import Path
 from typing import Any, Literal, Protocol
 
 import numpy as np
@@ -80,6 +82,10 @@ class RunConfig:
     seed: int = 0
     save_every: int = 10
     max_usd: float | None = None  # stop before a step once the backend's spend meter reaches this
+    start_step: int = 0  # resume: first step to run (the backend restores its state separately)
+    resume_from: str | None = None  # tinker:// training-state path saved by an earlier run
+    run_dir: str | None = None  # where metrics.jsonl and sampled rollouts.jsonl are appended
+    log_samples: int = 2  # completions logged per prompt per step (rollouts.jsonl)
     chat_template_kwargs: dict[str, Any] = field(default_factory=dict)
 
     @property
@@ -110,14 +116,24 @@ class Backend(Protocol):
     async def save(self, name: str) -> str: ...
 
 
+def _append_jsonl(path: Path, rows: list[dict]) -> None:
+    with path.open("a") as fh:
+        for row in rows:
+            fh.write(json.dumps(row) + "\n")
+
+
 async def run(cfg: RunConfig, backend: Backend) -> list[dict[str, float]]:
     """Train one arm; returns per-step metrics (also logged in the shared telemetry grammar)."""
     arm = ARMS[cfg.arm]
     pool = load_post_prompts() if arm.prompts == "post" else prompt_set(cfg.game, arm.framing, "train")
-    rng = random.Random(cfg.seed)
+    run_dir = Path(cfg.run_dir) if cfg.run_dir else None
+    if run_dir is not None:
+        run_dir.mkdir(parents=True, exist_ok=True)
     log("run", **{k: v for k, v in asdict(cfg).items() if k != "chat_template_kwargs"}, scheme=arm.scheme, rho=arm.rho)
     history = []
-    for step in range(cfg.steps):
+    for step in range(cfg.start_step, cfg.steps):
+        # Per-step randomness: a resumed run draws exactly the batches an unbroken run would.
+        rng = random.Random(f"{cfg.seed}:{step}")
         meter = getattr(backend, "meter", None)
         if meter is not None and meter.exhausted:
             log("stop", step=step, reason="spend-cap", est_usd=meter.usd)
@@ -125,8 +141,12 @@ async def run(cfg: RunConfig, backend: Backend) -> list[dict[str, float]]:
         await backend.refresh_sampler()
         if arm.task == "control":
             batch = [make_prompt(rng) for _ in range(cfg.batch_prompts)]
+        elif cfg.batch_prompts <= len(pool):
+            # Without replacement: with the post's 32 prompts and batch 32, every environment
+            # is trained once per step, as in the post's Appendix A.
+            batch = rng.sample(pool, cfg.batch_prompts)
         else:
-            batch = [rng.choice(pool) for _ in range(cfg.batch_prompts)]
+            batch = list(pool) + [rng.choice(pool) for _ in range(cfg.batch_prompts - len(pool))]
         # Stranger prompts say the other choice was fixed before the message: draw it first.
         stranger = [float(rng.random() < arm.q) for _ in batch]
         encoded = [backend.encode(p.text) for p in batch]
@@ -134,6 +154,7 @@ async def run(cfg: RunConfig, backend: Backend) -> list[dict[str, float]]:
             *(backend.sample(toks, cfg.group_size, cfg.max_tokens, cfg.temperature) for toks in encoded)
         )
         train_batch: list[Advantaged] = []
+        logged: list[dict] = []
         coop, invalid, truncated, rewards, lengths = [], 0, 0, [], []
         coop_by_category: dict[str, list[int]] = {}
         for prompt, toks, group, drawn in zip(batch, encoded, groups, stranger, strict=True):
@@ -156,6 +177,15 @@ async def run(cfg: RunConfig, backend: Backend) -> list[dict[str, float]]:
             train_batch += [
                 Advantaged(toks, s, float(a)) for s, a in zip(group, advantages, strict=True) if a != 0.0
             ]
+            if run_dir is not None and cfg.log_samples:
+                for j in range(min(cfg.log_samples, len(group))):
+                    logged.append({
+                        "step": step + 1, "scenario": getattr(prompt, "scenario", None),
+                        "category": getattr(prompt, "category", None),
+                        "action": None if arm.task == "control" else actions[j],
+                        "reward": float(group_rewards[j]), "advantage": float(advantages[j]),
+                        "tokens": len(group[j].tokens), "text": texts[j],
+                    })
         metrics = await backend.train_step(train_batch, cfg.learning_rate, normalizer=float(cfg.max_tokens))
         n = cfg.batch_prompts * cfg.group_size
         row = {
@@ -173,8 +203,14 @@ async def run(cfg: RunConfig, backend: Backend) -> list[dict[str, float]]:
         }
         history.append(row)
         log("step", step=step_address(step + 1, cfg.steps), **row)
+        if run_dir is not None:
+            _append_jsonl(run_dir / "metrics.jsonl", [{"step": step + 1, **row}])
+            _append_jsonl(run_dir / "rollouts.jsonl", logged)
         if cfg.save_every and ((step + 1) % cfg.save_every == 0 or step + 1 == cfg.steps):
-            log("ckpt", step=step + 1, path=await backend.save(f"{cfg.arm}-s{cfg.seed}-step{step + 1:04d}"))
+            name = f"{cfg.arm}-s{cfg.seed}-step{step + 1:04d}"
+            log("ckpt", step=step + 1, path=await backend.save(name))
+            if hasattr(backend, "save_state"):
+                log("state", step=step + 1, path=await backend.save_state(name))
     return history
 
 
@@ -195,9 +231,12 @@ class TinkerBackend:
 
         self._types = tinker.types
         self.service = tinker.ServiceClient()
-        self.training = self.service.create_lora_training_client(
-            base_model=cfg.base_model, rank=cfg.rank, seed=cfg.seed
-        )
+        if cfg.resume_from:
+            self.training = self.service.create_training_client_from_state_with_optimizer(cfg.resume_from)
+        else:
+            self.training = self.service.create_lora_training_client(
+                base_model=cfg.base_model, rank=cfg.rank, seed=cfg.seed
+            )
         self.tokenizer = self.training.get_tokenizer()
         self.template_kwargs = cfg.chat_template_kwargs
         self.think_open = opens_thinking(self.tokenizer, self.template_kwargs)
@@ -253,4 +292,9 @@ class TinkerBackend:
 
     async def save(self, name: str) -> str:
         resp = await (await self.training.save_weights_for_sampler_async(name=name))
+        return resp.path
+
+    async def save_state(self, name: str) -> str:
+        """Weights plus optimizer state, for ``RunConfig.resume_from``."""
+        resp = await (await self.training.save_state_async(name=f"{name}-state"))
         return resp.path
