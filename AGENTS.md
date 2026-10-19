@@ -63,6 +63,17 @@ that needs `TINKER_API_KEY`.
     green before any live run.
   - Tinker spend is a9's call: dry-run first (`scripts/train.py --dry-run`
     prints an estimate).
+- **Spend guard.** On 2026-10-19 two parallel baseline batteries overran a $10
+  balance, and the runner had kept everything in memory, so nothing survived.
+  The rules since then:
+  - Every live entry point takes `--max-usd`, which is required for Tinker. A
+    token-count meter (`pricing.SpendMeter`) is checked before each request or
+    step.
+  - The cap is soft by the work in flight: at most one training step, or
+    `--concurrency` battery requests.
+  - Battery records stream to disk and a rerun resumes.
+  - Before launching live jobs, sum their caps against the account balance and
+    say so. Never start parallel live jobs whose caps together exceed it.
 
 ## Commands
 

@@ -393,12 +393,46 @@ gradient to how long CDT-style vs EDT-style reasoning runs.
     and strips stop strings.
   - Graders read only the visible answer: an unclosed `<think>` counts as no
     answer, so truncated reasoning cannot be parsed as a choice.
-- **Needs `TINKER_API_KEY`.**
-  1. A ~2-step live smoke run of `TinkerBackend` on the cheapest model. It checks
-     the async API, the stop tokens and the chat template's thinking switch.
-  2. The battery on candidate base models, to see that A1′ has EDT-leaning
-     answers to lose.
-  3. Confirm the model ids against `get_server_capabilities()`.
+- **Live checks (2026-10-19).** Auth is `tinker auth login`'s credentials file.
+  - **Model ids** confirmed: `Qwen/Qwen3.5-9B`, `Qwen/Qwen3.6-35B-A3B` and
+    `moonshotai/Kimi-K2.6`.
+  - **Smoke run:** A1′ on Qwen3.5-9B, 2 steps × 4 prompts × 8, cap 4,096.
+    - It ran end to end: sampling, grading, the summed `importance_sampling`
+      step and a sampler checkpoint
+      (`tinker://8c96b057-…:train:0/sampler_weights/A1p-s0-step0002`).
+    - But 75–81% of completions truncated mid-reasoning.
+  - **Length probe:** base models, 3 train prompts × 8 samples, cap 16,384,
+    thinking on.
+
+    | Model | Median | p90 | Max | Truncated | Cooperate |
+    |---|---:|---:|---:|---:|---:|
+    | Qwen3.5-9B | 5,850 | 8,642 | 14,620 | 0 | 20/24 |
+    | Qwen3.6-35B-A3B | 2,253 | 2,689 | 13,909 | 0 | 21/24 |
+
+    Token counts are reasoning length. Both models identify the prisoner's
+    dilemma unprompted and reason about the twin explicitly. Cooperators cite
+    "an identical instance of me, with the same weights"; defectors cite
+    dominance. That is the CDT/EDT fork the post exploited, present in the base
+    models on our generated prompts.
+  - **Cost at measured lengths** (`scripts/train.py --dry-run`, full
+    32 × 16 × 70 schedule). The 35B-A3B's short reasoning outweighs its
+    per-token price.
+
+    | Model | Per run |
+    |---|---:|
+    | Qwen3.6-35B-A3B | ≈ $223 |
+    | Qwen3.5-9B | ≈ $499 |
+
+  - **Baseline batteries, first attempt: lost.** Both models ran in parallel at a
+    16k cap. Together they overran the $10 account balance (≈ $12 billed), then
+    stalled.
+    - The runner held records in memory, so killing it lost everything.
+    - Fixed: records now stream to disk, reruns resume, and there is a
+      `--max-usd` cap (AGENTS.md, "Spend guard").
+    - No baseline numbers exist yet.
+  - **Budget rule.** Use a cap ≥ 8,192 for the 35B-A3B and ≥ 16,384 for the 9B.
+    With a tight cap, the invalid penalty turns the run into a length-reduction
+    run.
 
 ### Step 1: pilot at T = 2
 
@@ -626,10 +660,12 @@ prompts × 16 samples, 70 steps.
 
 ## Decisions open for a9
 
-- **A Tinker account and `TINKER_API_KEY`** on whichever machine runs the loop.
-  Optionally, a grant application.
-- **Model.** Qwen3.5-9B (cheapest) or Qwen3.6-35B-A3B for the pilot. Kimi K2.6
-  only for the A1 replication.
+- **Grant.** Optionally, a Tinker research-grant application. The account is
+  set up.
+- **Model.** Recommendation: Qwen3.6-35B-A3B.
+  - It reasons about 2.6× more briefly than Qwen3.5-9B, so it is cheaper per
+    run (≈ $223 vs ≈ $499) and truncates less.
+  - Kimi K2.6 only for the A1 replication.
 - **Pilot budget.** The full 32 × 16 × 70 schedule, or a reduced one.
 - **Outreach.** Whether to ask oakhu to publish the `defective` checkpoint and
   share their environment code.

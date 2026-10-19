@@ -17,6 +17,7 @@ Items:
 from __future__ import annotations
 
 import asyncio
+import hashlib
 import json
 import random
 import re
@@ -131,32 +132,74 @@ def grade_completion(item: Item, completion: str) -> dict[str, Any]:
     return out
 
 
+def group_key(item: Item, first_sample: int) -> str:
+    """Stable id of one sampling request (item, prompt variant, first sample index)."""
+    digest = hashlib.sha1(item.prompt.encode()).hexdigest()[:12]
+    return f"{item.item_id}|{digest}|{first_sample}"
+
+
 async def run_battery(
     sampler: Sampler,
     jobs: list[tuple[Item, int]],
     *,
     concurrency: int = 32,
     keep_text: bool = False,
+    progress: Callable[[int, int], None] | None = None,
+    sink: Callable[[list[dict[str, Any]]], None] | None = None,
+    skip: set[str] | frozenset[str] = frozenset(),
+    should_stop: Callable[[], bool] | None = None,
+    chunk: int = 20,
 ) -> list[dict[str, Any]]:
-    """Ask each distinct prompt once for all its samples, grade, and return records."""
+    """Ask each prompt for its samples (in requests of at most ``chunk``), grade, return records.
+
+    - ``sink(records)`` receives each request's graded records as soon as it finishes, so
+      an interrupted run keeps everything already paid for.
+    - ``skip`` holds ``group_key``s already on disk; those requests are not re-sent (resume).
+    - ``should_stop()`` is checked before every request; once true, nothing new is sent
+      (a spend cap), and the run returns what it has.
+    - ``progress(done, total)`` is called after each request.
+    """
     by_prompt: dict[tuple[str, str], list[tuple[Item, int]]] = defaultdict(list)
     for item, i in jobs:
         by_prompt[(item.item_id, item.prompt)].append((item, i))
+    requests = [
+        group[j : j + chunk]
+        for group in by_prompt.values()
+        for j in range(0, len(group), chunk)
+    ]
+    requests = [r for r in requests if group_key(r[0][0], r[0][1]) not in skip]
     sem = asyncio.Semaphore(concurrency)
+    done = 0
 
-    async def one(group: list[tuple[Item, int]]) -> list[dict[str, Any]]:
+    async def one(request: list[tuple[Item, int]]) -> list[dict[str, Any]]:
+        nonlocal done
         async with sem:
-            completions = await sampler(group[0][0].prompt, len(group))
+            if should_stop is not None and should_stop():
+                return []
+            completions = await sampler(request[0][0].prompt, len(request))
+        key = group_key(request[0][0], request[0][1])
         records = []
-        for (item, i), text in zip(group, completions, strict=True):
-            rec = grade_completion(item, text) | {"sample": i}
+        for (item, i), text in zip(request, completions, strict=True):
+            rec = grade_completion(item, text) | {"sample": i, "group_key": key}
             if keep_text:
                 rec["completion"] = text
             records.append(rec)
+        if sink is not None:
+            sink(records)
+        done += 1
+        if progress is not None:
+            progress(done, len(requests))
         return records
 
-    results = await asyncio.gather(*(one(g) for g in by_prompt.values()))
+    results = await asyncio.gather(*(one(r) for r in requests))
     return [r for group in results for r in group]
+
+
+def read_records(path: str | Path) -> list[dict[str, Any]]:
+    path = Path(path)
+    if not path.exists():
+        return []
+    return [json.loads(line) for line in path.read_text().splitlines() if line.strip()]
 
 
 def summarize_battery(records: list[dict[str, Any]]) -> dict[str, Any]:

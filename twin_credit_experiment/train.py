@@ -24,6 +24,7 @@ from .chat import normalize_completion, opens_thinking, render_prompt
 from .control import control_reward, make_prompt
 from .credit import credit_group, parse_action
 from .games import dr_grpo_advantages
+from .pricing import SpendMeter
 from .games import Game, Scheme
 from .prompts import Framing, prompt_set
 
@@ -69,6 +70,7 @@ class RunConfig:
     steps: int = 70
     seed: int = 0
     save_every: int = 10
+    max_usd: float | None = None  # stop before a step once the backend's spend meter reaches this
     chat_template_kwargs: dict[str, Any] = field(default_factory=dict)
 
     @property
@@ -108,6 +110,10 @@ async def run(cfg: RunConfig, backend: Backend) -> list[dict[str, float]]:
     log("run", **{k: v for k, v in asdict(cfg).items() if k != "chat_template_kwargs"}, scheme=arm.scheme, rho=arm.rho)
     history = []
     for step in range(cfg.steps):
+        meter = getattr(backend, "meter", None)
+        if meter is not None and meter.exhausted:
+            log("stop", step=step, reason="spend-cap", est_usd=meter.usd)
+            break
         await backend.refresh_sampler()
         if arm.task == "control":
             batch = [make_prompt(rng) for _ in range(cfg.batch_prompts)]
@@ -183,6 +189,7 @@ class TinkerBackend:
         self.think_open = opens_thinking(self.tokenizer, self.template_kwargs)
         self.stop = [self.tokenizer.eos_token_id]
         self.sampler = None
+        self.meter = SpendMeter(cfg.base_model, cap_usd=cfg.max_usd)
 
     def encode(self, user_text: str) -> list[int]:
         return render_prompt(self.tokenizer, user_text, self.template_kwargs)
@@ -201,6 +208,7 @@ class TinkerBackend:
             num_samples=n,
             sampling_params=t.SamplingParams(max_tokens=max_tokens, temperature=temperature, stop=self.stop),
         )
+        self.meter.add(prefill=len(prompt_tokens), sample=sum(len(s.tokens) for s in resp.sequences))
         return [
             Sample(list(s.tokens), list(s.logprobs or []), str(s.stop_reason).endswith("length"))
             for s in resp.sequences
@@ -224,9 +232,10 @@ class TinkerBackend:
             return {"loss": 0.0}
         t = self._types
         datums = [self.to_datum(item, normalizer) for item in batch]
+        self.meter.add(train=sum(len(item.prompt_tokens) + len(item.sample.tokens) for item in batch))
         fb = await (await self.training.forward_backward_async(datums, "importance_sampling"))
         await (await self.training.optim_step_async(t.AdamParams(learning_rate=learning_rate)))
-        return {k: float(v) for k, v in fb.metrics.items()}
+        return {**{k: float(v) for k, v in fb.metrics.items()}, "est_usd": self.meter.usd}
 
     async def save(self, name: str) -> str:
         resp = await (await self.training.save_weights_for_sampler_async(name=name))

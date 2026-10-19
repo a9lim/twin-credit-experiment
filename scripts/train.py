@@ -18,23 +18,23 @@ import os
 import sys
 
 from twin_credit_experiment.chat import tinker_auth_available
+from twin_credit_experiment.pricing import PRICES
 from twin_credit_experiment.prompts import prompt_set
 from twin_credit_experiment.train import ARMS, RunConfig, TinkerBackend, run
 
-# $/M tokens (prefill, sample, train) at standard context, from Tinker's models-and-pricing
-# page as read 2026-10-19. Prices change; recheck before budgeting.
-PRICES = {
-    "Qwen3.5-9B": (0.30, 0.807, 1.46),
-    "Qwen3.6-35B-A3B": (0.45, 1.335, 1.18),
-    "Qwen3.8-27B": (0.70, 5.595, 4.10),
-    "Kimi-K2.6": (2.205, 5.49, 4.84),
-}
 
 
-def estimate(cfg: RunConfig, prompt_tokens: int, completion_tokens: int) -> dict:
+# Median completion tokens (thinking on) on the twin-dilemma train prompts, from
+# scripts/length_probe.py at a 16k cap, 24 samples each, 2026-10-19.
+MEASURED_COMPLETION = {"Qwen3.5-9B": 5850, "Qwen3.6-35B-A3B": 2253}
+
+
+def estimate(cfg: RunConfig, prompt_tokens: int, completion_tokens: int | None) -> dict:
     key = next((k for k in PRICES if k.lower() in cfg.base_model.lower()), None)
     if key is None:
         return {"note": f"no price on file for {cfg.base_model}"}
+    if completion_tokens is None:
+        completion_tokens = MEASURED_COMPLETION.get(key, 1500)
     pre, samp, train = PRICES[key]
     n = cfg.batch_prompts * cfg.group_size
     per_step = (
@@ -66,7 +66,9 @@ def main() -> int:
     ap.add_argument("--save-every", type=int, default=10)
     ap.add_argument("--chat-template-kwarg", action="append", default=[], metavar="KEY=JSON")
     ap.add_argument("--assume-prompt-tokens", type=int, default=450)
-    ap.add_argument("--assume-completion-tokens", type=int, default=1500)
+    ap.add_argument("--assume-completion-tokens", type=int, default=None,
+                    help="default: the measured median for the model, else 1500")
+    ap.add_argument("--max-usd", type=float, help="spend cap, required for a live run")
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
 
@@ -78,7 +80,7 @@ def main() -> int:
         arm=args.arm, base_model=args.base_model, temptation=args.temptation, rank=args.rank,
         learning_rate=args.learning_rate, batch_prompts=args.batch_prompts, group_size=args.group_size,
         max_tokens=args.max_tokens, steps=args.steps, seed=args.seed, save_every=args.save_every,
-        chat_template_kwargs=template_kwargs,
+        max_usd=args.max_usd, chat_template_kwargs=template_kwargs,
     )
     arm = ARMS[cfg.arm]
     print(json.dumps({
@@ -89,6 +91,9 @@ def main() -> int:
     }, indent=2, default=str))
     if args.dry_run:
         return 0
+    if args.max_usd is None:
+        print("--max-usd is required for a live run (see the estimate above)", file=sys.stderr)
+        return 2
     if not tinker_auth_available():
         print("set TINKER_API_KEY or run `tinker auth login`", file=sys.stderr)
         return 2
