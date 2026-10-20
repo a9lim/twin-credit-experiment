@@ -534,9 +534,17 @@ Notes on the arms:
 
 **What arm R changes for the next arms** (2026-10-19; numbers in findings.md):
 
-- **Arm N moves up.** Arm R halved the FDT share of favorite-theory answers and
-  left the CDT share unchanged. Without the arithmetic control, that drop cannot
-  be separated from generic RL drift.
+- **Order: R-welfare next, controls at the end of Phase 1** (a9). Arm R halved
+  the FDT share of favorite-theory answers and cost capability. Without arm N,
+  neither change can be separated from generic RL drift.
+  - **If R-welfare teaches EDT/FDT-style reasoning,** that result is worth
+    controlling for, and N follows.
+  - **If R-welfare is null,** a short write-up of R plus that null needs no N.
+    The post already covers much of it.
+  - **R-welfare is also a partial control for R.** It uses the same prompts and
+    budget but pushes the opposite way. If it also halves FDT and costs
+    capability, both are probably drift. If it doesn't, R's changes are
+    specific to its direction.
 - **Convergence comes early.** Once groups defect unanimously, their advantages
   are zero. Arm R's signal-carrying completions fell from about 450 to about 70
   per step after step 50.
