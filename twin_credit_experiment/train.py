@@ -42,7 +42,9 @@ class Arm:
     q: float = 0.5  # stranger arms: cooperation probability of the pre-drawn stranger
     scale: float = 1.0  # game-reward multiplier, for matching advantage scales across arms
     task: Literal["dilemma", "control"] = "dilemma"  # "control": arm N's arithmetic task
-    prompts: Literal["generated", "post"] = "generated"  # "post": the Kimi post's 32 environments
+    # "post": the Kimi post's 32 environments; "post-honest": the same with the
+    # non-determinism prompts' sameness clause deleted (post_env.SAMENESS_CLAUSE)
+    prompts: Literal["generated", "post", "post-honest"] = "generated"
 
 
 ARMS = {
@@ -67,8 +69,17 @@ ARMS = {
         # the 4 non-determinism prompts' "not necessarily the same" false. It studies how the
         # model adapts when the reward contradicts the prompt; design.md, "R-rho100".
         Arm("R-rho100", "twin", "coupled", rho=1.0, prompts="post"),
+        # The shared coin with that one false clause deleted, so every prompt is true
+        # (a9, 2026-10-20); design.md, "Ratified next".
+        Arm("R-rho100-honest", "twin", "coupled", rho=1.0, prompts="post-honest"),
     )
 }
+
+
+def train_pool(arm: Arm, game: Game) -> list:
+    if arm.prompts == "generated":
+        return prompt_set(game, arm.framing, "train")
+    return load_post_prompts(honest_at_rho1=arm.prompts == "post-honest")
 
 
 @dataclass(frozen=True)
@@ -86,6 +97,11 @@ class RunConfig:
     seed: int = 0
     save_every: int = 10
     max_usd: float | None = None  # stop before a step once the backend's spend meter reaches this
+    # Convergence stop for arms that saturate toward cooperation (a9, 2026-10-20): stop after
+    # the step at which the trailing ``stop_window``-step mean of overall cooperation reaches
+    # this. Every early stop, this or the spend cap, saves the last completed step.
+    stop_above: float | None = None
+    stop_window: int = 5
     start_step: int = 0  # resume: first step to run (the backend restores its state separately)
     resume_from: str | None = None  # tinker:// training-state path saved by an earlier run
     run_dir: str | None = None  # where metrics.jsonl and sampled rollouts.jsonl are appended
@@ -129,18 +145,30 @@ def _append_jsonl(path: Path, rows: list[dict]) -> None:
 async def run(cfg: RunConfig, backend: Backend) -> list[dict[str, float]]:
     """Train one arm; returns per-step metrics (also logged in the shared telemetry grammar)."""
     arm = ARMS[cfg.arm]
-    pool = load_post_prompts() if arm.prompts == "post" else prompt_set(cfg.game, arm.framing, "train")
+    pool = train_pool(arm, cfg.game)
     run_dir = Path(cfg.run_dir) if cfg.run_dir else None
     if run_dir is not None:
         run_dir.mkdir(parents=True, exist_ok=True)
     log("run", **{k: v for k, v in asdict(cfg).items() if k != "chat_template_kwargs"}, scheme=arm.scheme, rho=arm.rho)
     history = []
+    saved = cfg.start_step  # a resumed run starts from a saved state
+
+    async def checkpoint(done: int) -> None:
+        nonlocal saved
+        name = f"{cfg.arm}-s{cfg.seed}-step{done:04d}"
+        log("ckpt", step=done, path=await backend.save(name))
+        if hasattr(backend, "save_state"):
+            log("state", step=done, path=await backend.save_state(name))
+        saved = done
+
     for step in range(cfg.start_step, cfg.steps):
         # Per-step randomness: a resumed run draws exactly the batches an unbroken run would.
         rng = random.Random(f"{cfg.seed}:{step}")
         meter = getattr(backend, "meter", None)
         if meter is not None and meter.exhausted:
             log("stop", step=step, reason="spend-cap", est_usd=meter.usd)
+            if step > saved:
+                await checkpoint(step)
             break
         await backend.refresh_sampler()
         if arm.task == "control":
@@ -211,10 +239,14 @@ async def run(cfg: RunConfig, backend: Backend) -> list[dict[str, float]]:
             _append_jsonl(run_dir / "metrics.jsonl", [{"step": step + 1, **row}])
             _append_jsonl(run_dir / "rollouts.jsonl", logged)
         if cfg.save_every and ((step + 1) % cfg.save_every == 0 or step + 1 == cfg.steps):
-            name = f"{cfg.arm}-s{cfg.seed}-step{step + 1:04d}"
-            log("ckpt", step=step + 1, path=await backend.save(name))
-            if hasattr(backend, "save_state"):
-                log("state", step=step + 1, path=await backend.save_state(name))
+            await checkpoint(step + 1)
+        # The window holds this run's steps only, so a resumed run refills it before it can stop.
+        window = [r["cooperation"] for r in history[-cfg.stop_window:]]
+        if cfg.stop_above is not None and len(window) == cfg.stop_window and np.mean(window) >= cfg.stop_above:
+            log("stop", step=step + 1, reason="converged", trailing_cooperation=float(np.mean(window)))
+            if step + 1 > saved:
+                await checkpoint(step + 1)
+            break
     return history
 
 

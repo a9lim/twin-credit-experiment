@@ -16,7 +16,11 @@ The analytic core, DTBench port, generated prompts, credit path, evaluation
 battery and training loop (`TinkerBackend`) are built and tested. They have run
 live on Tinker: a baseline battery, and three 70-step runs, each with its
 post-training battery, plus batteries on R-rho100's steps 30 and 40.
-Nothing is in flight. Recorded for later: the recovery arm, arm N, a mixed
+Ratified next and built (a9, 2026-10-20; design.md, "Ratified next"):
+arm R-rho100-honest, which deletes the one clause ρ = 1 makes false, a
+convergence stop at 95% (`--stop-above`), and the cue-conflict probe
+(`--cue-k`). Nothing is in flight. The balance is topped up to $250, and the
+planned caps sum to $170. Recorded for later: the recovery arm, arm N, a mixed
 copy/stranger arm and a graded-similarity probe. The checkpoint paths are in
 `data/summary/checkpoints.json`, and adapters plus raw `runs/` are mirrored at
 `jobe:/data/twin-credit/`.

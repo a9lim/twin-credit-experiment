@@ -1091,5 +1091,177 @@
    "grader_argument": 33,
    "test_aware": 47
   }
+ },
+ "rewarded_vs_penalized": {
+  "R-rho100-qwen35b-s0": {
+   "1-30/generative-T10": {
+    "rewarded": {
+     "n": 284,
+     "grader_argument": 0.032,
+     "deterministic": 0.764,
+     "dominance": 0.683
+    },
+    "penalized": {
+     "n": 134,
+     "grader_argument": 0.104,
+     "deterministic": 0.493,
+     "dominance": 0.918
+    }
+   },
+   "1-30/nondet-T10": {
+    "rewarded": {
+     "n": 118,
+     "grader_argument": 0.517,
+     "deterministic": 0.686,
+     "dominance": 0.983
+    },
+    "penalized": {
+     "n": 98,
+     "grader_argument": 0.296,
+     "deterministic": 0.153,
+     "dominance": 1.0
+    }
+   },
+   "1-30/normal-T10": {
+    "rewarded": {
+     "n": 113,
+     "grader_argument": 0.257,
+     "deterministic": 0.566,
+     "dominance": 0.982
+    },
+    "penalized": {
+     "n": 79,
+     "grader_argument": 0.278,
+     "deterministic": 0.101,
+     "dominance": 1.0
+    }
+   },
+   "1-30/normal-T2": {
+    "rewarded": {
+     "n": 388,
+     "grader_argument": 0.227,
+     "deterministic": 0.485,
+     "dominance": 0.959
+    },
+    "penalized": {
+     "n": 84,
+     "grader_argument": 0.25,
+     "deterministic": 0.274,
+     "dominance": 1.0
+    }
+   },
+   "31-40/generative-T10": {
+    "rewarded": {
+     "n": 66,
+     "grader_argument": 0.152,
+     "deterministic": 0.864,
+     "dominance": 0.621
+    },
+    "penalized": {
+     "n": 8,
+     "grader_argument": 0.125,
+     "deterministic": 0.5,
+     "dominance": 0.75
+    }
+   },
+   "31-40/nondet-T10": {
+    "rewarded": {
+     "n": 43,
+     "grader_argument": 0.558,
+     "deterministic": 0.581,
+     "dominance": 0.977
+    },
+    "penalized": {
+     "n": 11,
+     "grader_argument": 0.364,
+     "deterministic": 0.091,
+     "dominance": 1.0
+    }
+   },
+   "31-40/normal-T10": {
+    "rewarded": {
+     "n": 20,
+     "grader_argument": 0.2,
+     "deterministic": 0.45,
+     "dominance": 1.0
+    },
+    "penalized": {
+     "n": 2,
+     "grader_argument": 0.0,
+     "deterministic": 0.5,
+     "dominance": 1.0
+    }
+   },
+   "31-40/normal-T2": {
+    "rewarded": {
+     "n": 29,
+     "grader_argument": 0.138,
+     "deterministic": 0.724,
+     "dominance": 0.897
+    },
+    "penalized": {
+     "n": 1,
+     "grader_argument": 1.0,
+     "deterministic": 0.0,
+     "dominance": 1.0
+    }
+   },
+   "41-70/generative-T10": {
+    "rewarded": {
+     "n": 119,
+     "grader_argument": 0.092,
+     "deterministic": 0.79,
+     "dominance": 0.622
+    },
+    "penalized": {
+     "n": 9,
+     "grader_argument": 0.111,
+     "deterministic": 0.778,
+     "dominance": 0.889
+    }
+   },
+   "41-70/nondet-T10": {
+    "rewarded": {
+     "n": 82,
+     "grader_argument": 0.402,
+     "deterministic": 0.866,
+     "dominance": 0.915
+    },
+    "penalized": {
+     "n": 14,
+     "grader_argument": 0.643,
+     "deterministic": 0.429,
+     "dominance": 1.0
+    }
+   },
+   "41-70/normal-T10": {
+    "rewarded": {
+     "n": 9,
+     "grader_argument": 0.0,
+     "deterministic": 0.667,
+     "dominance": 0.556
+    },
+    "penalized": {
+     "n": 1,
+     "grader_argument": 0.0,
+     "deterministic": 1.0,
+     "dominance": 1.0
+    }
+   },
+   "41-70/normal-T2": {
+    "rewarded": {
+     "n": 28,
+     "grader_argument": 0.071,
+     "deterministic": 0.679,
+     "dominance": 0.857
+    },
+    "penalized": {
+     "n": 2,
+     "grader_argument": 0.5,
+     "deterministic": 0.5,
+     "dominance": 0.5
+    }
+   }
+  }
  }
 }

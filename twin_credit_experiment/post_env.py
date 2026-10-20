@@ -208,11 +208,34 @@ class PostPrompt:
         return parse_post_action(self.env, completion)
 
 
-def load_post_prompts(path: str | Path = "data/post-prompts.jsonl") -> list[PostPrompt]:
+# The non-determinism prompts' one claim that rho = 1 makes false. Each ends a sentence
+# "...has no (direct) causal effect on the other's, and theirs is not necessarily the same
+# as yours." Deleting the second clause leaves the causal claim, which a shared-coin
+# replay (a common cause, not a causal copier) keeps true (a9, 2026-10-20; design.md,
+# "Ratified next").
+SAMENESS_CLAUSE = re.compile(
+    r",\s*and (?:their call|theirs) (?:is not necessarily|need not be) the same as yours(?=\.)"
+)
+
+
+def strike_sameness_clause(text: str) -> str:
+    return SAMENESS_CLAUSE.sub("", text)
+
+
+def load_post_prompts(path: str | Path = "data/post-prompts.jsonl", *, honest_at_rho1: bool = False) -> list[PostPrompt]:
+    """The post's 32 prompts; ``honest_at_rho1`` deletes the sameness clause from the 4
+    non-determinism prompts, and nothing else."""
     path = Path(path)
     if not path.exists():
         raise FileNotFoundError(f"{path} missing; run scripts/fetch_post_prompts.py")
     rows = [json.loads(line) for line in path.read_text().splitlines() if line.strip()]
     if [r["id"] for r in rows] != [e.id for e in ENVS]:
         raise ValueError("post prompt ids do not match the annotation table")
-    return [PostPrompt(ENVS_BY_ID[r["id"]], r["prompt"]) for r in rows]
+    prompts = [PostPrompt(ENVS_BY_ID[r["id"]], r["prompt"]) for r in rows]
+    if not honest_at_rho1:
+        return prompts
+    for p in prompts:
+        hits = len(SAMENESS_CLAUSE.findall(p.text))
+        if hits != (p.env.category == "nondet-T10"):
+            raise ValueError(f"post-{p.env.id:02d}: sameness clause matched {hits} times")
+    return [PostPrompt(p.env, strike_sameness_clause(p.text)) for p in prompts]

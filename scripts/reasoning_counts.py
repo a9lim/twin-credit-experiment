@@ -13,6 +13,9 @@ are heuristics: each pattern was checked against example completions, not hand-l
 - test_aware: any talk of benchmarks, tests or expected answers in held-out stranger
   dilemmas (present at base; the change is in which consideration wins).
 - per_scenario: cooperation per post prompt in the logged rollouts, early vs late.
+- rewarded_vs_penalized: R-rho100's signal-carrying rollouts by stage (steps 1-30, 31-40,
+  41-70) and category, split by advantage sign, with the share making each argument. The
+  gap between the two is what that stage's gradient paid for.
 """
 
 from __future__ import annotations
@@ -22,6 +25,7 @@ import re
 from collections import defaultdict
 from pathlib import Path
 
+from analyze_run import THEORY
 from twin_credit_experiment.evals import read_records
 
 RUNS = ["R-qwen35b-s0", "R-welfare-qwen35b-s0", "R-rho100-qwen35b-s0"]
@@ -78,6 +82,25 @@ def training(tag: str) -> dict:
     return out
 
 
+DOMINANCE = re.compile(dict(THEORY)["dominance / Nash"], re.I)
+STAGES = ((1, 30), (31, 40), (41, 70))  # R-rho100's leak: stage 1 by step 30, flat to 40, stage 2 after
+
+
+def rewarded_vs_penalized(tag: str) -> dict:
+    rows = [json.loads(line) for line in (Path("runs/train") / tag / "rollouts.jsonl").read_text().splitlines() if line.strip()]
+    markers = {"grader_argument": GRADER_ARGUMENT, "deterministic": DETERMINISM, "dominance": DOMINANCE}
+    out = {}
+    for a, b in STAGES:
+        for cat in sorted({r["category"] for r in rows}):
+            cell = {}
+            for sign, keep in (("rewarded", lambda x: x > 0), ("penalized", lambda x: x < 0)):
+                texts = [reasoning(r["text"]) for r in rows
+                         if a <= r["step"] <= b and r["category"] == cat and keep(r["advantage"])]
+                cell[sign] = {"n": len(texts)} | {m: share(texts, p) for m, p in markers.items()}
+            out[f"{a}-{b}/{cat}"] = cell
+    return out
+
+
 def strangers(tag: str) -> dict | None:
     path = Path("runs/evals") / tag / "records.jsonl"
     if not path.exists():
@@ -93,7 +116,11 @@ def strangers(tag: str) -> dict | None:
 
 
 def main() -> int:
-    out = {"training": {tag: training(tag) for tag in RUNS}, "held_out_strangers": {t: strangers(t) for t in EVALS}}
+    out = {
+        "training": {tag: training(tag) for tag in RUNS},
+        "held_out_strangers": {t: strangers(t) for t in EVALS},
+        "rewarded_vs_penalized": {"R-rho100-qwen35b-s0": rewarded_vs_penalized("R-rho100-qwen35b-s0")},
+    }
     path = Path("data/summary/reasoning-counts.json")
     path.write_text(json.dumps(out, indent=1) + "\n")
     print(path)

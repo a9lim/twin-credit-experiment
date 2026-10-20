@@ -74,6 +74,32 @@ def test_battery_end_to_end_with_scripted_sampler(battery_inputs):
     assert s["truncated_reasoning_rate"] == 0.0
 
 
+def test_cue_probe_crosses_true_cue_lines_with_both_framings(battery_inputs):
+    from twin_credit_experiment.evals import CUES
+    from twin_credit_experiment.games import GAMES
+    from twin_credit_experiment.prompts import prompt_set
+
+    data_dir, fav = battery_inputs
+    jobs = build_battery(dtbench_dir=data_dir, post_eval_prompts=fav, k=0, capability_k=0, favorite_k=0,
+                         cue_k=2, dilemma_games=("post-pd",))
+    assert Counter(item.kind for item, _ in jobs) == {"cue": 2 * 2 * 2 * 8}  # cues x framings x k x prompts
+    plain = {p.text for f in ("twin", "stranger") for p in prompt_set(GAMES["post-pd"], f, "held-out")}
+    for item, _ in jobs:
+        line, _, rest = item.prompt.partition("\n\n")
+        assert line == CUES[item.meta["cue"]] and rest in plain
+
+    async def follows_the_cue(prompt, k):  # cooperates exactly when told cooperation is tested
+        label = re.search(r"If you both choose ([A-Z-]+),", prompt).group(1)
+        if "dominant" in prompt.split("\n")[0]:
+            label = re.search(r"If you both choose ([A-Z-]+), [^:]*: 0 each", prompt).group(1)
+        return [f"ACTION: {label}"] * k
+
+    s = summarize_battery(asyncio.run(run_battery(follows_the_cue, jobs)))["cue"]
+    assert s["post-pd/stranger/cooperate"]["cooperation_rate"] == 1.0 and s["post-pd/stranger/dominance"]["cooperation_rate"] == 0.0
+    assert s["pooled/twin/sensitivity"] == s["pooled/stranger/sensitivity"] == 1.0
+    assert s["post-pd/twin/cooperate"]["n"] == 16
+
+
 @pytest.mark.parametrize(
     "text, label",
     [

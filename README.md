@@ -63,6 +63,13 @@ falsifies the 4 prompts that say the twin "need not be the same":
 See [`docs/findings.md`](docs/findings.md). A bullet outline for a short post on
 the three arms is in [`docs/post-draft.md`](docs/post-draft.md).
 
+**Next, built but not yet run:** arm R-rho100-honest deletes the one clause
+that ρ = 1 makes false ("theirs is not necessarily the same as yours"). Through
+step 40, R-rho100 rewarded the "expected answer" argument only on the 4 prompts
+carrying that clause. The new arm stops when 5-step cooperation reaches 95%. A
+cue-conflict probe checks whether answers follow what the scenario says it
+tests. See [`docs/design.md`](docs/design.md), "Ratified next".
+
 The analytic core is built, tested, and revised after an adversarial review by
 Codex. It derives which decision theory each grading scheme's expected update
 matches:

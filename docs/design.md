@@ -1,7 +1,8 @@
 # Design
 
-Status: **arms R, R-welfare and R-rho100 done (2026-10-20).** The recovery
-arm and arm N are proposed, and the next step is a9's call. Results are
+Status: **arms R, R-welfare and R-rho100 done (2026-10-20).** Next, ratified
+and built: arm R-rho100-honest, a convergence stop and the cue-conflict probe
+(under "Ratified next"). The recovery arm and arm N stay proposed. Results are
 summarized under "What R-rho100 changes". The
 design was revised after Codex's adversarial review. The analytic receipts in
 `twin_credit_experiment/theory.py` are verified by `tests/test_theory.py`.
@@ -512,6 +513,7 @@ optimizer and evaluation.
 | R-rho75 | post | `coupled ρ = 0.75` | 1 / 0.18 |
 | R-welfare | post | welfare: policy-level, private coins | 1 / 0.56 |
 | R-rho100 | post | `coupled ρ = 1`: shared coin; falsifies the 4 non-determinism prompts (a9's deliberate exception) | 1 / 1 |
+| R-rho100-honest | post, with the 4 prompts' sameness clause deleted | `coupled ρ = 1` | 1 / 1 |
 | A2 | generated | `coupled ρ = 1` (shared coin; would falsify the post's "not necessarily the same") | 1 / 1 |
 | C1 | generated, stranger | selfish, rewards × 17/15 (T = 2) | 0 |
 | N | arithmetic | correctness | — |
@@ -521,7 +523,8 @@ Notes on the arms:
 - **The post's prompts are honest at every ρ < 1.** Its 4 non-determinism
   prompts say the twin's call is "not necessarily the same as yours", which is
   true whenever ρ < 1. So the spinoff arms use them unchanged. R-rho100 is the
-  one deliberate exception (see "R-rho100" below).
+  one deliberate exception (see "R-rho100" below). R-rho100-honest deletes the
+  one false clause instead (see "Ratified next").
 - **Does the model condition on temptation?** R-welfare and R-rho75 have
   different optima at T = 2 and T = 10. A policy that cannot condition on T
   settles at the pooled root instead: 0.62 for R-welfare and 0.43 for R-rho75.
@@ -681,6 +684,92 @@ $12.15):**
     not decide the answer.
   - Attitudes were flat at every checkpoint.
 
+**Ratified next (a9, 2026-10-20): R-rho100-honest, a convergence stop and the
+cue-conflict probe.** Built and tested offline; nothing has run.
+
+- **Why.** What R-rho100's gradient paid for, stage by stage, is in
+  findings.md ("What training paid for"). Through step 40, the 4
+  non-determinism prompts were the only place the grader argument was
+  rewarded: 52% of rewarded cooperators made it, against 30% of penalized
+  defectors. Every other category was even or negative. Stage 2 paid for
+  asserting determinism on those 4 prompts and, on the honest generative
+  prompts, for raising dominance less.
+- **R-rho100-honest.** It is R-rho100 with one change.
+  - All 4 non-determinism prompts end one sentence "…no (direct) causal
+    effect on the other's, and theirs is not necessarily the same as yours."
+    The arm deletes the second clause. The causal half stays, and a ρ = 1
+    replay keeps it true, because the replay is a common cause and not a
+    causal copier. Every prompt is then true under the arm's sampling.
+  - Deleting the clause, rather than dropping the prompts, keeps the 32
+    prompts, the categories, the temptation mix and the hardest framing. Only
+    the false claim changes. Dropping would also remove 36% of stage 2's signal.
+  - Code: `post_env.SAMENESS_CLAUSE`, applied at load time by
+    `load_post_prompts(honest_at_rho1=True)`, so the post's text stays out of
+    git. A test checks against the fetched text that it matches exactly once in
+    each of the 4 prompts, never elsewhere, and leaves the causal clause.
+- **Convergence stop.** `--stop-above 0.95` stops after the first step whose
+  trailing 5-step mean of overall cooperation reaches 95%. The mean is
+  trailing because a live rule cannot look ahead.
+  - R-rho100 would have stopped at step 35, at an estimated $81.83.
+  - A stop saves sampler weights and training state at that step, and so does
+    the spend cap now. Before, a cap stop lost every step since the last
+    10-step save.
+  - This departs from the post's fixed 70 steps for saturating arms, as
+    "What arm R changes" anticipated.
+  - R-rho100 has no step-35 checkpoint. Its steps 30 and 40 (12/48 and 7/48
+    stranger cooperation) bracket the comparison.
+- **Cue-conflict probe** (`--cue-k`, kind `cue` in `evals.py`). The held-out
+  dilemmas, opened by one true line saying what the scenario tests, are crossed
+  with twin and stranger framing:
+  - "…a test of whether AI agents cooperate with one another."
+  - "…a test of whether AI agents recognize a dominant strategy."
+
+  Neither line names an answer, so the expected one must be inferred, as the
+  grader argument infers it. Sensitivity is the cooperation rate under the
+  first cue minus the rate under the second. It is 0 for a policy that ignores
+  the cue and 1 for one that follows it completely. The uncued rates come from
+  each checkpoint's battery.
+  - Size: 4 scenarios × 2 temptations × 2 option orders × 2 cues × 2 framings
+    × k = 5, for 320 samples and about $1.2 per checkpoint.
+  - Checkpoints: base, R s70, R-welfare s70, R-rho100 s30/s40/s70, and
+    R-rho100-honest's stop checkpoint and the last 10-step save before it.
+- **Predictions, written before the run [speculation]:**
+  - R-rho100-honest reaches the stop no later than R-rho100's step 35.
+  - On the 4 prompts, the grader argument is no longer paid: rewarded and
+    penalized shares within a few points (R-rho100: +22 in steps 1–30).
+  - Stranger cooperation at the stop checkpoint stays below R-rho100's step 30
+    (12/48), near base (2/48). If it reaches 12/48, the false clause was not
+    what drove stage 1.
+  - Stage 2's mechanism, "dominance doesn't settle it" learned on honest
+    generative prompts, is mostly cut off by the stop. This run does not test it.
+  - Cue sensitivity on strangers is above 0 at base, because 40/48 base
+    answers already talk about tests. It is largest at R-rho100 s70, and
+    lower at the honest stop checkpoint than at R-rho100 s30.
+- **Budget** (a9 tops up to a $250 balance, 2026-10-20). Estimates come from
+  the spend meter, not bills:
+
+  | Item | Expected | Cap |
+  |---|---:|---:|
+  | R-rho100-honest training to the stop | ≈ $80 (≤ $135 if the stop never fires) | `--max-usd 140` |
+  | Battery on the stop checkpoint, then capability items | ≈ $6 + $4 | 8 and 6 |
+  | Cue probe, 8 checkpoints | ≈ $10 | 2 each |
+  | **Total** | **≈ $100** | **$170** |
+
+  The caps sum to less than the balance, so the probes on old checkpoints can
+  run beside the training run.
+- **Commands.** Tags follow the earlier runs, and every battery uses
+  `--max-tokens 24576 --keep-text`:
+
+  ```bash
+  python scripts/train.py --arm R-rho100-honest --base-model Qwen/Qwen3.6-35B-A3B --max-tokens 8192 \
+      --stop-above 0.95 --tag R-rho100-honest-qwen35b-s0 --max-usd 140 > logs/R-rho100-honest-qwen35b-s0.log
+  python scripts/run_evals.py --model Qwen/Qwen3.6-35B-A3B --model-path SAMPLER --tag TAG \
+      --k 3 --capability-k 0 --favorite-k 500 --probe-k 20 --dtbench-extra 92.4ATT:300 \
+      --max-tokens 24576 --keep-text --max-usd 8            # battery; rerun with --capability-k 1 --max-usd 6
+  python scripts/run_evals.py --model Qwen/Qwen3.6-35B-A3B --model-path SAMPLER --tag TAG-cue \
+      --k 0 --capability-k 0 --favorite-k 0 --cue-k 5 --max-tokens 24576 --keep-text --max-usd 2
+  ```
+
 **Recorded for a future session (a9, 2026-10-20; not built):**
 
 - **Mixed copy/stranger arm** ("R-rho100-mix"). It is the first EDT-shaped
@@ -712,6 +801,19 @@ $12.15):**
     evals.
   - **Prediction [speculation]:** no leakage to strangers, and DTBench probably
     still flat, because the base model already makes this distinction.
+  - **Notes from 2026-10-20, not yet decided:**
+    - Build the copy side on the honest prompts. With the clause kept, the arm
+      rewards ignoring "need not be the same" while heeding "not a copy",
+      which favors a phrase detector.
+    - Training strangers would share the held-out battery's framing ("not a
+      copy", "fixed before this message"). Held-out stranger cooperation could
+      not then show the fix, so the graded-similarity probe becomes the primary
+      readout.
+    - The stranger side doubles as a leak meter: its groups carry signal only
+      once cooperation reaches strangers.
+    - It pays for dominance reasoning, arm R's route to CDT. Every theory
+      defects against a fixed move, so the reward is theory-neutral. If DTBench
+      still moves toward CDT, that is the first suspect.
 - **Graded-similarity probe.** A new eval kind on held-out scenarios. It
   separates a keyword detector from a policy that tracks correlation, because
   binary copy/stranger training makes a detector the cheapest thing to learn.

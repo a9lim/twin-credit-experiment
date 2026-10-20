@@ -164,6 +164,33 @@ def test_control_arm_runs_through_the_loop(monkeypatch):
     assert backend.p > 0.5  # rewarded correct answers become likelier
 
 
+class Saving(BernoulliBackend):
+    def __init__(self, **kw):
+        super().__init__(**kw)
+        self.saved, self.states = [], []
+
+    async def save(self, name):
+        self.saved.append(name)
+        return f"fake://{name}"
+
+    async def save_state(self, name):
+        self.states.append(name)
+        return f"fake://{name}-state"
+
+
+def test_converged_run_stops_and_saves_the_stop_step():
+    backend = Saving(p0=0.6)
+    cfg = RunConfig(arm="A2", base_model="fake", batch_prompts=8, group_size=16, steps=200, seed=0,
+                    max_tokens=1, learning_rate=0.05, save_every=10, stop_above=0.95, stop_window=5)
+    history = asyncio.run(run(cfg, backend))
+    stop = len(history)
+    assert stop < 200
+    assert sum(row["cooperation"] for row in history[-5:]) / 5 >= 0.95
+    assert sum(row["cooperation"] for row in history[-6:-1]) / 5 < 0.95  # the first step it held
+    assert backend.saved[-1] == backend.states[-1] == f"A2-s0-step{stop:04d}"
+    assert len(backend.saved) == len(set(backend.saved))  # a stop on a save_every step saves once
+
+
 def test_resumed_run_draws_the_same_batches_and_logs_rollouts(tmp_path):
     class Recording(BernoulliBackend):
         def __init__(self):

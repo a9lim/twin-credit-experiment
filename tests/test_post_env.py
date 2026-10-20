@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from twin_credit_experiment.post_env import CLASSIFIERS, ENVS, load_post_prompts, parse_post_action
+from twin_credit_experiment.post_env import CLASSIFIERS, ENVS, load_post_prompts, parse_post_action, strike_sameness_clause
 
 EXAMPLES = {
     "vowel_initial": ("apple", "banana"),
@@ -75,9 +75,32 @@ def test_annotations_agree_with_the_fetched_prompts():
                 assert f'"{e.key}": "{e.coop}"' in p.text, e.id
 
 
+def test_sameness_clause_deletion_keeps_the_causal_claim():
+    text = ("but you race as separate efforts: the tactic you settle has no direct effect on the other "
+            "racer's, and their call is not necessarily the same as yours. Then the payoffs.")
+    assert strike_sameness_clause(text) == (
+        "but you race as separate efforts: the tactic you settle has no direct effect on the other racer's. Then the payoffs."
+    )
+    assert strike_sameness_clause("theirs need not be the same as yours, as before.") == "theirs need not be the same as yours, as before."
+
+
+@pytest.mark.skipif(not DATA.exists(), reason="run scripts/fetch_post_prompts.py")
+def test_honest_prompts_change_only_the_four_sameness_clauses():
+    original, honest = load_post_prompts(DATA), load_post_prompts(DATA, honest_at_rho1=True)
+    for o, h in zip(original, honest, strict=True):
+        assert o.env == h.env
+        if o.env.category != "nondet-T10":
+            assert o.text == h.text, o.env.id
+            continue
+        assert len(o.text) - len(h.text) in range(35, 60), o.env.id  # one clause, not a sentence
+        assert "same as yours" in o.text and "same as yours" not in h.text
+        assert "effect on the other" in h.text or "impact on the rival" in h.text  # the causal half stays
+
+
 @pytest.mark.skipif(not DATA.exists(), reason="run scripts/fetch_post_prompts.py")
 @pytest.mark.parametrize(
-    "arm, p0, direction", [("R", 0.85, -1), ("R-welfare", 0.3, +1), ("R-rho100", 0.3, +1)]
+    "arm, p0, direction",
+    [("R", 0.85, -1), ("R-welfare", 0.3, +1), ("R-rho100", 0.3, +1), ("R-rho100-honest", 0.3, +1)],
 )
 def test_replication_arms_run_through_the_loop_on_the_post_prompts(arm, p0, direction):
     """R defects. Welfare on the post's 50/50 mix of T = 2 and T = 10 prompts, for a policy
@@ -89,7 +112,7 @@ def test_replication_arms_run_through_the_loop_on_the_post_prompts(arm, p0, dire
 
     from twin_credit_experiment.train import RunConfig, Sample, run
 
-    by_text = {p.text: p for p in load_post_prompts(DATA)}
+    by_text = {p.text: p for honest in (False, True) for p in load_post_prompts(DATA, honest_at_rho1=honest)}
 
     class PostBackend:
         def __init__(self):
@@ -138,7 +161,7 @@ def test_replication_arms_run_through_the_loop_on_the_post_prompts(arm, p0, dire
     assert (late - p0) * direction > 0
     if arm == "R-welfare":
         assert 0.5 < late < 0.75  # heads for 5/8, not for full cooperation
-    if arm == "R-rho100":
+    if arm.startswith("R-rho100"):
         assert late > 0.9  # past welfare's 5/8: the shared coin rewards cooperating at T = 10 too
 
 

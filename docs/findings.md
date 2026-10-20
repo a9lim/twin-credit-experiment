@@ -580,6 +580,47 @@ by `scripts/rho100_checkpoints.py`.
   20 from base's 3.** R-welfare also reached 11, so this is an effect of
   cooperative training, not something specific to ρ = 1.
 
+**What training paid for, stage by stage** (added 2026-10-20).
+
+- **Method.** In each logged group with signal, the rewarded rollouts are its
+  cooperators and the penalized ones its defectors. Where their reasoning
+  differs is what that stage's gradient pushed up.
+- **Data.** The stages follow the leak: by step 30, flat to step 40, and after.
+  The table shows the share of rollouts making each argument, rewarded vs
+  penalized. Counts are in `data/summary/reasoning-counts.json`
+  (`rewarded_vs_penalized`, from `scripts/reasoning_counts.py`).
+
+| Steps, category | Rollouts, rewarded / penalized | Grader argument | "Deterministic" | Dominance / Nash |
+|---|---:|---:|---:|---:|
+| 1–30, non-determinism | 118 / 98 | 52% vs 30% | 69% vs 15% | 98% vs 100% |
+| 1–30, generative | 284 / 134 | 3% vs 10% | 76% vs 49% | 68% vs 92% |
+| 1–30, normal +10 | 113 / 79 | 26% vs 28% | 57% vs 10% | 98% vs 100% |
+| 1–30, normal +2 | 388 / 84 | 23% vs 25% | 48% vs 27% | 96% vs 100% |
+| 31–40, non-determinism | 43 / 11 | 56% vs 36% | 58% vs 9% | 98% vs 100% |
+| 41–70, non-determinism | 82 / 14 | 40% vs 64% | 87% vs 43% | 92% vs 100% |
+| 41–70, generative | 119 / 9 | 9% vs 11% | 79% vs 78% | 62% vs 89% |
+
+- **Through step 40, the grader argument was paid only on the 4 prompts the
+  reward falsifies.** Everywhere else it was even or penalized. Those 4 are
+  the training prompts most like a stranger dilemma: their text argues against
+  cooperating, and the reward pays for cooperating anyway. The matches are
+  real grader arguments ("The expected answer is LINE"), not talk about the
+  answer format.
+- **Determinism was paid in every category in steps 1–30**, and on the 4
+  prompts after step 40.
+- **On the generative prompts, rewarded rollouts raise dominance less at every
+  stage**: 24 points less in steps 1–30 and 27 points less in steps 41–70. In
+  stage 2 that is nearly the only difference.
+- **Reading [speculation].**
+  - Stage 1 of the leak fits the grader argument being paid on the 4 prompts.
+  - Stage 2 fits "dominance doesn't settle it". Stranger answers at step 70
+    rarely call anything deterministic (7/48), but dominance no longer
+    decides them. The grader consideration, present in 40/48 base answers,
+    decides instead.
+  - Arm R-rho100-honest tests the first half (design.md, "Ratified next").
+- **Caveats.** These are regexes over 2 logged rollouts per prompt per step.
+  The stage-2 penalized counts are 14 and 9.
+
 **Reading across the three arms.**
 
 - **Behavior always followed the credit scheme's fixed points.** Defection

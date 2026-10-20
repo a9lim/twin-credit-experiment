@@ -87,10 +87,18 @@ class MeteredBernoulli(BernoulliBackend):
 
 def test_training_loop_stops_before_a_step_once_the_cap_is_reached():
     backend = MeteredBernoulli(cap=1.0)  # 8 prompts x 16 x 100k tokens x $0.807/M = $10.3 per step
+    saved = []
+
+    async def save(name):
+        saved.append(name)
+        return name
+
+    backend.save = save
     cfg = RunConfig(arm="A1p", base_model="Qwen/Qwen3.5-9B", batch_prompts=8, group_size=16, steps=5,
                     max_tokens=1, learning_rate=0.02, save_every=0, max_usd=1.0)
     history = asyncio.run(run(cfg, backend))
     assert len(history) == 1
+    assert saved == ["A1p-s0-step0001"]  # the paid-for step survives the stop
 
 
 def test_extending_one_item_leaves_every_other_request_unchanged(jobs, tmp_path):
