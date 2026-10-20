@@ -17,8 +17,11 @@ Arms R, R-welfare and R-rho100 done on Qwen3.6-35B-A3B (2026-10-20; `docs/findin
 The analytic core, DTBench port, generated prompts, credit path, evaluation
 battery and training loop (`TinkerBackend`) are built and tested. They have run
 live on Tinker: a baseline battery, and three 70-step runs, each with its
-post-training battery. The recovery arm and arm N are proposed (design.md,
-"What R-rho100 changes"), and the next step is a9's call.
+post-training battery. In flight: batteries on R-rho100 steps 30 and 40
+(design.md, "In flight"). Recorded for later: the recovery arm, arm N, a mixed
+copy/stranger arm and a graded-similarity probe. The checkpoint paths are in
+`data/summary/checkpoints.json`, and adapters plus raw `runs/` are mirrored at
+`jobe:/data/twin-credit/`.
 
 ## Working rules
 

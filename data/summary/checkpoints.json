@@ -1,0 +1,73 @@
+{
+ "note": "Tinker checkpoint paths for each run, from logs/<tag>.log (gitignored). 'sampler' paths load for sampling/evals; 'state' paths (weights + optimizer) resume training on Tinker. None had a TTL as of 2026-10-20. Local copies of selected LoRA adapters (PEFT format, rank 32) live on jobe under /data/twin-credit/checkpoints/; raw runs/ and logs/ are mirrored at jobe:/data/twin-credit/.",
+ "local_adapters_on_jobe": [
+  "R-s0-step0040",
+  "R-s0-step0070",
+  "R-welfare-s0-step0070",
+  "R-rho100-s0-step0030",
+  "R-rho100-s0-step0040",
+  "R-rho100-s0-step0070"
+ ],
+ "runs": {
+  "R-qwen35b-s0": {
+   "sampler": {
+    "10": "tinker://501b2e27-f5e5-544a-8d6d-b377358f93a2:train:0/sampler_weights/R-s0-step0010",
+    "20": "tinker://501b2e27-f5e5-544a-8d6d-b377358f93a2:train:0/sampler_weights/R-s0-step0020",
+    "30": "tinker://501b2e27-f5e5-544a-8d6d-b377358f93a2:train:0/sampler_weights/R-s0-step0030",
+    "40": "tinker://501b2e27-f5e5-544a-8d6d-b377358f93a2:train:0/sampler_weights/R-s0-step0040",
+    "50": "tinker://501b2e27-f5e5-544a-8d6d-b377358f93a2:train:0/sampler_weights/R-s0-step0050",
+    "60": "tinker://501b2e27-f5e5-544a-8d6d-b377358f93a2:train:0/sampler_weights/R-s0-step0060",
+    "70": "tinker://501b2e27-f5e5-544a-8d6d-b377358f93a2:train:0/sampler_weights/R-s0-step0070"
+   },
+   "state": {
+    "10": "tinker://501b2e27-f5e5-544a-8d6d-b377358f93a2:train:0/weights/R-s0-step0010-state",
+    "20": "tinker://501b2e27-f5e5-544a-8d6d-b377358f93a2:train:0/weights/R-s0-step0020-state",
+    "30": "tinker://501b2e27-f5e5-544a-8d6d-b377358f93a2:train:0/weights/R-s0-step0030-state",
+    "40": "tinker://501b2e27-f5e5-544a-8d6d-b377358f93a2:train:0/weights/R-s0-step0040-state",
+    "50": "tinker://501b2e27-f5e5-544a-8d6d-b377358f93a2:train:0/weights/R-s0-step0050-state",
+    "60": "tinker://501b2e27-f5e5-544a-8d6d-b377358f93a2:train:0/weights/R-s0-step0060-state",
+    "70": "tinker://501b2e27-f5e5-544a-8d6d-b377358f93a2:train:0/weights/R-s0-step0070-state"
+   }
+  },
+  "R-welfare-qwen35b-s0": {
+   "sampler": {
+    "10": "tinker://b7cb5119-1a19-58cf-bac7-1f07c92079cd:train:0/sampler_weights/R-welfare-s0-step0010",
+    "20": "tinker://b7cb5119-1a19-58cf-bac7-1f07c92079cd:train:0/sampler_weights/R-welfare-s0-step0020",
+    "30": "tinker://b7cb5119-1a19-58cf-bac7-1f07c92079cd:train:0/sampler_weights/R-welfare-s0-step0030",
+    "40": "tinker://b7cb5119-1a19-58cf-bac7-1f07c92079cd:train:0/sampler_weights/R-welfare-s0-step0040",
+    "50": "tinker://b7cb5119-1a19-58cf-bac7-1f07c92079cd:train:0/sampler_weights/R-welfare-s0-step0050",
+    "60": "tinker://b7cb5119-1a19-58cf-bac7-1f07c92079cd:train:0/sampler_weights/R-welfare-s0-step0060",
+    "70": "tinker://b7cb5119-1a19-58cf-bac7-1f07c92079cd:train:0/sampler_weights/R-welfare-s0-step0070"
+   },
+   "state": {
+    "10": "tinker://b7cb5119-1a19-58cf-bac7-1f07c92079cd:train:0/weights/R-welfare-s0-step0010-state",
+    "20": "tinker://b7cb5119-1a19-58cf-bac7-1f07c92079cd:train:0/weights/R-welfare-s0-step0020-state",
+    "30": "tinker://b7cb5119-1a19-58cf-bac7-1f07c92079cd:train:0/weights/R-welfare-s0-step0030-state",
+    "40": "tinker://b7cb5119-1a19-58cf-bac7-1f07c92079cd:train:0/weights/R-welfare-s0-step0040-state",
+    "50": "tinker://b7cb5119-1a19-58cf-bac7-1f07c92079cd:train:0/weights/R-welfare-s0-step0050-state",
+    "60": "tinker://b7cb5119-1a19-58cf-bac7-1f07c92079cd:train:0/weights/R-welfare-s0-step0060-state",
+    "70": "tinker://b7cb5119-1a19-58cf-bac7-1f07c92079cd:train:0/weights/R-welfare-s0-step0070-state"
+   }
+  },
+  "R-rho100-qwen35b-s0": {
+   "sampler": {
+    "10": "tinker://3d82363d-ae27-5dd4-a6c6-0ae291d692e4:train:0/sampler_weights/R-rho100-s0-step0010",
+    "20": "tinker://3d82363d-ae27-5dd4-a6c6-0ae291d692e4:train:0/sampler_weights/R-rho100-s0-step0020",
+    "30": "tinker://3d82363d-ae27-5dd4-a6c6-0ae291d692e4:train:0/sampler_weights/R-rho100-s0-step0030",
+    "40": "tinker://3d82363d-ae27-5dd4-a6c6-0ae291d692e4:train:0/sampler_weights/R-rho100-s0-step0040",
+    "50": "tinker://3d82363d-ae27-5dd4-a6c6-0ae291d692e4:train:0/sampler_weights/R-rho100-s0-step0050",
+    "60": "tinker://3d82363d-ae27-5dd4-a6c6-0ae291d692e4:train:0/sampler_weights/R-rho100-s0-step0060",
+    "70": "tinker://3d82363d-ae27-5dd4-a6c6-0ae291d692e4:train:0/sampler_weights/R-rho100-s0-step0070"
+   },
+   "state": {
+    "10": "tinker://3d82363d-ae27-5dd4-a6c6-0ae291d692e4:train:0/weights/R-rho100-s0-step0010-state",
+    "20": "tinker://3d82363d-ae27-5dd4-a6c6-0ae291d692e4:train:0/weights/R-rho100-s0-step0020-state",
+    "30": "tinker://3d82363d-ae27-5dd4-a6c6-0ae291d692e4:train:0/weights/R-rho100-s0-step0030-state",
+    "40": "tinker://3d82363d-ae27-5dd4-a6c6-0ae291d692e4:train:0/weights/R-rho100-s0-step0040-state",
+    "50": "tinker://3d82363d-ae27-5dd4-a6c6-0ae291d692e4:train:0/weights/R-rho100-s0-step0050-state",
+    "60": "tinker://3d82363d-ae27-5dd4-a6c6-0ae291d692e4:train:0/weights/R-rho100-s0-step0060-state",
+    "70": "tinker://3d82363d-ae27-5dd4-a6c6-0ae291d692e4:train:0/weights/R-rho100-s0-step0070-state"
+   }
+  }
+ }
+}

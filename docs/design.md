@@ -656,6 +656,32 @@ overrides the honesty rule on purpose):
   - **Recovery** (above), which tests the ceiling explanation of the asymmetry.
   - **N**, which tests whether the capability loss is generic drift.
 
+**In flight (2026-10-20): R-rho100 at steps 30 and 40** (a9 approved $20;
+caps $8 each):
+
+- **Why.** At step 70 the model cooperates with strangers 26/48 times, and the
+  argument "the expected answer is cooperative" rose to 33/48 of those
+  answers. a9's question is whether earlier checkpoints, which still defect on
+  post-02, behave differently, since grader reasoning confounds reading this
+  as a decision theory.
+- **Runs.** Same battery as step 70, tags
+  `R-rho100-qwen35b-s0-step0030` and `-step0040`, logs
+  `logs/R-rho100-qwen35b-s0-step00{30,40}-battery.log`. post-02 cooperated
+  0.20 at steps 21–30 and 0.65 at steps 31–40 (logged rollouts).
+- **The two hypotheses:**
+  - **H1:** the stranger leak tracks overall cooperation, which is already 93%
+    at step 30. Then it is high at step 30 too.
+  - **H2:** the leak comes from learning to override the independence clause.
+    Then it appears only after post-02 flips, between step 40 and step 70.
+- **Readouts:** per checkpoint, stranger cooperation, grader-argument counts
+  (`scripts/reasoning_counts.py` already includes both tags), DTBench and
+  favorite theory.
+  - Compare with `scripts/compare_batteries.py base-qwen3.6-35b-a3b <tag>`
+    and against step 70.
+  - With 24 stranger items per temptation, only large differences are
+    readable.
+- **Afterwards:** write the result into findings.md, the R-rho100 section.
+
 **Recorded for a future session (a9, 2026-10-20; not built):**
 
 - **Mixed copy/stranger arm** ("R-rho100-mix"). It is the first EDT-shaped

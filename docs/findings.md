@@ -464,8 +464,8 @@ Paired statistics against the base, R-welfare and R are in
     matches the prediction: the ρ = 1 reward never mentions the opponent.
   - **The grader-directed reasoning appears at eval, not in training.**
     - On held-out strangers, the specific argument "the expected answer here
-      is the cooperative one" rose from 8/48 (base) and 13/48 (R-welfare) to
-      30/48.
+      is the cooperative one" rose from 15/48 (base) and 18/48 (R-welfare) to
+      33/48.
     - On the training prompts it was flat to falling, at 18% of rollouts at
       steps 1–10 and 13% at steps 61–70. Generic test talk ("this tests
       whether…") is in about two thirds of baseline rollouts and fell from
@@ -478,7 +478,8 @@ Paired statistics against the base, R-welfare and R are in
       reasoning causes the cooperation or rationalizes a trained disposition
       is open.
     - These counts are regexes; base examples of this reasoning end in
-      defection.
+      defection. Counts are reproduced by `scripts/reasoning_counts.py` into
+      `data/summary/reasoning-counts.json`.
 - **DTBench and stated views did not move.** Every attitude readout is within
   noise of the base and of R-welfare. Against R, R-rho100 sits on the EDT side:
   43 items toward EDT against 15 (p = 3e-4), and FDT 23.6% against 10.8%
