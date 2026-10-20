@@ -55,7 +55,8 @@ falsifies the 4 prompts that say the twin "need not be the same":
 - Capability fell on untagged items, as it did under R, so that cost is not
   specific to rewarding defection.
 
-See [`docs/findings.md`](docs/findings.md).
+See [`docs/findings.md`](docs/findings.md). A bullet outline for a short post on
+the three arms is in [`docs/post-draft.md`](docs/post-draft.md).
 
 The analytic core is built, tested, and revised after an adversarial review by
 Codex. It derives which decision theory each grading scheme's expected update
@@ -118,7 +119,7 @@ twin-credit-experiment/
 │   └── train.py     the RL loop (Dr. GRPO), arms, and the Tinker backend
 ├── tests/           the identities the design relies on
 ├── scripts/         data fetchers and the figure script
-├── docs/            design.md (source of truth), findings.md
+├── docs/            design.md (source of truth), findings.md, post-draft.md (outline for a9's post)
 ├── references/      refs.yaml (committed) + fetched paper copies (ignored)
 ├── figures/         estimator-gaps.png and its map
 └── data/ logs/ runs/
