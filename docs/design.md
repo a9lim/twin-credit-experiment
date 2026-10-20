@@ -587,6 +587,12 @@ Notes on the arms:
   - **How to run it.** Use `--arm R-welfare --resume-from <R step-70 state>`
     with fresh step numbering. That restores R's optimizer moments too; decide
     whether to keep them before launching.
+  - **The start is starved.** At R's step 70, only 80 of 512 completions are in
+    mixed groups and carry signal, so the climb back starts slowly. Welfare
+    still favors a lone cooperator, at S + T against 0.
+  - **Alternative start.** R's step-40 state, at 10% cooperation, has 304
+    signal-carrying completions per step. It would need its own battery
+    (about $10) as the starting reference.
   - **Cost.** About $190 for training plus $11 for evals, the same as
     R-welfare. Spend is a9's call.
 
