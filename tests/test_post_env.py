@@ -76,10 +76,13 @@ def test_annotations_agree_with_the_fetched_prompts():
 
 
 @pytest.mark.skipif(not DATA.exists(), reason="run scripts/fetch_post_prompts.py")
-@pytest.mark.parametrize("arm, p0, direction", [("R", 0.85, -1), ("R-welfare", 0.3, +1)])
+@pytest.mark.parametrize(
+    "arm, p0, direction", [("R", 0.85, -1), ("R-welfare", 0.3, +1), ("R-rho100", 0.3, +1)]
+)
 def test_replication_arms_run_through_the_loop_on_the_post_prompts(arm, p0, direction):
     """R defects. Welfare on the post's 50/50 mix of T = 2 and T = 10 prompts, for a policy
-    that cannot condition on T, settles at 0.5 * 1 + 0.5 * (9 - 16p) = 0 -> p = 5/8."""
+    that cannot condition on T, settles at 0.5 * 1 + 0.5 * (9 - 16p) = 0 -> p = 5/8. The
+    shared coin (rho = 1) pays R - P for cooperating at every temptation, so it does not stop."""
     import asyncio
     import math
     import random
@@ -135,6 +138,8 @@ def test_replication_arms_run_through_the_loop_on_the_post_prompts(arm, p0, dire
     assert (late - p0) * direction > 0
     if arm == "R-welfare":
         assert 0.5 < late < 0.75  # heads for 5/8, not for full cooperation
+    if arm == "R-rho100":
+        assert late > 0.9  # past welfare's 5/8: the shared coin rewards cooperating at T = 10 too
 
 
 @pytest.mark.skipif(not DATA.exists(), reason="run scripts/fetch_post_prompts.py")

@@ -17,8 +17,8 @@ Arms R and R-welfare done on Qwen3.6-35B-A3B (2026-10-19; `docs/findings.md`).
 The analytic core, DTBench port, generated prompts, credit path, evaluation
 battery and training loop (`TinkerBackend`) are built and tested. They have run
 live on Tinker: a baseline battery, and two 70-step runs, each with its
-post-training battery. Next is a9's choice between a short write-up and the
-proposed R→welfare recovery arm (design.md, "What R-welfare changes").
+post-training battery. Next is arm R-rho100, the shared coin on the post's
+prompts (design.md, "R-rho100"). The R→welfare recovery arm stays proposed.
 
 ## Working rules
 
@@ -38,6 +38,10 @@ proposed R→welfare recovery arm (design.md, "What R-welfare changes").
     ρ < 1, so its prompts serve R and every spinoff arm with ρ < 1.
   - ρ = 1 and the stranger control use generated prompts. Those state
     simultaneity and no communication, and stay silent about seeds.
+  - The one deliberate exception is arm R-rho100 (a9, 2026-10-19). It runs
+    ρ = 1 on the post's prompts to study how the model adapts when the reward
+    contradicts the prompt (design.md, "R-rho100"). Do not add others without
+    recording why there.
   - Each post environment's labels, temptation, category and answer format live
     in `post_env.ENVS`. They are tested against the fetched text, and the
     generative-task classifiers there are approximations.

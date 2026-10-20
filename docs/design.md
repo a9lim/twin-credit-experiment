@@ -1,7 +1,7 @@
 # Design
 
-Status: **arms R and R-welfare done (2026-10-19).** Next is a9's choice
-between a short write-up and a recovery arm (see "What R-welfare changes"). The
+Status: **arms R and R-welfare done (2026-10-19).** R-rho100 is next (a9;
+see "R-rho100"). The recovery arm stays proposed. The
 design was revised after Codex's adversarial review. The analytic receipts in
 `twin_credit_experiment/theory.py` are verified by `tests/test_theory.py`.
 Results are in `docs/findings.md`.
@@ -510,15 +510,17 @@ optimizer and evaluation.
 | R-rho50 | post | `coupled ρ = 0.5` | 0 / 0, but the T = 2 gap is nearly flat (−0.06): +2 envs barely move |
 | R-rho75 | post | `coupled ρ = 0.75` | 1 / 0.18 |
 | R-welfare | post | welfare: policy-level, private coins | 1 / 0.56 |
+| R-rho100 | post | `coupled ρ = 1`: shared coin; falsifies the 4 non-determinism prompts (a9's deliberate exception) | 1 / 1 |
 | A2 | generated | `coupled ρ = 1` (shared coin; would falsify the post's "not necessarily the same") | 1 / 1 |
 | C1 | generated, stranger | selfish, rewards × 17/15 (T = 2) | 0 |
 | N | arithmetic | correctness | — |
 
 Notes on the arms:
 
-- **The post's prompts are honest at every ρ < 1.** They say the twin's call is
-  "not necessarily the same as yours", which is true whenever ρ < 1. So the
-  spinoff arms use them unchanged. ρ = 1 runs only on generated prompts.
+- **The post's prompts are honest at every ρ < 1.** Its 4 non-determinism
+  prompts say the twin's call is "not necessarily the same as yours", which is
+  true whenever ρ < 1. So the spinoff arms use them unchanged. R-rho100 is the
+  one deliberate exception (see "R-rho100" below).
 - **Does the model condition on temptation?** R-welfare and R-rho75 have
   different optima at T = 2 and T = 10. A policy that cannot condition on T
   settles at the pooled root instead: 0.62 for R-welfare and 0.43 for R-rho75.
@@ -595,6 +597,43 @@ Notes on the arms:
     (about $10) as the starting reference.
   - **Cost.** About $190 for training plus $11 for evals, the same as
     R-welfare. Spend is a9's call.
+
+**R-rho100: the shared coin on the post's prompts** (a9, 2026-10-19; it
+overrides the honesty rule on purpose):
+
+- **Why run it.** R-welfare's near-null is informative, and a9 wants to see how
+  the model adapts when the reward contradicts the prompt. The question is no
+  longer whether ρ = 1 teaches EDT, which a false prompt would confound. It is
+  what the model does with the contradiction.
+- **The contradiction is confined to 4 prompts.** Only the non-determinism
+  prompts claim independence. At ρ = 1 every completion is graded against
+  itself, so cooperating pays R − P = 1 and that claim becomes false. The
+  other 28 prompts stay true. The `coop_nondet_T10` category against
+  `coop_normal_T10` is the within-run contrast.
+- **The contrast with R-welfare is all at T = 10.**
+  - At T = 2 the two advantages are proportional (15/16 against 14/16;
+    analytic result 4).
+  - At T = 10, ρ = 1 pushes with a constant 15/16 toward 1. Welfare pushes
+    toward 9/16, harder than ρ = 1 below it (3.7 at p = 0.3) and against it
+    above.
+  - This is the shared-vs-private-coin comparison (analytic result 5, Step 2's
+    A2 vs A4) on the post's prompts.
+- **The reward never mentions the opponent.** The ρ = 1 reward is u(a, a), so
+  cooperating pays 1 whoever the opponent is. Nothing in training ties
+  cooperation to the copy. Held-out stranger cooperation is therefore the
+  readout for whether the model learned "cooperate with copies" or just
+  "cooperate".
+- **Predictions, written before the run [speculation]:**
+  - Every category goes toward 1, the non-determinism prompts last.
+  - On those prompts, the reasoning either explains away the independence
+    claim ("we're the same model, so…") or stops engaging with it. The logged
+    rollouts will show which.
+  - Held-out twin cooperation reaches 100%, and stranger cooperation rises
+    above base.
+  - DTBench and FDT move a little toward EDT. This arm has more room than
+    R-welfare (T = 10 starts at 51%), but less than R's 65 points.
+- **Caps.** Training $236, battery $8, capability $6: $250 in all, needing
+  a9's approval.
 
 ### Step 2: after the spinoff
 

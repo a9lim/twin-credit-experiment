@@ -63,6 +63,10 @@ ARMS = {
         Arm("R-welfare", "twin", "welfare", prompts="post"),  # policy-level credit, private coins
         Arm("R-rho50", "twin", "coupled", rho=0.5, prompts="post"),
         Arm("R-rho75", "twin", "coupled", rho=0.75, prompts="post"),
+        # The deliberate exception (a9, 2026-10-19): shared coin on the post's prompts makes
+        # the 4 non-determinism prompts' "not necessarily the same" false. It studies how the
+        # model adapts when the reward contradicts the prompt; design.md, "R-rho100".
+        Arm("R-rho100", "twin", "coupled", rho=1.0, prompts="post"),
     )
 }
 
