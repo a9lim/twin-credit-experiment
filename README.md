@@ -54,6 +54,7 @@ falsifies the 4 prompts that say the twin "need not be the same":
     last holdout prompt flipped, then 26/48 by step 70.
   - Reasoning about what the grader expects rose ahead of the leak, but did
     not decide the answer. At step 40, 25 of 29 such answers defected.
+  - Tables and figures across checkpoints: [`docs/rho100-checkpoints.md`](docs/rho100-checkpoints.md).
 - DTBench and stated views again did not move. In this setup, attitudes moved
   toward CDT but not toward EDT.
 - Capability fell on untagged items, as it did under R, so that cost is not
@@ -123,7 +124,7 @@ twin-credit-experiment/
 │   └── train.py     the RL loop (Dr. GRPO), arms, and the Tinker backend
 ├── tests/           the identities the design relies on
 ├── scripts/         data fetchers and the figure script
-├── docs/            design.md (source of truth), findings.md, post-draft.md (outline for a9's post)
+├── docs/            design.md (source of truth), findings.md, post-draft.md (outline for a9's post), rho100-checkpoints.md (generated tables)
 ├── references/      refs.yaml (committed) + fetched paper copies (ignored)
 ├── figures/         estimator-gaps.png and its map
 └── data/ logs/ runs/

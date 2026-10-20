@@ -225,6 +225,37 @@ Figure: `figures/arms-battery.png`.
   - So training moved which consideration wins, not whether the grader comes
     to mind. That addresses part of the "it just learned to reward hack" read.
     By step 70, test talk is in 47/48 answers, so the regex can't split them.
+- **A possible arc, copy reasoning first and then grader-directed cooperation**
+  (a9's reading). These facts support it, and the tables and figures are in
+  `docs/rho100-checkpoints.md` and `figures/rho100-*.png`:
+  - **Step 40 is the most copy-specific and most EDT-like trained checkpoint**
+    [observed]:
+    - twins 47/48 against strangers 7/48, close to base's 45/48 and 2/48;
+    - EDT/FDT vocabulary in twin answers 14 → 23 → 28 → 25 of 48;
+    - grader argument in twin answers 16 → 9 → 5 → 4;
+    - DTBench +7, +11, +1 net items toward EDT (p = 0.38, 0.16, 1.0).
+  - **Then the stranger leak more than triples** (7 → 26 of 48, p = 8e-5)
+    [observed]. Stranger answers cite the expected answer more (29 → 33 of 48),
+    reason longer (median 9.8k → 11.1k chars), and the argument now wins about
+    half the time (4/29 → 18/33).
+  - **Training reasoning on the non-determinism prompts fits too** [observed;
+    regex]. EDT/FDT vocabulary peaks in steps 31–40 at 55% and settles near
+    48%, while "deterministic" keeps rising to 81%.
+- **Where a reader will push, with the table that answers each:**
+  - **The leak isn't zero early.** Step 30 is already 12/48 (p = 0.007 vs
+    base), and 9 of those 12 make the grader argument (table 2). So "mostly
+    copy-specific early" rather than "purely".
+  - **"EDT-like" here means task reasoning, not stated theory.** DTBench,
+    favorite theory and the rationality probe never move significantly at any
+    checkpoint (table 4, `rho100-attitudes.png`).
+  - **"Reward hacking" vs "reward-seeking".** The training reward paid for
+    cooperation directly, so nothing was hacked in training. The eval
+    behavior is cooperation justified by what the grader expects.
+    - Eval awareness alone isn't it: base mentions tests in 40/48 stranger
+      answers and defects in 46/48.
+    - Which term to use is a9's call.
+  - **Only the step 40 → 70 stranger jump is significant on its own.** The
+    other step-40 peaks are each within noise. They agree in direction.
 - **This fits the reward** [synthesis + observed]. The ρ = 1 reward is u(a, a)
   and never mentions the opponent, so nothing in training ties cooperation to
   the copy.
@@ -304,6 +335,17 @@ All of this is [speculation] with one seed per arm.
     base on the items both answered).
 - Per-arm training figures with reasoning-vocabulary panels:
   `figures/R*-training.png`.
+- R-rho100 across checkpoints (base, steps 30, 40, 70). The tables are in
+  `docs/rho100-checkpoints.md`:
+  - `figures/rho100-stages.png`: training cooperation with post-02 alone,
+    held-out twin vs stranger cooperation per checkpoint, and where the
+    training signal sat;
+  - `figures/rho100-reasoning.png`: what twin and stranger answers bring up
+    per checkpoint, and stranger answers by action × grader argument;
+  - `figures/rho100-training-reasoning.png`: reasoning markers in training
+    rollouts per 10-step block;
+  - `figures/rho100-attitudes.png`: DTBench, favorite theory and the
+    rationality probe per checkpoint.
 
 ## Credits and costs (facts for a9 to phrase)
 

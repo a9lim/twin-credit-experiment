@@ -506,6 +506,12 @@ items. Comparisons are in
 `data/summary/R-rho100-qwen35b-s0-step00{30,40}-vs-base-qwen3.6-35b-a3b.json`,
 reasoning counts in `data/summary/reasoning-counts.json`.
 
+Full tables, including per-scenario counts, reasoning markers on twin and
+stranger answers, and training markers by block, are in
+[`rho100-checkpoints.md`](rho100-checkpoints.md). The figures are
+`figures/rho100-{stages,reasoning,training-reasoning,attitudes}.png`, all made
+by `scripts/rho100_checkpoints.py`.
+
 | Readout | Base | Step 30 | Step 40 | Step 70 |
 |---|---:|---:|---:|---:|
 | training cooperation: overall at that step / post-02 over the 10 steps before | | 93% / 20% | 97% / 65% | 99% / 86% (46–70) |
@@ -550,9 +556,18 @@ reasoning counts in `data/summary/reasoning-counts.json`.
     48. Answers it misses still argue from "the standard answer for this
     benchmark-style prompt". The step-70 split, 18/33 cooperating with the
     argument and 8/15 without it, is not evidence either way.
-- **No checkpoint shows copy-specific cooperation.** Twin cooperation was
-  already 100% at step 30, with the leak already present. The earlier
-  checkpoints give no cleaner decision-theory read than step 70.
+- **Step 40 is the most copy-specific trained checkpoint, and the most
+  EDT-like.**
+  - It cooperated with 47/48 twins and 7/48 strangers, close to base's 45/48
+    and 2/48.
+  - Among trained checkpoints, it also has the most EDT/FDT vocabulary in twin
+    answers (28/48, against 14 at base and 25 at step 70).
+  - Its grader argument on twins is near its low (5/48, against 16 at base).
+  - It has the largest DTBench lean toward EDT (+11 net items, p = 0.16).
+  - Only the stranger difference from step 70 is significant on its own
+    (p = 8e-5). The rest point the same way but each is within noise.
+  - Every trained checkpoint leaks somewhat: 12, 7 and 26 of 48 against base's
+    2.
 - **Attitudes were flat at every checkpoint.**
   - DTBench p ≥ 0.16, and FDT stayed within noise.
   - The middle checkpoints lean slightly toward EDT on the 13 copy items (mean
