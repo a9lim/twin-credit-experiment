@@ -656,6 +656,55 @@ overrides the honesty rule on purpose):
   - **Recovery** (above), which tests the ceiling explanation of the asymmetry.
   - **N**, which tests whether the capability loss is generic drift.
 
+**Recorded for a future session (a9, 2026-10-20; not built):**
+
+- **Mixed copy/stranger arm** ("R-rho100-mix"). It is the first EDT-shaped
+  reward, the mirror image of R:
+
+  | Reward | Copy | Stranger with a fixed move | Matches |
+  |---|---|---|---|
+  | R | defect | defect | CDT |
+  | R-rho100 | cooperate | cooperate | neither |
+  | Mixed | cooperate | defect | EDT/FDT |
+
+  - **Copy side:** the post's 32 prompts under ρ = 1, unchanged from R-rho100,
+    so the comparison isolates the effect of adding strangers.
+  - **Stranger side:** 16 generated stranger prompts per step from the 12
+    training scenarios, graded `stranger(q)`. The 4 held-out scenarios stay
+    unseen.
+  - **Choice of q:**
+    - q = 0 matches the gaps exactly (+0.94 against −0.94 at both
+      temptations) with no reward noise. It risks teaching "strangers
+      defect", a belief about other systems.
+    - q = 0.5 with T = 10 stranger rewards scaled by 0.2 also matches the gaps
+      and keeps both outcomes realized. This is preferred.
+  - **The stranger side is mostly a guard.** The base model already defects on
+    strangers (4%), so those groups are mostly unanimous and carry no gradient.
+    They only push once cooperation starts spreading to strangers.
+  - **Build:** a mixed arm type, where each prompt carries its own grading
+    rule, plus a fake-backend test (copies → 1, strangers → 0).
+  - **Cost:** about $200 for training (1.5× R-rho100's sampling) plus $11 for
+    evals.
+  - **Prediction [speculation]:** no leakage to strangers, and DTBench probably
+    still flat, because the base model already makes this distinction.
+- **Graded-similarity probe.** A new eval kind on held-out scenarios. It
+  separates a keyword detector from a policy that tracks correlation, because
+  binary copy/stranger training makes a detector the cheapest thing to learn.
+
+  | Opponent | EDT/FDT | CDT | Keyword detector |
+  |---|---|---|---|
+  | copy, simultaneous | C | D | C |
+  | stranger, move fixed | D | D | D |
+  | **copy whose move an earlier run with this prompt fixed** | **C** | D | **D** (keys on "fixed") |
+  | **stranger described without "not a copy"** | **D** | D | **C** (keys on that phrase) |
+  | fine-tuned variant of this model | no right answer; report the rate | | |
+  | different model family, deciding now | mostly D | D | — |
+
+  - Run it on base, R, R-welfare and R-rho100 before the mixed arm. Whether
+    R-rho100 cooperates with an unlabeled stranger shows how blanket its
+    cooperation is.
+  - Cost: about $1–2 per model.
+
 ### Step 2: after the spinoff
 
 | Arm | Grading | Question |

@@ -462,6 +462,23 @@ Paired statistics against the base, R-welfare and R are in
     answers mention a test or an expected answer. But it defects in 46 of 48.
   - Training changed which consideration wins, not which ones come up. This
     matches the prediction: the ρ = 1 reward never mentions the opponent.
+  - **The grader-directed reasoning appears at eval, not in training.**
+    - On held-out strangers, the specific argument "the expected answer here
+      is the cooperative one" rose from 8/48 (base) and 13/48 (R-welfare) to
+      30/48.
+    - On the training prompts it was flat to falling, at 18% of rollouts at
+      steps 1–10 and 13% at steps 61–70. Generic test talk ("this tests
+      whether…") is in about two thirds of baseline rollouts and fell from
+      63% to 50%.
+    - post-02's flip tracked the determinism argument ("deterministic" went
+      from 0% to 80% of its rollouts), not grader reasoning.
+    - So the ρ = 1 model did not learn to reason about the grader on the
+      training prompts. It learned the copy argument there. Where no copy
+      argument is available, it reaches for the grader. Whether that
+      reasoning causes the cooperation or rationalizes a trained disposition
+      is open.
+    - These counts are regexes; base examples of this reasoning end in
+      defection.
 - **DTBench and stated views did not move.** Every attitude readout is within
   noise of the base and of R-welfare. Against R, R-rho100 sits on the EDT side:
   43 items toward EDT against 15 (p = 3e-4), and FDT 23.6% against 10.8%
