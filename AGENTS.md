@@ -13,11 +13,12 @@ evaluations and the open decisions. Read it before changing anything here.
 
 ## Status
 
-Arm R done on Qwen3.6-35B-A3B (2026-10-19; `docs/findings.md`). The analytic
-core, DTBench port, generated prompts, credit path, evaluation battery and
-training loop (`TinkerBackend`) are built and tested. They have run live on
-Tinker: a baseline battery, a 70-step arm-R run, and its post-training battery.
-Spinoff arms and arm N are next.
+Arms R and R-welfare done on Qwen3.6-35B-A3B (2026-10-19; `docs/findings.md`).
+The analytic core, DTBench port, generated prompts, credit path, evaluation
+battery and training loop (`TinkerBackend`) are built and tested. They have run
+live on Tinker: a baseline battery, and two 70-step runs, each with its
+post-training battery. Next is a9's choice between a short write-up and the
+proposed R→welfare recovery arm (design.md, "What R-welfare changes").
 
 ## Working rules
 

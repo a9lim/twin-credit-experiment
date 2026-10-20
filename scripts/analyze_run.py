@@ -84,7 +84,7 @@ def main() -> int:
     ax.plot(steps, [100 * m["cooperation"] for m in metrics], color=INK_2, lw=1.5, ls="--", label="overall")
     ax.set_ylim(0, 102)
     ax.set_ylabel("% cooperate", color=INK_2, fontsize=9)
-    ax.legend(frameon=False, fontsize=7.5, labelcolor=INK_2, loc="upper right")
+    ax.legend(frameon=False, fontsize=7.5, labelcolor=INK_2, loc="best")
 
     by_step = defaultdict(list)
     for r in rollouts:

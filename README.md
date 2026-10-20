@@ -11,8 +11,10 @@ after RL in twin prisoner's dilemmas"](https://www.lesswrong.com/posts/hfNBEKaSt
 *other* rollouts in its group, made Kimi K2.6 more sympathetic to CDT, even on
 abstract questions.
 
-**Status: arm R done; spinoff arms next (2026-10-19).** Arm R reproduces the
-post's procedure on Qwen3.6-35B-A3B, with one seed:
+**Status: arms R and R-welfare done (2026-10-19).** Both ran on
+Qwen3.6-35B-A3B with one seed.
+
+Arm R reproduces the post's procedure:
 
 - Cooperation on the post's prompts fell from 68% to 1%, and on held-out twin
   dilemmas from 92–96% to 0%.
@@ -24,8 +26,23 @@ post's procedure on Qwen3.6-35B-A3B, with one seed:
 - DTBench capability dropped on items both models answered (81.5% → 72.6%,
   p = 5e-4), outside the "apply EDT/CDT" items. Kimi's barely moved.
 
-The model learned to act like a CDT agent without saying so. See
-[`docs/findings.md`](docs/findings.md).
+The model learned to act like a CDT agent without saying so.
+
+Arm R-welfare changes only the credit, to welfare (policy selection with
+private coins):
+
+- Cooperation went where the theory says it should: up at T = 2, and toward
+  the mixed optimum 9/16 at T = 10, approached from both sides.
+- Held-out twin cooperation reached 100%, while stranger cooperation stayed put.
+- DTBench (25 items toward CDT vs 23 toward EDT) and stated views did not move
+  toward EDT/FDT.
+- As a matched control, R-welfare shows that arm R's DTBench shift, FDT halving
+  and capability cost come from rewarding defection, not from RL on these
+  prompts.
+- The base model already cooperates with twins, so welfare had little room to
+  move it, and the null is for a weak treatment.
+
+See [`docs/findings.md`](docs/findings.md).
 
 The analytic core is built, tested, and revised after an adversarial review by
 Codex. It derives which decision theory each grading scheme's expected update

@@ -1,9 +1,10 @@
 # Design
 
-Status: **arm R done (2026-10-19); spinoff arms next.** The design was revised
-after Codex's adversarial review. The analytic receipts in
-`twin_credit_experiment/theory.py` are verified by `tests/test_theory.py`. Arm
-R's results are in `docs/findings.md`.
+Status: **arms R and R-welfare done (2026-10-19).** Next is a9's choice
+between a short write-up and a recovery arm (see "What R-welfare changes"). The
+design was revised after Codex's adversarial review. The analytic receipts in
+`twin_credit_experiment/theory.py` are verified by `tests/test_theory.py`.
+Results are in `docs/findings.md`.
 
 Claims below carry one of three labels:
 
@@ -560,6 +561,34 @@ Notes on the arms:
   the multi-agent DTBench families moved most, and stated views least. Spinoff
   arms should be judged first on those behavioral readouts. A stated-view shift
   is the bigger claim and the less likely one.
+
+**What R-welfare changes** (2026-10-19; numbers in findings.md):
+
+- **The null branch above applies.** Behavior moved as analytic result 5
+  predicts. DTBench and stated views did not move toward EDT/FDT. By a9's rule,
+  a short write-up of R plus this null needs no N.
+- **The partial control came out clean.** R-welfare kept FDT at 21% (R: 11%)
+  and kept its capability (R lost 9 points on paired items). It also differs
+  from R on DTBench (p = 6e-4). Arm R's three changes therefore come from its
+  credit direction, not from RL on these prompts. N would still be the neutral
+  control.
+- **Pooling is partial.** T = 10 settled at 0.60, between the per-prompt 0.5625
+  and the pooled 0.625. Individual T = 10 prompts converged toward 9/16 from
+  both sides.
+- **The null has a headroom problem.** The base model already cooperates with
+  twins, so welfare moved cooperation 9 points where R moved it 65.
+- **Proposed, not decided: R→welfare (recovery).** Run welfare credit from R's
+  step-70 state, where cooperation is at 1%. The question is whether giving the
+  welfare arm R's room to move brings DTBench and FDT back.
+  - **If they recover,** the original null was a ceiling effect and the credit
+    scheme drives attitudes in both directions.
+  - **If they don't,** the asymmetry is real: this training can push the model
+    toward CDT but not back.
+  - **How to run it.** Use `--arm R-welfare --resume-from <R step-70 state>`
+    with fresh step numbering. That restores R's optimizer moments too; decide
+    whether to keep them before launching.
+  - **Cost.** About $190 for training plus $11 for evals, the same as
+    R-welfare. Spend is a9's call.
 
 ### Step 2: after the spinoff
 

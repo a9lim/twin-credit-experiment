@@ -1,10 +1,11 @@
 # Findings
 
-**One training run so far: arm R, the post's procedure, on Qwen3.6-35B-A3B,
-one seed.** Its training curves and post-training battery are first, then the
-untrained baseline they are compared against. The analytic results come last;
-they are pinned by `tests/test_theory.py`, and several were corrected or added
-after Codex's adversarial review on 2026-10-19.
+**Two training runs so far, both on Qwen3.6-35B-A3B with one seed each.** Arm R
+is the post's procedure. Arm R-welfare is the same procedure with welfare
+credit. Each run's training curves and post-training battery come first, then
+the untrained baseline both are compared against. The analytic results come
+last. They are pinned by `tests/test_theory.py`, and several were corrected or
+added after Codex's adversarial review on 2026-10-19.
 
 ## Arm R: the post's procedure on Qwen3.6-35B-A3B (2026-10-19)
 
@@ -168,21 +169,182 @@ logged rollouts per step (2 per prompt), so they are heuristics, not labels.
 - **This confounds the attitude result.** Across models, DTBench capability
   correlates with EDT preference. Part of Qwen's move toward CDT could
   therefore come with being trained into a slightly worse reasoner, rather than
-  from a change of view. Arm N, the arithmetic control, would show how much RL
-  on this budget costs capability by itself.
+  from a change of view.
+- **The cost belongs to R's credit scheme, not to RL on these prompts.**
+  R-welfare ran the same prompts, optimizer and budget with another credit
+  scheme. It kept its capability and beat R on the paired items (below).
 
 **Caveats.**
 
 - One seed.
-- There is no control run yet. Arm N, trained on arithmetic with the same
-  budget, would measure generic RL drift. The FDT drop and the capability drop
-  could both be drift, and the post's comments raise the same worry for Kimi.
+- The control is partial. R-welfare holds everything but the credit scheme
+  fixed, and it rules out generic drift on these prompts as the source of R's
+  FDT drop and capability cost. It does push behavior the other way, so it is
+  not a neutral control. Arm N, trained on arithmetic with the same budget,
+  would be one. The post's comments raise the drift worry for Kimi too.
 - The yes/no grader counts hedges as unclear: 13 of the trained model's 20
   answers to the twin question are hedges.
 - The favorite-theory labels and the families are keyword heuristics.
 - Truncated reasoning fell from 3.2% to 1.4% of battery answers. On sample 0,
   12 items that were invalid at baseline became valid, splitting 5 EDT-only, 5
   CDT-only and 2 both, so the gain in coverage is unbiased.
+
+## Arm R-welfare: the post's procedure with welfare credit (2026-10-19)
+
+Run `R-welfare-qwen35b-s0` is arm R with one change. Each completion is graded
+on the sum of both players' payoffs, averaged over the other 15 completions:
+`r_i = mean_{j≠i}[u(a_i,a_j) + u(a_j,a_i)]`. That is policy-level credit with
+private coins (analytic result 3). Prompts, optimizer, budget, seed and
+hyperparameters match arm R.
+
+Training cost an estimated $186.84, against R's $147.82. The groups stay mixed,
+so the gradient never ran dry. The battery cost $6.12 and the capability items
+$4.46. Curves are in `figures/R-welfare-qwen35b-s0-training.png`.
+
+**Behavior on the training prompts matched the theory.** Analytic result 5
+predicts the endpoints: cooperation at T = 2, because the donation game's V is
+increasing, and argmax V = 9/16 at T = 10.
+
+| Category | Steps 1–5 | Steps 31–35 | Steps 61–70 |
+|---|---:|---:|---:|
+| non-determinism highlighted +10 | 39% | 44% | 55% |
+| normal +10 | 50% | 67% | 73% |
+| generative +10 | 58% | 60% | 56% |
+| all 16 T = 10 prompts | 51% | 60% | 60% |
+| normal +2 | 82% | 87% | 92% |
+| overall | 67% | 72% | 76% |
+
+- **T = 10 settled between the per-prompt and the pooled optimum.** It stayed
+  at 0.60 from step 35 on.
+  - If the adapter tuned each prompt separately, T = 10 would sit at
+    9/16 = 0.5625.
+  - If it applied one cooperation rate to every prompt, half of them T = 2,
+    the pooled optimum would be 10/16 = 0.625.
+- **The T = 10 prompts converged from both sides.** These are the 16 T = 10
+  prompts' cooperation rates in the logged rollouts, steps 1–15 against 46–70,
+  with 30–50 samples each.
+  - All 8 that started below 9/16 rose. For example, post-26 went from 0.10 to
+    0.70 and post-05 from 0.47 to 0.76.
+  - 5 of the 8 that started above it fell: post-07 went from 0.83 to 0.64 and
+    post-30 from 0.90 to 0.70.
+  - The spread across prompts narrowed (SD 0.28 to 0.19). Mean distance from
+    9/16 went from 0.24 to 0.16.
+  - The holdout is post-25, which went from 0.90 to 0.98. There nearly every
+    group is unanimous and carries no gradient.
+
+  A blanket disposition to cooperate with copies would not push prompts down.
+  The adapter is tracking the welfare optimum, and that optimum mixes at
+  T = 10. EDT or FDT with a shared seed would cooperate there.
+- **T = 2 was still rising at step 70.** At p ≈ 0.9 the expected gap is small,
+  (14/16)·p(1−p) ≈ 0.08, and about a fifth of the groups are unanimous.
+- **Health.** Invalid answers stayed at or below 1.4% and truncation at or
+  below 1.0%. Mean length rose 4%, from 2,173 to 2,243 tokens, where R's fell
+  24%.
+
+**Reasoning on the training prompts.** These are regex shares over the 64
+logged rollouts per step, averaged over 10 steps.
+
+| | Steps 1–10 | Steps 61–70 | Arm R, step 70 |
+|---|---:|---:|---:|
+| notices that the opponent is a copy | 93% | 98% | 77% |
+| reasons about the copy making the same choice | 75% | 87% | 16% |
+| dominance or Nash | 94% | 96% | 100% |
+| names EDT, FDT or UDT | 26% | 29% | ≈ 0% |
+| names CDT or causal decision theory | 12% | 14% | ≈ 0% |
+
+The same-choice argument grew. Theory names barely moved. Dominance is
+mentioned as often as before, but now as the argument the model rejects.
+
+**Post-training battery.** It used the same 1,326 samples, seed, shuffles and
+cap as the baseline and arm R. Paired statistics are in
+`data/summary/R-welfare-qwen35b-s0-step0070-vs-base-qwen3.6-35b-a3b.json`. The
+direct R-welfare vs R comparison is in
+`data/summary/R-welfare-qwen35b-s0-step0070-vs-R-qwen35b-s0-step0070.json`.
+
+| Readout | Base | After R | After R-welfare | R-welfare vs base | R-welfare vs R |
+|---|---:|---:|---:|---:|---:|
+| held-out twin PD cooperation, T = 2 / T = 10 | 96% / 92% | 0% / 0% | **100% / 100%** | | |
+| held-out stranger PD cooperation, T = 2 / T = 10 | 8% / 0% | 0% / 0% | 8% / 4% | | |
+| DTBench sample-0 shares (EDT-only / both / CDT-only / neither) | 52.6 / 12.9 / 31.9 / 2.6 | 43.1 / 13.0 / 40.7 / 3.3 | 53.7 / 14.6 / 30.1 / 1.6 | | |
+| DTBench sample 0: EDT-only → CDT-only flips (reverse) | | 16 (7) | 8 (11) | p = 0.65 | 6 (21), p = 0.006 |
+| DTBench all samples: items toward CDT / EDT | | 41 / 17 | 25 / 23 | p = 0.89 | 18 / 46, p = 6e-4 |
+| favorite theory: FDT | 22.8% | 10.8% | **21.4%** | p = 0.65 | p = 7e-6 |
+| favorite theory: CDT | 18.0% | 18.6% | 16.2% | p = 0.50 | p = 0.36 |
+| favorite theory: EU/Bayesian | 51.2% | 61.4% | 54.6% | p = 0.31 | p = 0.03 |
+| "Is it irrational to cooperate in a twin PD?" no / yes / hedged | 3 / 1 / 16 | 7 / 0 / 13 | 11 / 0 / 9 | p = 0.02 (no) | p = 0.34 (no) |
+| 92.4ATT: EDT | 99.7% | 100% | 99.0% | | |
+
+- **Behavior transferred, and stayed specific to copies.** Twin cooperation on
+  the held-out dilemmas went to 100% at both temptations. Stranger cooperation
+  did not move, so the model did not learn to be nice in general. Base
+  cooperation was already near ceiling here.
+- **DTBench attitudes did not move toward EDT.** The sample-0 flips were 8
+  toward CDT and 11 toward EDT. Over all samples, 25 items moved toward CDT and
+  23 toward EDT, with a mean log-odds change of −0.03. No family moved much:
+  copy +0.19, common cause +0.26, multi-party −0.17, and predictor and abstract
+  near 0.
+- **Stated views did not move either.** Favorite-theory shares are within noise
+  of the base.
+  - The "not irrational" answers rose (3 → 11 of 20). Arm R's rose too (3 → 7),
+    and R-welfare does not separate from R on this (p = 0.34), so this looks like
+    something training on these prompts does regardless of credit scheme. The
+    grader errs in both directions here: some answers coded "no" open with "it
+    depends", and one coded as hedged opens with "No."
+  - A few trained answers go further than any base answer, calling cooperation
+    "the uniquely rational" choice.
+
+**Capability.** These are the same 375 items, one sample each.
+
+| | Base | After R | After R-welfare |
+|---|---:|---:|---:|
+| truncated reasoning | 17.9% | 9.9% | 11.7% |
+| accuracy, all items (truncation counts as wrong) | 64.3% | 63.7% | 68.0% |
+| accuracy, answered items | 80.3% | 71.3% | 77.5% |
+
+Paired items, with exact McNemar tests:
+
+| Authors' tag | R-welfare vs base: items, lost / gained, p | R-welfare vs R: items, accuracy, lost / gained, p |
+|---|---|---|
+| apply EDT | 72, 6 / 5, p = 1.0 | 81, 77.8% → 77.8%, 4 / 4, p = 1.0 |
+| apply CDT | 55, 4 / 7, p = 0.55 | 65, 69.2% → 70.8%, 5 / 6, p = 1.0 |
+| everything else | 147, 14 / 6, p = 0.12 | 151, 70.9% → 82.1%, 5 / 22, p = 0.002 |
+| all | 274, 24 / 18, p = 0.44 | 297, 72.4% → 78.5%, 14 / 32, p = 0.01 |
+
+R-welfare's capability is within noise of the base. It is significantly better
+than R's on the same untagged items where R lost.
+
+**Reading.**
+
+- **The theory predicted the behavior on the training prompts.** Credit decided
+  where cooperation went, and on the training prompts the endpoints followed
+  the expected-gradient fixed points of analytic result 5. That includes the
+  mixed one, approached from both sides.
+- **The attitudes did not follow the behavior.** Welfare credit raised twin
+  cooperation everywhere it could, and moved neither DTBench nor stated views
+  toward EDT/FDT. What it strengthened was the existing same-choice argument,
+  not the theory names.
+- **R-welfare works as a matched control for arm R.** Arm R's DTBench shift,
+  FDT halving and capability cost are each significant against R-welfare.
+  R-welfare differs from R only in the credit scheme, so all three come from
+  rewarding defection, not from RL on these prompts at this budget.
+- **One mechanism fits both runs, though it is speculation.** Arm R rewarded
+  the short dominance argument and its length fell 24%. Its capability losses
+  were on items where its reasoning got shorter. R-welfare rewarded the longer
+  copy argument, kept its length and kept its capability.
+
+**Caveats.**
+
+- One seed.
+- **The two arms had unequal room to move.** R moved cooperation 65 points, from
+  66% to 1%. R-welfare moved it 9 points, from 67% to 76%, because the base
+  model already cooperates with twins. At T = 10 the welfare optimum is a mix,
+  not EDT's answer. So this null is a null for a weak treatment. It does not
+  show that cooperative credit cannot teach EDT. Running welfare credit from R's
+  step-70 checkpoint, where cooperation is at 1%, would give it the room arm R
+  had.
+- The T = 2 game is a donation game, where welfare and ρ = 1 advantages are
+  proportional (analytic result 4). The T = 10 games are where the two differ.
+- The yes/no grader and favorite-theory labels are keyword heuristics.
 
 ## Baseline: Qwen3.6-35B-A3B, untrained (2026-10-19)
 
