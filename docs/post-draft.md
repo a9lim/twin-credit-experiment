@@ -208,6 +208,23 @@ Figure: `figures/arms-battery.png`.
   - The base model raises the same points (40/48 mention a test or expected
     answer) and defects in 46/48. So training changed which consideration
     wins, not which ones come up.
+- **The leak came in two stages** [observed; checkpoints at steps 30 and 40]:
+  - Stranger cooperation went 2 → 12 → 7 → 26 of 48 (base, step 30, 40, 70).
+  - Step 30 already leaks (p = 0.007 vs base), while post-02 still defected
+    80% of the time. So the leak didn't wait for the clause to be overridden.
+  - The big growth was in steps 41–70, after overall cooperation had passed
+    97%. The little signal left was on the hardest T = 10 prompts (generative
+    48%, non-determinism 36%).
+- **Grader reasoning rose ahead of the leak and didn't decide it** [observed;
+  regex]:
+  - "The expected answer is the cooperative one" appears in 15 → 20 → 29 → 33
+    of 48 stranger answers.
+  - At step 40, 25 of the 29 answers making the argument defected anyway. One
+    weighs the benchmark's expected answer, then says "I'll stick with strict
+    rationality."
+  - So training moved which consideration wins, not whether the grader comes
+    to mind. That addresses part of the "it just learned to reward hack" read.
+    By step 70, test talk is in 47/48 answers, so the regex can't split them.
 - **This fits the reward** [synthesis + observed]. The ρ = 1 reward is u(a, a)
   and never mentions the opponent, so nothing in training ties cooperation to
   the copy.
@@ -299,7 +316,7 @@ All of this is [speculation] with one seed per arm.
     finite-group corrections.
 - **Data and tools:** the post's prompts are oakhu's. DTBench is Oesterheld et
   al. 2024 (arXiv 2411.10588). Training and sampling ran on Tinker.
-- **Tinker spend, estimated from token counts, ≈ $513 total:**
+- **Tinker spend, estimated from token counts, ≈ $525 total:**
 
   | Item | Cost |
   |---|---:|
@@ -308,6 +325,7 @@ All of this is [speculation] with one seed per arm.
   | R: training + battery | $147.82 + $5.57 |
   | R-welfare: training + battery + capability | $186.84 + $6.12 + $4.46 |
   | R-rho100: training + battery + capability | $135.20 + $6.08 + $4.13 |
+  | R-rho100 steps 30 and 40: batteries | $6.20 + $5.95 |
 
   This excludes an early aborted baseline attempt.
 - **Open for a9:** whether to mention Redwood's likely reimbursement.

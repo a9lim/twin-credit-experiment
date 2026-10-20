@@ -50,6 +50,10 @@ falsifies the 4 prompts that say the twin "need not be the same":
   those prompts at the end, against 33% at the start.
 - Cooperation stopped being copy-specific. Held-out stranger cooperation rose
   from 2/48 to 26/48, where every decision theory says defect.
+  - Checkpoints show the leak came in two stages: 12/48 by step 30, before the
+    last holdout prompt flipped, then 26/48 by step 70.
+  - Reasoning about what the grader expects rose ahead of the leak, but did
+    not decide the answer. At step 40, 25 of 29 such answers defected.
 - DTBench and stated views again did not move. In this setup, attitudes moved
   toward CDT but not toward EDT.
 - Capability fell on untagged items, as it did under R, so that cost is not

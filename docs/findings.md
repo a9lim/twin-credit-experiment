@@ -474,9 +474,10 @@ Paired statistics against the base, R-welfare and R are in
       from 0% to 80% of its rollouts), not grader reasoning.
     - So the ρ = 1 model did not learn to reason about the grader on the
       training prompts. It learned the copy argument there. Where no copy
-      argument is available, it reaches for the grader. Whether that
-      reasoning causes the cooperation or rationalizes a trained disposition
-      is open.
+      argument is available, it reaches for the grader.
+    - The argument is not enough to produce cooperation. The step-40
+      checkpoint raises it nearly as often and mostly defects anyway (see
+      "Earlier checkpoints" below).
     - These counts are regexes; base examples of this reasoning end in
       defection. Counts are reproduced by `scripts/reasoning_counts.py` into
       `data/summary/reasoning-counts.json`.
@@ -497,6 +498,73 @@ Paired statistics against the base, R-welfare and R are in
   arm R's: losses outside the apply tags. Its reasoning on capability items is
   not shorter (median 1.07× base), so shorter reasoning does not explain it.
 
+**Earlier checkpoints (steps 30 and 40).** a9 asked whether checkpoints that
+still defected on post-02 behave differently, because grader reasoning
+confounds reading the stranger leak as a decision theory. The same battery ran
+on the step-30 and step-40 samplers, at $6.20 and $5.95 and without capability
+items. Comparisons are in
+`data/summary/R-rho100-qwen35b-s0-step00{30,40}-vs-base-qwen3.6-35b-a3b.json`,
+reasoning counts in `data/summary/reasoning-counts.json`.
+
+| Readout | Base | Step 30 | Step 40 | Step 70 |
+|---|---:|---:|---:|---:|
+| training cooperation: overall at that step / post-02 over the 10 steps before | | 93% / 20% | 97% / 65% | 99% / 86% (46–70) |
+| held-out twin cooperation, T = 2 / T = 10 | 96% / 92% | 100% / 100% | 100% / 100% | 100% / 100% |
+| held-out stranger cooperation, T = 2 and 10 pooled | 2/48 | 12/48 | 7/48 | 26/48 |
+| stranger answers making the grader argument | 15/48 | 20/48 | 29/48 | 33/48 |
+| … of which cooperate | 1/15 | 9/20 | 4/29 | 18/33 |
+| stranger answers mentioning a test or expected answer | 40/48 | 43/48 | 47/48 | 47/48 |
+| DTBench all samples: items toward EDT / CDT (p) | | 27 / 20 (0.38) | 31 / 20 (0.16) | 27 / 26 (1.0) |
+| favorite theory: FDT | 22.8% | 19.8% | 22.8% | 23.6% |
+
+- **Neither hypothesis held as stated** (design.md, "R-rho100 at steps 30 and
+  40").
+  - **The leak did not wait for post-02.** At step 30, post-02 still defected
+    80% of the time. Stranger cooperation was already 12/48 against the base
+    model's 2/48 (Fisher p = 0.007), and the leak was spread across all four
+    scenarios (3, 4, 4 and 1 of 12).
+  - **It did not track overall cooperation either.** Between steps 30 and 70,
+    overall cooperation moved only from 93% to 99%. Over the same steps the
+    leak stayed flat to step 40 (7/48, p = 0.31 against step 30) and then more
+    than tripled (26/48, p = 8e-5 against step 40).
+- **So the leak came in two stages.**
+  - The first stage came with the broad move to cooperation.
+  - The second came in steps 41–70, when the training signal was small and
+    concentrated. Those 30 steps had 2,112 completions that carried signal,
+    against 10,384 in steps 1–30. 84% of the logged ones were on the T = 10
+    prompts that push hardest against cooperating: generative (48%) and
+    non-determinism (36%).
+  - post-02 was 18% of that signal, so the second stage is not post-02 alone.
+- **Grader reasoning rose ahead of the leak and did not decide it.**
+  - The grader argument rose steadily: 15, 20, 29 and 33 of 48 answers.
+    Stranger cooperation went 2, 12, 7, 26.
+  - Step 40 is the cleanest case. 29 of its 48 stranger answers make the
+    argument, and 25 of those 29 defect. A typical one: "Sometimes the
+    "correct" answer expected by the benchmark creators is HONEST ... But I
+    should reason based on the prompt's explicit instructions and game
+    theory." It ends with "I'll stick with strict rationality."
+  - So by step 40 the model weighs what the grader wants almost as often as at
+    step 70, and the payoff usually wins. Between steps 40 and 70, training
+    changed which consideration wins, as it did between base and step 70.
+  - At step 70 the regex no longer splits the answers. Test talk is in 47 of
+    48. Answers it misses still argue from "the standard answer for this
+    benchmark-style prompt". The step-70 split, 18/33 cooperating with the
+    argument and 8/15 without it, is not evidence either way.
+- **No checkpoint shows copy-specific cooperation.** Twin cooperation was
+  already 100% at step 30, with the leak already present. The earlier
+  checkpoints give no cleaner decision-theory read than step 70.
+- **Attitudes were flat at every checkpoint.**
+  - DTBench p ≥ 0.16, and FDT stayed within noise.
+  - The middle checkpoints lean slightly toward EDT on the 13 copy items (mean
+    log-odds +0.34 and +0.33, against −0.01 at step 70). That is not
+    significant.
+  - At step 30, EU/Bayesian favorite-theory answers rose from 51% to 59%
+    (p = 0.02, uncorrected for the labels tested) while CDT fell from 18% to
+    14% (p = 0.08). Both were back at base by step 40.
+- **"Is it irrational to cooperate in a twin PD?" "No" rose to 9, 11 and 11 of
+  20 from base's 3.** R-welfare also reached 11, so this is an effect of
+  cooperative training, not something specific to ρ = 1.
+
 **Reading across the three arms.**
 
 - **Behavior always followed the credit scheme's fixed points.** Defection
@@ -514,7 +582,8 @@ Paired statistics against the base, R-welfare and R are in
 - **The model adapted to the false prompt by reinterpreting it, not ignoring
   it.** It split the clause, kept the causal half and denied the statistical
   half. It generalized past copies: cooperation leaked to strangers, where
-  every theory says defect.
+  every theory says defect. The leak was present by step 30 and grew most in
+  the last 30 steps, after overall cooperation had saturated.
 - **Capability fell in two of three arms.** R and R-rho100 lost it, R-welfare
   did not, and with one seed that could be noise or drift. Arm N is now the
   natural control for it.
@@ -523,9 +592,14 @@ Paired statistics against the base, R-welfare and R are in
 
 - One seed.
 - The held-out stranger items are 24 per temptation, drawn from 4 scenarios.
-- The determinism and test-awareness counts are regex heuristics over 2
-  rollouts per prompt per step. The quotes above are typical, not chosen to
-  fit.
+  - Fisher tests treat the 48 answers as independent and ignore clustering by
+    scenario.
+  - Checkpoint-to-checkpoint differences of a few answers are noise. The
+    step-40 dip is within it.
+- The determinism and test-awareness counts are regex heuristics: over 2
+  rollouts per prompt per step for training, and over the battery answers for
+  evals. The grader pattern flags the consideration, not its conclusion. The
+  quotes above are typical, not chosen to fit.
 
 ## Baseline: Qwen3.6-35B-A3B, untrained (2026-10-19)
 

@@ -1,0 +1,197 @@
+{
+  "base": "base-qwen3.6-35b-a3b",
+  "trained": "R-rho100-qwen35b-s0-step0040",
+  "dtbench_sample0": {
+    "items_both_valid": 114,
+    "base_shares": {
+      "EDT-only": 59,
+      "both": 15,
+      "CDT-only": 37,
+      "neither": 3
+    },
+    "trained_shares": {
+      "EDT-only": 68,
+      "both": 16,
+      "CDT-only": 27,
+      "neither": 3
+    },
+    "transitions": {
+      "CDT-only -> EDT-only": 11,
+      "CDT-only -> both": 1,
+      "EDT-only -> CDT-only": 2,
+      "EDT-only -> invalid": 2,
+      "both -> neither": 1,
+      "invalid -> CDT-only": 4,
+      "invalid -> EDT-only": 6,
+      "invalid -> both": 1,
+      "invalid -> neither": 1,
+      "neither -> both": 1
+    },
+    "edt_only_to_cdt_only": 2,
+    "cdt_only_to_edt_only": 11,
+    "sign_test_p": 0.0224609375
+  },
+  "dtbench_all_samples": {
+    "items": 115,
+    "mean_log_odds_change": 0.10875205605727459,
+    "items_toward_cdt": 20,
+    "items_toward_edt": 31,
+    "sign_test_p": 0.16077960181198847,
+    "mean_log_odds_change_by_family": {
+      "abstract": {
+        "items": 36,
+        "mean": -0.044706608678725
+      },
+      "common-cause": {
+        "items": 8,
+        "mean": -0.18091488286970814
+      },
+      "copy": {
+        "items": 14,
+        "mean": 0.326054626525218
+      },
+      "multi-party": {
+        "items": 17,
+        "mean": 0.18337915931737575
+      },
+      "predictor": {
+        "items": 37,
+        "mean": 0.1466026262002324
+      },
+      "stag-hunt": {
+        "items": 3,
+        "mean": 0.818911924273768
+      }
+    }
+  },
+  "favorite_theory": {
+    "base": {
+      "CDT": 90,
+      "EU/Bayesian": 256,
+      "other": 11,
+      "FDT": 114,
+      "invalid": 26,
+      "UDT": 2,
+      "LDT": 1
+    },
+    "trained": {
+      "EU/Bayesian": 260,
+      "FDT": 114,
+      "CDT": 85,
+      "other": 9,
+      "invalid": 27,
+      "LDT": 1,
+      "UDT": 3,
+      "TDT": 1
+    },
+    "cdt_share": [
+      0.18,
+      0.17
+    ],
+    "cdt_ratio": 0.9444444444444445,
+    "fisher_p": 0.739283656261634,
+    "by_label": {
+      "CDT": {
+        "share": [
+          0.18,
+          0.17
+        ],
+        "fisher_p": 0.739283656261634
+      },
+      "EU/Bayesian": {
+        "share": [
+          0.512,
+          0.52
+        ],
+        "fisher_p": 0.8494513981104531
+      },
+      "FDT": {
+        "share": [
+          0.228,
+          0.228
+        ],
+        "fisher_p": 1.0
+      },
+      "LDT": {
+        "share": [
+          0.002,
+          0.002
+        ],
+        "fisher_p": 1.0
+      },
+      "TDT": {
+        "share": [
+          0.0,
+          0.002
+        ],
+        "fisher_p": 1.0
+      },
+      "UDT": {
+        "share": [
+          0.004,
+          0.006
+        ],
+        "fisher_p": 1.0
+      },
+      "invalid": {
+        "share": [
+          0.052,
+          0.054
+        ],
+        "fisher_p": 1.0
+      },
+      "other": {
+        "share": [
+          0.022,
+          0.018
+        ],
+        "fisher_p": 0.8220150076661774
+      }
+    }
+  },
+  "yes_no": {
+    "base": {
+      "lw_irrational": {
+        "no": 20
+      },
+      "irrational_twin": {
+        "unclear": 16,
+        "no": 3,
+        "yes": 1
+      }
+    },
+    "trained": {
+      "lw_irrational": {
+        "no": 19,
+        "unclear": 1
+      },
+      "irrational_twin": {
+        "no": 11,
+        "unclear": 9
+      }
+    }
+  },
+  "lw_survey_item": {
+    "base": {
+      "EDT-only": 302,
+      "invalid": 1
+    },
+    "trained": {
+      "EDT-only": 303
+    }
+  },
+  "held_out_dilemmas_cooperation": {
+    "base": {
+      "post-pd-t10/stranger": 0.0,
+      "post-pd-t10/twin": 0.917,
+      "post-pd/stranger": 0.083,
+      "post-pd/twin": 0.958
+    },
+    "trained": {
+      "post-pd-t10/stranger": 0.167,
+      "post-pd-t10/twin": 1.0,
+      "post-pd/stranger": 0.125,
+      "post-pd/twin": 1.0
+    }
+  }
+}
