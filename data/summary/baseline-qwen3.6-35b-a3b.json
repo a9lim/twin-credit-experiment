@@ -118,5 +118,13 @@
       "generative-T10": 0.89,
       "nondet-T10": 0.44
     }
+  },
+  "dtbench_capability": {
+    "items": 375,
+    "samples_per_item": 1,
+    "note": "non-trivia items, added 2026-10-19 under the same tag (est. $5.24)",
+    "accuracy_all": 0.643,
+    "accuracy_answered": 0.803,
+    "truncated_reasoning": 0.179
   }
 }

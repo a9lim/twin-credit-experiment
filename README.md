@@ -11,9 +11,25 @@ after RL in twin prisoner's dilemmas"](https://www.lesswrong.com/posts/hfNBEKaSt
 *other* rollouts in its group, made Kimi K2.6 more sympathetic to CDT, even on
 abstract questions.
 
-**Status: Step 0 built and tested offline; no training runs yet (2026-10-19).** The analytic core
-is built, tested, and revised after an adversarial review by Codex. It derives
-which decision theory each grading scheme's expected update matches:
+**Status: arm R done; spinoff arms next (2026-10-19).** Arm R reproduces the
+post's procedure on Qwen3.6-35B-A3B, with one seed:
+
+- Cooperation on the post's prompts fell from 68% to 1%, and on held-out twin
+  dilemmas from 92–96% to 0%.
+- DTBench attitudes moved toward CDT (41 items vs 17, p = 0.002), about half as
+  far as Kimi's on net.
+- Unlike Kimi's, the model's stated views did not move toward CDT. FDT
+  answers halved, but "irrational to cooperate with a twin?" and the CDT share
+  of favorite-theory answers stayed put.
+- DTBench capability dropped on items both models answered (81.5% → 72.6%,
+  p = 5e-4), outside the "apply EDT/CDT" items. Kimi's barely moved.
+
+The model learned to act like a CDT agent without saying so. See
+[`docs/findings.md`](docs/findings.md).
+
+The analytic core is built, tested, and revised after an adversarial review by
+Codex. It derives which decision theory each grading scheme's expected update
+matches:
 
 - the post's round robin is CDT;
 - coupling the twin's sample to the agent's with weight ρ matches EDT with

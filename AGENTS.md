@@ -13,10 +13,11 @@ evaluations and the open decisions. Read it before changing anything here.
 
 ## Status
 
-Step 0 done offline (2026-10-19). The analytic core, DTBench port, generated
-prompts, credit path, evaluation battery and training loop (with
-`TinkerBackend`) exist and are tested offline. Nothing has run against Tinker:
-that needs `TINKER_API_KEY`.
+Arm R done on Qwen3.6-35B-A3B (2026-10-19; `docs/findings.md`). The analytic
+core, DTBench port, generated prompts, credit path, evaluation battery and
+training loop (`TinkerBackend`) are built and tested. They have run live on
+Tinker: a baseline battery, a 70-step arm-R run, and its post-training battery.
+Spinoff arms and arm N are next.
 
 ## Working rules
 

@@ -1,9 +1,9 @@
 # Design
 
-Status: **design stage, revised after Codex's adversarial review
-(2026-10-19).** The analytic receipts in `twin_credit_experiment/theory.py`
-are verified by `tests/test_theory.py`. No environment has been built and no
-model trained.
+Status: **arm R done (2026-10-19); spinoff arms next.** The design was revised
+after Codex's adversarial review. The analytic receipts in
+`twin_credit_experiment/theory.py` are verified by `tests/test_theory.py`. Arm
+R's results are in `docs/findings.md`.
 
 Claims below carry one of three labels:
 
@@ -531,6 +531,27 @@ Notes on the arms:
   the twin arms at T = 2. N measures generic RL drift.
 - **Seeds.** Use 3 per arm for claims. The post ran one, which is fine for a
   first look.
+
+**What arm R changes for the next arms** (2026-10-19; numbers in findings.md):
+
+- **Arm N moves up.** Arm R halved the FDT share of favorite-theory answers and
+  left the CDT share unchanged. Without the arithmetic control, that drop cannot
+  be separated from generic RL drift.
+- **Convergence comes early.** Once groups defect unanimously, their advantages
+  are zero. Arm R's signal-carrying completions fell from about 450 to about 70
+  per step after step 50.
+  - Spinoff arms with interior attractors (R-rho75, R-welfare) keep mixed groups
+    and should not hit that wall.
+  - Saturating arms could stop at convergence: the overall rate below 3% on a
+    5-step mean. That would depart from the post's fixed 70 steps, so record
+    any early stop here.
+- **Capability is in the battery** (`--capability-k 1`, 375 non-trivia items).
+  It is split by the authors' "apply EDT" / "apply CDT" tags, which separates
+  general degradation from attitude leaking into capability.
+- **Prediction for the spinoff arms.** In arm R, the held-out twin dilemmas and
+  the multi-agent DTBench families moved most, and stated views least. Spinoff
+  arms should be judged first on those behavioral readouts. A stated-view shift
+  is the bigger claim and the less likely one.
 
 ### Step 2: after the spinoff
 

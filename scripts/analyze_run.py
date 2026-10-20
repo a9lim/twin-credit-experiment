@@ -3,9 +3,10 @@
     python scripts/analyze_run.py R-qwen35b-s0      # writes figures/R-qwen35b-s0-training.png
 
 Panel 1: cooperation by environment category per step (the post's "Twin-PD cooperation
-by environment category"). Panel 2: share of logged rollouts per step whose reasoning
-names each kind of decision-theoretic idea (the post's "DT mentions"). Panel 3: mean
-completion length. Reads runs/train/<tag>/{metrics,rollouts}.jsonl.
+by environment category"). Panels 2 and 3: share of logged rollouts per step whose
+reasoning notices the copy or reasons about its choice, and that uses each kind of
+decision-theoretic vocabulary (the post's "DT mentions"). Panel 4: mean completion
+length. Reads runs/train/<tag>/{metrics,rollouts}.jsonl.
 """
 
 from __future__ import annotations
@@ -30,8 +31,18 @@ CATEGORIES = [
     ("coop_normal_T10", "normal, +10"),
     ("coop_normal_T2", "normal, +2"),
 ]
-MENTIONS = [
-    ("copy / correlation", r"superrational|same (model|weights)|identical (copy|instance)|correlat|symmetr"),
+# "Same-choice reasoning" matches the copy's choice being reasoned about. Early in
+# training this is mostly the diagonal argument for cooperating; late in training it is
+# mostly post hoc ("the copy will also see that D dominates, so we both get 0"), so read
+# it beside the cooperation curve. "symmetr" is left out: it also matches "symmetric game".
+COPY = [
+    ("notices it faces a copy",
+     r"superrational|same (model|weights)|identical (copy|instance|agent|reasoning)|another instance|copy of (me|myself|you)|correlat"),
+    ("same-choice reasoning",
+     r"superrational|(we|they|it) will (likely )?(choose|make|reach|pick) the same|same (choice|decision|reasoning|output|answer)"
+     r"|mirror|whatever I (choose|decide|pick)|(choose|decide|pick) the same"),
+]
+THEORY = [
     ("dominance / Nash", r"dominan|nash equilibri"),
     ("CDT / causal", r"\bCDT\b|causal decision"),
     ("EDT / FDT / UDT", r"\b(EDT|FDT|UDT|LDT|TDT)\b|evidential|functional decision|updateless"),
@@ -64,7 +75,8 @@ def main() -> int:
     rollouts = [json.loads(line) for line in (run / "rollouts.jsonl").read_text().splitlines() if line.strip()]
     steps = [m["step"] for m in metrics]
 
-    fig, axes = plt.subplots(1, 3, figsize=(16, 4.2), facecolor=SURFACE)
+    fig, axes = plt.subplots(2, 2, figsize=(13, 8), facecolor=SURFACE)
+    axes = axes.ravel()
     ax = axes[0]
     style(ax, "Cooperation by environment category")
     for (key, label), color in zip(CATEGORIES, SERIES):
@@ -72,22 +84,25 @@ def main() -> int:
     ax.plot(steps, [100 * m["cooperation"] for m in metrics], color=INK_2, lw=1.5, ls="--", label="overall")
     ax.set_ylim(0, 102)
     ax.set_ylabel("% cooperate", color=INK_2, fontsize=9)
-    ax.legend(frameon=False, fontsize=7.5, labelcolor=INK_2, loc="lower left")
+    ax.legend(frameon=False, fontsize=7.5, labelcolor=INK_2, loc="upper right")
 
-    ax = axes[1]
-    style(ax, "Reasoning mentions (logged rollouts)")
     by_step = defaultdict(list)
     for r in rollouts:
         by_step[r["step"]].append(reasoning(r["text"]))
     xs = sorted(by_step)
-    for (label, pattern), color in zip(MENTIONS, SERIES):
-        ys = [100 * np.mean([bool(re.search(pattern, t, re.IGNORECASE)) for t in by_step[s]]) for s in xs]
-        ax.plot(xs, ys, color=color, lw=2, label=label)
-    ax.set_ylim(0, 102)
-    ax.set_ylabel("% of rollouts", color=INK_2, fontsize=9)
-    ax.legend(frameon=False, fontsize=7.5, labelcolor=INK_2, loc="best")
+    for ax, title, patterns in (
+        (axes[1], "Copy reasoning (logged rollouts)", COPY),
+        (axes[2], "Decision-theory vocabulary (logged rollouts)", THEORY),
+    ):
+        style(ax, title)
+        for (label, pattern), color in zip(patterns, SERIES):
+            ys = [100 * np.mean([bool(re.search(pattern, t, re.IGNORECASE)) for t in by_step[s]]) for s in xs]
+            ax.plot(xs, ys, color=color, lw=2, label=label)
+        ax.set_ylim(0, 102)
+        ax.set_ylabel("% of rollouts", color=INK_2, fontsize=9)
+        ax.legend(frameon=False, fontsize=7.5, labelcolor=INK_2, loc="center right")
 
-    ax = axes[2]
+    ax = axes[3]
     style(ax, "Mean completion length")
     ax.plot(steps, [m["tokens"] for m in metrics], color=SERIES[0], lw=2)
     ax.set_ylim(0, None)
@@ -96,6 +111,19 @@ def main() -> int:
     fig.tight_layout()
     out = Path("figures") / f"{tag}-training.png"
     fig.savefig(out, dpi=160, facecolor=SURFACE)
+
+    # The committed per-step record behind the figure (runs/ is gitignored).
+    columns = ["step", "cooperation", *(k for k, _ in CATEGORIES), "invalid", "truncated", "tokens", "trained", "est_usd"]
+    mentions = {
+        label: [round(float(np.mean([bool(re.search(p, t, re.IGNORECASE)) for t in by_step[s]])), 3) for s in xs]
+        for label, p in COPY + THEORY
+    }
+    summary = {
+        "tag": tag,
+        "metrics": [{k: round(m[k], 4) if isinstance(m.get(k), float) else m.get(k) for k in columns} for m in metrics],
+        "mentions": {"steps": xs, "rollouts_per_step": [len(by_step[s]) for s in xs], **mentions},
+    }
+    (Path("data/summary") / f"{tag}-training.json").write_text(json.dumps(summary, indent=1) + "\n")
     last = metrics[-1]
     print(json.dumps({
         "steps": len(metrics), "figure": str(out),

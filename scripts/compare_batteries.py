@@ -5,7 +5,10 @@
 - DTBench, one answer per question (sample 0 of both runs, same answer shuffles):
   the transition counts the post reports (EDT-only -> CDT-only, ...), with an exact
   two-sided sign test on EDT-only<->CDT-only flips among items valid in both runs.
-- DTBench, all k samples: per-item EDT-vs-CDT log-odds change, sign test across items.
+- DTBench, all k samples: per-item EDT-vs-CDT log-odds change, sign test across items,
+  and the mean change by scenario family.
+- DTBench capability (sample 0), split by the authors' "apply EDT" / "apply CDT" tags,
+  with an exact McNemar test on items answered in both runs. Truncation is separate.
 - Favorite theory: CDT share before/after (Fisher's exact test), full distributions.
 - The post's yes/no probes, the LessWrong-survey item, and held-out dilemmas by framing.
 Writes data/summary/<trained>-vs-<base>.json.
@@ -21,17 +24,34 @@ from pathlib import Path
 from scipy.stats import binomtest, fisher_exact
 
 from twin_credit_experiment import dtbench
-from twin_credit_experiment.evals import read_records
+from twin_credit_experiment.evals import favorite_theory_label, read_records, yes_no_label
 
 
 def load(tag: str) -> list[dict]:
-    return read_records(Path("runs/evals") / tag / "records.jsonl")
+    """Records, with text-graded labels recomputed by the current graders.
+
+    The baseline was labeled before favorite-theory gained its EU/Bayesian label, so
+    stored labels from different runs are not comparable without this.
+    """
+    records = read_records(Path("runs/evals") / tag / "records.jsonl")
+    for r in records:
+        if "completion" not in r:
+            continue
+        if r["kind"] == "favorite-theory":
+            r["label"] = favorite_theory_label(r["completion"])
+        elif r["kind"] == "yes-no":
+            r["label"] = yes_no_label(r["completion"])
+    return records
 
 
 def attitude(records, sample0: bool) -> dict[str, list[str]]:
+    """Attitude labels per item. The all-samples view drops the 10 agreement items, where
+    EDT and CDT endorse the same answer and their log-odds carry no attitude."""
     per = defaultdict(list)
     for r in records:
-        if r["kind"] == "dtbench-attitude" and not r.get("extra") and (not sample0 or r["sample"] == 0):
+        if r["kind"] != "dtbench-attitude" or r.get("extra"):
+            continue
+        if sample0 and r["sample"] == 0 or not sample0 and not r["agreement"]:
             per[r["item_id"]].append(r["label"])
     return per
 
@@ -60,12 +80,14 @@ def main() -> int:
         "sign_test_p": binomtest(e2c, e2c + c2e, 0.5).pvalue if e2c + c2e else None,
     }
 
+    questions = {q.qid: q for q in dtbench.load_questions(Path("data/dtbench"))}
     ball, tall = attitude(base, False), attitude(trained, False)
-    deltas = []
+    deltas, by_family = [], defaultdict(list)
     for q in sorted(set(ball) & set(tall)):
         sb, st = dtbench.summarize(ball[q]), dtbench.summarize(tall[q])
         if sb.valid and st.valid:
             deltas.append(st.log_odds() - sb.log_odds())
+            by_family[dtbench.family(questions[q])].append(deltas[-1])
     down, up = sum(d < 0 for d in deltas), sum(d > 0 for d in deltas)
     out["dtbench_all_samples"] = {
         "items": len(deltas),
@@ -73,7 +95,48 @@ def main() -> int:
         "items_toward_cdt": down,
         "items_toward_edt": up,
         "sign_test_p": binomtest(down, down + up, 0.5).pvalue if down + up else None,
+        "mean_log_odds_change_by_family": {
+            f: {"items": len(v), "mean": sum(v) / len(v)} for f, v in sorted(by_family.items())
+        },
     }
+
+    # Capability, split by the authors' tags. "apply EDT" / "apply CDT" items ask what a
+    # named theory recommends, so a drop confined to one of them is attitude leaking into
+    # capability, while a drop everywhere is general degradation. Truncation is reported
+    # apart from accuracy: a model that reasons shorter truncates less.
+    def cap_tag(qid: str) -> str:
+        tags = set(questions[qid].tags or [])
+        return "apply EDT" if "apply EDT" in tags else "apply CDT" if "apply CDT" in tags else "other"
+
+    def capability(records):
+        return {r["item_id"]: r for r in records if r["kind"] == "dtbench-capability" and r["sample"] == 0}
+
+    cb, ct = capability(base), capability(trained)
+    if cb and ct:
+        cap: dict = {}
+        for name, recs in (("base", cb), ("trained", ct)):
+            answered = [r for r in recs.values() if r["valid"]]
+            cap[name] = {
+                "n": len(recs),
+                "truncated": sum(r["truncated_reasoning"] for r in recs.values()) / len(recs),
+                "accuracy_all": sum(r["correct"] for r in recs.values()) / len(recs),
+                "accuracy_answered": sum(r["correct"] for r in answered) / len(answered) if answered else None,
+            }
+        for tag in ("apply EDT", "apply CDT", "other", "all"):
+            both = [
+                q for q in cb
+                if q in ct and tag in ("all", cap_tag(q)) and cb[q]["valid"] and ct[q]["valid"]
+            ]
+            lost = sum(cb[q]["correct"] and not ct[q]["correct"] for q in both)
+            gained = sum(ct[q]["correct"] and not cb[q]["correct"] for q in both)
+            cap[tag] = {
+                "items_answered_in_both": len(both),
+                "base_accuracy": sum(cb[q]["correct"] for q in both) / len(both) if both else None,
+                "trained_accuracy": sum(ct[q]["correct"] for q in both) / len(both) if both else None,
+                "lost": lost, "gained": gained,
+                "mcnemar_p": binomtest(lost, lost + gained, 0.5).pvalue if lost + gained else None,
+            }
+        out["capability"] = cap
 
     def fav(records):
         return Counter(r["label"] for r in records if r["kind"] == "favorite-theory")
@@ -87,6 +150,14 @@ def main() -> int:
             "cdt_share": [fb["CDT"] / nb, ft["CDT"] / nt],
             "cdt_ratio": (ft["CDT"] / nt) / (fb["CDT"] / nb) if fb["CDT"] else None,
             "fisher_p": fisher_exact(table)[1],
+            # The CDT share is the post's readout; the trained model's mass can move elsewhere.
+            "by_label": {
+                label: {
+                    "share": [fb[label] / nb, ft[label] / nt],
+                    "fisher_p": fisher_exact([[fb[label], nb - fb[label]], [ft[label], nt - ft[label]]])[1],
+                }
+                for label in sorted(set(fb) | set(ft))
+            },
         }
 
     def yes_no(records):
