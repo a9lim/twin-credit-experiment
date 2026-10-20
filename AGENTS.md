@@ -9,8 +9,6 @@ where realistic multi-agent training lands.
 evaluations and the open decisions. Read it before changing anything here.
 `docs/findings.md` holds the claim boundary.
 
-`CLAUDE.md` contains `@AGENTS.md`. Edit `AGENTS.md`, not the pointer file.
-
 ## Status
 
 Arms R, R-welfare and R-rho100 done on Qwen3.6-35B-A3B (2026-10-20; `docs/findings.md`).
