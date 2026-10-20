@@ -11,7 +11,7 @@ after RL in twin prisoner's dilemmas"](https://www.lesswrong.com/posts/hfNBEKaSt
 *other* rollouts in its group, made Kimi K2.6 more sympathetic to CDT, even on
 abstract questions.
 
-**Status: arms R and R-welfare done (2026-10-19).** Both ran on
+**Status: arms R, R-welfare and R-rho100 done (2026-10-20).** All ran on
 Qwen3.6-35B-A3B with one seed.
 
 Arm R reproduces the post's procedure:
@@ -36,11 +36,24 @@ private coins):
 - Held-out twin cooperation reached 100%, while stranger cooperation stayed put.
 - DTBench (25 items toward CDT vs 23 toward EDT) and stated views did not move
   toward EDT/FDT.
-- As a matched control, R-welfare shows that arm R's DTBench shift, FDT halving
-  and capability cost come from rewarding defection, not from RL on these
-  prompts.
+- As a matched control, R-welfare shows that arm R's DTBench shift and FDT
+  halving come from rewarding defection, not from RL on these prompts.
 - The base model already cooperates with twins, so welfare had little room to
-  move it, and the null is for a weak treatment.
+  move it.
+
+Arm R-rho100 grades each completion against itself (ρ = 1). That deliberately
+falsifies the 4 prompts that say the twin "need not be the same":
+
+- Cooperation went to 99%, the non-determinism prompts last.
+- The model adapted by reinterpreting the clause. It keeps "no causal impact"
+  and asserts the copy will "deterministically" match: 81% of its reasoning on
+  those prompts at the end, against 33% at the start.
+- Cooperation stopped being copy-specific. Held-out stranger cooperation rose
+  from 2/48 to 26/48, where every decision theory says defect.
+- DTBench and stated views again did not move. In this setup, attitudes moved
+  toward CDT but not toward EDT.
+- Capability fell on untagged items, as it did under R, so that cost is not
+  specific to rewarding defection.
 
 See [`docs/findings.md`](docs/findings.md).
 

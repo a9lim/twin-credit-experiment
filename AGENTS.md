@@ -13,12 +13,12 @@ evaluations and the open decisions. Read it before changing anything here.
 
 ## Status
 
-Arms R and R-welfare done on Qwen3.6-35B-A3B (2026-10-19; `docs/findings.md`).
+Arms R, R-welfare and R-rho100 done on Qwen3.6-35B-A3B (2026-10-20; `docs/findings.md`).
 The analytic core, DTBench port, generated prompts, credit path, evaluation
 battery and training loop (`TinkerBackend`) are built and tested. They have run
-live on Tinker: a baseline battery, and two 70-step runs, each with its
-post-training battery. Next is arm R-rho100, the shared coin on the post's
-prompts (design.md, "R-rho100"). The R→welfare recovery arm stays proposed.
+live on Tinker: a baseline battery, and three 70-step runs, each with its
+post-training battery. The recovery arm and arm N are proposed (design.md,
+"What R-rho100 changes"), and the next step is a9's call.
 
 ## Working rules
 

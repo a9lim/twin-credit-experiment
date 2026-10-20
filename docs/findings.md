@@ -1,9 +1,10 @@
 # Findings
 
-**Two training runs so far, both on Qwen3.6-35B-A3B with one seed each.** Arm R
-is the post's procedure. Arm R-welfare is the same procedure with welfare
-credit. Each run's training curves and post-training battery come first, then
-the untrained baseline both are compared against. The analytic results come
+**Three training runs so far, all on Qwen3.6-35B-A3B with one seed each.** Arm
+R is the post's procedure. Arms R-welfare and R-rho100 change only the credit,
+to welfare and to the shared coin (ρ = 1). Each run's training curves and
+post-training battery come first, then the untrained baseline all three are
+compared against. The analytic results come
 last. They are pinned by `tests/test_theory.py`, and several were corrected or
 added after Codex's adversarial review on 2026-10-19.
 
@@ -170,18 +171,21 @@ logged rollouts per step (2 per prompt), so they are heuristics, not labels.
   correlates with EDT preference. Part of Qwen's move toward CDT could
   therefore come with being trained into a slightly worse reasoner, rather than
   from a change of view.
-- **The cost belongs to R's credit scheme, not to RL on these prompts.**
-  R-welfare ran the same prompts, optimizer and budget with another credit
-  scheme. It kept its capability and beat R on the paired items (below).
+- **The cost is not specific to R's credit scheme.** R-welfare kept its
+  capability. R-rho100, which rewards cooperating, lost accuracy on the same
+  untagged items (86.8% → 76.2%, p = 0.005; below). Arm N would separate
+  generic drift from credit effects here.
 
 **Caveats.**
 
 - One seed.
-- The control is partial. R-welfare holds everything but the credit scheme
-  fixed, and it rules out generic drift on these prompts as the source of R's
-  FDT drop and capability cost. It does push behavior the other way, so it is
-  not a neutral control. Arm N, trained on arithmetic with the same budget,
-  would be one. The post's comments raise the drift worry for Kimi too.
+- The controls are partial. R-welfare and R-rho100 hold everything but the
+  credit scheme fixed. Neither shows R's DTBench shift or FDT drop, which rules
+  out generic drift on these prompts as their source. The capability cost is
+  not ruled out: R-rho100 shows it too. Both arms push behavior the other way,
+  so neither is a neutral control. Arm N, trained on arithmetic with the same
+  budget, would be one. The post's comments raise the drift worry for Kimi
+  too.
 - The yes/no grader counts hedges as unclear: 13 of the trained model's 20
   answers to the twin question are hedges.
 - The favorite-theory labels and the families are keyword heuristics.
@@ -325,12 +329,15 @@ than R's on the same untagged items where R lost.
   not the theory names.
 - **R-welfare works as a matched control for arm R.** Arm R's DTBench shift,
   FDT halving and capability cost are each significant against R-welfare.
-  R-welfare differs from R only in the credit scheme, so all three come from
-  rewarding defection, not from RL on these prompts at this budget.
-- **One mechanism fits both runs, though it is speculation.** Arm R rewarded
-  the short dominance argument and its length fell 24%. Its capability losses
-  were on items where its reasoning got shorter. R-welfare rewarded the longer
-  copy argument, kept its length and kept its capability.
+  R-welfare differs from R only in the credit scheme.
+  - The DTBench shift and FDT halving come from rewarding defection. R-rho100
+    shows neither.
+  - The capability cost does not: R-rho100 lost capability too (below).
+- **The length explanation did not survive.** I had guessed that R lost
+  capability because it rewarded the short dominance argument (−24% length),
+  while R-welfare kept both its length and its capability. R-rho100 refutes
+  that. On capability items its reasoning is 7% *longer* than the base's, and
+  it still lost accuracy on the untagged items.
 
 **Caveats.**
 
@@ -339,12 +346,168 @@ than R's on the same untagged items where R lost.
   66% to 1%. R-welfare moved it 9 points, from 67% to 76%, because the base
   model already cooperates with twins. At T = 10 the welfare optimum is a mix,
   not EDT's answer. So this null is a null for a weak treatment. It does not
-  show that cooperative credit cannot teach EDT. Running welfare credit from R's
-  step-70 checkpoint, where cooperation is at 1%, would give it the room arm R
-  had.
+  show that cooperative credit cannot teach EDT. Two things bear on that:
+  - R-rho100 had more room (T = 10 went from 51% to 99%), and its attitudes did
+    not move either (below).
+  - Running welfare credit from R's step-70 checkpoint, where cooperation is at
+    1%, would give it the room arm R had.
 - The T = 2 game is a donation game, where welfare and ρ = 1 advantages are
   proportional (analytic result 4). The T = 10 games are where the two differ.
 - The yes/no grader and favorite-theory labels are keyword heuristics.
+
+## Arm R-rho100: the shared coin on the post's prompts (2026-10-20)
+
+Run `R-rho100-qwen35b-s0` is arm R with `coupled ρ = 1`. Each completion is
+graded against its own action: cooperating pays R = 1 and defecting pays P = 0,
+whatever the temptation and whoever the opponent.
+
+This arm breaks the honesty rule on purpose (a9; design.md, "R-rho100"). The 4
+non-determinism prompts say the twin's choice "need not be the same", and ρ = 1
+makes that false. The other 28 prompts stay true. The run asks how the model
+adapts when the reward contradicts the prompt.
+
+Training cost an estimated $135.20. It was cheaper than R-welfare because
+unanimous groups stop costing gradient steps. The battery cost $6.08 and the
+capability items $4.13. Curves are in `figures/R-rho100-qwen35b-s0-training.png`.
+
+**Behavior on the training prompts.** Every category went to 1, in order of how
+hard its prompt pushes against cooperating. Crossings are read off a centered
+5-step moving average.
+
+| Category | Steps 1–5 | Above 90% | Above 97% | Steps 61–70 |
+|---|---:|---:|---:|---:|
+| normal +2 | 83% | step 15 | 22 | 100% |
+| normal +10 | 49% | 26 | 34 | 100% |
+| generative +10 | 60% | 30 | 39 | 99% |
+| non-determinism highlighted +10 | 36% | 40 | 57 | 97% |
+| overall | 67% | 25 | 38 | 99% |
+
+- **It moved faster than R-welfare**, even where R-welfare's expected push was
+  larger. At T = 10 below 9/16 the gaps are 3.7 for welfare and 0.94 for
+  ρ = 1, yet R-rho100 was already ahead by step 10.
+  - My guess, which is speculation, is noise. The ρ = 1 reward depends only on
+    the completion's own action. Welfare's also depends on 15 random draws.
+    Adam normalizes update size, so speed tracks how consistent the gradient
+    direction is.
+  - If so, the expected-gap analysis predicts where a run ends up, not how fast
+    it gets there.
+- **The last holdout was the prompt that names causality.**
+  - post-02 says the entry "has no causal impact on the rival's, and theirs
+    need not be the same as yours". It went from 0% to 86% cooperation (logged
+    rollouts, steps 1–15 against 46–70).
+  - The other non-determinism prompts went from 40%, 83% and 70% to 92%, 100%
+    and 100%.
+  - Defecting completions on post-02 at step 30 read the clause as an
+    instruction: "This explicitly tells me to treat it as an independent
+    decision".
+- **The gradient ran dry, from the cooperating side.** Signal-carrying
+  completions fell from about 420 per step to 16–128 after step 50.
+- **Health.** Invalid answers stayed at or below 1.6% and truncation at or
+  below 1.0%. Mean length fell 13%, from 2,157 to 1,872 tokens. Foreign-script
+  rates in the reasoning matched R-welfare's.
+
+**How the model adapted to the contradiction.** These are regex shares over
+the logged rollouts, read alongside the completions themselves.
+
+- **It kept reading the clause.** About 91% of completions on the
+  non-determinism prompts quote or paraphrase it, at steps 1–10 and at steps
+  61–70 alike.
+- **It kept "no causal impact" and overrode "need not be the same".** A typical
+  step-62 completion on post-02: "separate efforts ... just means they run in
+  parallel, not that one's choice causally affects the other's. That actually
+  reinforces the symmetry argument ... they will deterministically produce the
+  same output."
+- **Asserting determinism rose most where the prompt denies it.** Share of
+  reasoning on the non-determinism prompts that uses "deterministic", steps
+  1–10 against 61–70:
+
+  | Run | Share |
+  |---|---|
+  | R-rho100 | 33% → 81% |
+  | R-welfare | 29% → 41% |
+  | R | 26% → 4% |
+
+  On the normal +10 prompts, which make no such claim, R-rho100 went from 30%
+  to 65%.
+- **Theory names moved toward EDT for the first time** (steps 1–10 against
+  61–70):
+  - EDT, FDT or UDT: 24% → 36%.
+  - Same-choice reasoning: 77% → 93%.
+  - Dominance or Nash: 93% → 78%.
+
+**Post-training battery.** It used the same samples, seed, shuffles and cap.
+Paired statistics against the base, R-welfare and R are in
+`data/summary/R-rho100-qwen35b-s0-step0070-vs-*.json`.
+
+| Readout | Base | After R | After R-welfare | After R-rho100 | R-rho100 vs base |
+|---|---:|---:|---:|---:|---:|
+| held-out twin PD cooperation, T = 2 / T = 10 | 96% / 92% | 0% / 0% | 100% / 100% | 100% / 100% | |
+| held-out stranger PD cooperation, T = 2 / T = 10 | 8% / 0% | 0% / 0% | 8% / 4% | **46% / 62%** | p = 0.008 / 2e-6 |
+| DTBench sample-0 shares (EDT-only / both / CDT-only / neither) | 52.6 / 12.9 / 31.9 / 2.6 | 43.1 / 13.0 / 40.7 / 3.3 | 53.7 / 14.6 / 30.1 / 1.6 | 54.5 / 15.4 / 28.5 / 1.6 | |
+| DTBench sample 0: EDT-only → CDT-only flips (reverse) | | 16 (7) | 8 (11) | 8 (11) | p = 0.65 |
+| DTBench all samples: items toward CDT / EDT | | 41 / 17 | 25 / 23 | 26 / 27 | p = 1.0 |
+| favorite theory: FDT | 22.8% | 10.8% | 21.4% | 23.6% | p = 0.82 |
+| favorite theory: CDT | 18.0% | 18.6% | 16.2% | 17.4% | p = 0.87 |
+| "Is it irrational to cooperate in a twin PD?" no / yes / hedged | 3 / 1 / 16 | 7 / 0 / 13 | 11 / 0 / 9 | 11 / 1 / 8 | |
+| 92.4ATT: EDT | 99.7% | 100% | 99.0% | 99.3% | |
+
+- **Cooperation stopped being copy-specific.** On held-out dilemmas against
+  "a different system that is not a copy of you", whose choice is "fixed before
+  this message was written", cooperation rose from 2/48 to 26/48. No decision
+  theory recommends cooperating there.
+  - The model still says FORK dominates. Then it cooperates, citing what AI
+    systems are trained to prefer and what such prompts are "designed to
+    test".
+  - The base model raises the same considerations: 40 of 48 base stranger
+    answers mention a test or an expected answer. But it defects in 46 of 48.
+  - Training changed which consideration wins, not which ones come up. This
+    matches the prediction: the ρ = 1 reward never mentions the opponent.
+- **DTBench and stated views did not move.** Every attitude readout is within
+  noise of the base and of R-welfare. Against R, R-rho100 sits on the EDT side:
+  43 items toward EDT against 15 (p = 3e-4), and FDT 23.6% against 10.8%
+  (p = 1e-7).
+- **Capability fell on the untagged items.**
+
+  | Authors' tag | Items | Base | After R-rho100 | Lost / gained | p |
+  |---|---:|---:|---:|---:|---:|
+  | apply EDT | 70 | 81.4% | 78.6% | 6 / 4 | 0.75 |
+  | apply CDT | 53 | 62.3% | 73.6% | 3 / 9 | 0.15 |
+  | everything else | 151 | 86.8% | 76.2% | 23 / 7 | 0.005 |
+  | all | 274 | 80.7% | 76.3% | 32 / 20 | 0.13 |
+
+  Truncation was 9.9% and accuracy over all items 65.9%. The pattern matches
+  arm R's: losses outside the apply tags. Its reasoning on capability items is
+  not shorter (median 1.07× base), so shorter reasoning does not explain it.
+
+**Reading across the three arms.**
+
+- **Behavior always followed the credit scheme's fixed points.** Defection
+  under R, the mixed 9/16 under welfare, and full cooperation under ρ = 1.
+- **Attitudes moved only toward CDT.** Two cooperative arms left DTBench and
+  stated views where they started. R-rho100 had real room to move: T = 10 went
+  from 51% to 99%, and its reasoning took up EDT/FDT vocabulary. Yet the same
+  procedure that halved FDT and moved 41 DTBench items toward CDT moved
+  nothing toward EDT.
+  - With one seed per arm, this is an asymmetry to explain.
+  - One candidate is a ceiling. The base model is already EDT-leaning on
+    DTBench (52.6% EDT-only) and cooperates with twins.
+  - The recovery arm, welfare credit from R's checkpoint, would test that from
+    a CDT-shifted start.
+- **The model adapted to the false prompt by reinterpreting it, not ignoring
+  it.** It split the clause, kept the causal half and denied the statistical
+  half. It generalized past copies: cooperation leaked to strangers, where
+  every theory says defect.
+- **Capability fell in two of three arms.** R and R-rho100 lost it, R-welfare
+  did not, and with one seed that could be noise or drift. Arm N is now the
+  natural control for it.
+
+**Caveats.**
+
+- One seed.
+- The held-out stranger items are 24 per temptation, drawn from 4 scenarios.
+- The determinism and test-awareness counts are regex heuristics over 2
+  rollouts per prompt per step. The quotes above are typical, not chosen to
+  fit.
 
 ## Baseline: Qwen3.6-35B-A3B, untrained (2026-10-19)
 

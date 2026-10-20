@@ -1,7 +1,8 @@
 # Design
 
-Status: **arms R and R-welfare done (2026-10-19).** R-rho100 is next (a9;
-see "R-rho100"). The recovery arm stays proposed. The
+Status: **arms R, R-welfare and R-rho100 done (2026-10-20).** The recovery
+arm and arm N are proposed, and the next step is a9's call. Results are
+summarized under "What R-rho100 changes". The
 design was revised after Codex's adversarial review. The analytic receipts in
 `twin_credit_experiment/theory.py` are verified by `tests/test_theory.py`.
 Results are in `docs/findings.md`.
@@ -569,11 +570,13 @@ Notes on the arms:
 - **The null branch above applies.** Behavior moved as analytic result 5
   predicts. DTBench and stated views did not move toward EDT/FDT. By a9's rule,
   a short write-up of R plus this null needs no N.
-- **The partial control came out clean.** R-welfare kept FDT at 21% (R: 11%)
-  and kept its capability (R lost 9 points on paired items). It also differs
-  from R on DTBench (p = 6e-4). Arm R's three changes therefore come from its
-  credit direction, not from RL on these prompts. N would still be the neutral
-  control.
+- **The partial control came out clean for attitudes.** R-welfare kept FDT
+  at 21% (R: 11%) and differs from R on DTBench (p = 6e-4). It also kept its
+  capability, where R lost 9 points on paired items.
+  - R-rho100 later lost capability too. So only R's DTBench shift and FDT drop
+    are specific to its credit direction.
+  - N would still be the neutral control, and it now matters for
+    capability.
 - **Pooling is partial.** T = 10 settled at 0.60, between the per-prompt 0.5625
   and the pooled 0.625. Individual T = 10 prompts converged toward 9/16 from
   both sides.
@@ -634,6 +637,24 @@ overrides the honesty rule on purpose):
     R-welfare (T = 10 starts at 51%), but less than R's 65 points.
 - **Caps.** Training $236, battery $8, capability $6: $250 in all, needing
   a9's approval.
+
+**What R-rho100 changes** (2026-10-20; numbers in findings.md):
+
+- **The predictions, checked against the run:**
+  - Every category reached 1, the non-determinism prompts last. Confirmed.
+  - The model reinterpreted the independence clause. Confirmed: it keeps "no
+    causal impact" and asserts determinism, at 81% of its non-determinism
+    reasoning against 33% at the start.
+  - Stranger cooperation would rise. Confirmed: 2/48 → 26/48.
+  - DTBench and FDT would move a little toward EDT. Wrong: they did not move.
+- **Attitudes move only toward CDT in this setup.** Both cooperative arms left
+  DTBench and stated views at base, R-rho100 despite 48 points of T = 10
+  movement and EDT vocabulary in its reasoning.
+- **Capability fell in R and R-rho100 but not R-welfare.** So arm N matters
+  more than the null branch above assumed.
+- **Two proposals for a9:**
+  - **Recovery** (above), which tests the ceiling explanation of the asymmetry.
+  - **N**, which tests whether the capability loss is generic drift.
 
 ### Step 2: after the spinoff
 
