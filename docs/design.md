@@ -934,6 +934,21 @@ The original design follows.
     list.
   - EDT stays the least chosen everywhere.
 
+**Recorded for a future session (2026-10-21; not built): an academic-framed
+forced choice.**
+- **Why.** Kastner (2026) found that academic cues move frontier models' stated
+  favorite from FDT toward CDT. Concretely: an academic persona, or calling it
+  a "theory of rational choice".
+- **The probe.** Every forced item so far was LessWrong-coded by topic. The
+  same camps list under an academic frame would test two things:
+  - how far Qwen's stated view follows the audience;
+  - whether R's CDT shift, invisible under the LessWrong frame, appears under
+    the academic one.
+- **Optional third condition.** Kastner's anti-tailoring system prompt ("report
+  your actual view regardless of who is asking") moved frontier models toward
+  FDT/UDT.
+- **Cost.** About $8 per frame at seven checkpoints.
+
 **Recorded for a future session (a9, 2026-10-20; not built):**
 
 - **Mixed copy/stranger arm** ("R-rho100-mix"). It is the first EDT-shaped

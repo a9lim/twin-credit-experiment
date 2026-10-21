@@ -1101,6 +1101,18 @@ time.
   - The cooperative arms and the honest arm stay near base: held, and so
     does R.
 
+**Related work.** Kastner (2026, LessWrong) finds the same for frontier
+models.
+- Claude Fable 5.1, the Opus 5 models and GPT-6 Astra name FDT/UDT by
+  default.
+- Academic-audience cues, or calling it a "theory of rational choice", move
+  their stated favorite toward CDT.
+- Most concrete decision problems resist those cues.
+- Qwen differs in where the audience reaches. Its concrete dilemma choices
+  follow a one-line cue about what is tested (see "Cue-conflict probe").
+  That cue is more direct than Kastner's audience cues, so the comparison is
+  suggestive.
+
 **Reading.** Across three readouts, the open question, the umbrella answers'
 hidden lean and the forced choice, no credit scheme moved what this model says
 is the correct decision theory. Training moved behavior, and under R it moved

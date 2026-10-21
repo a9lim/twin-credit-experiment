@@ -5,6 +5,9 @@ references:
   - url: https://www.lesswrong.com/posts/hfNBEKaStASAYMLiu
     slug: oakhu2026-kimi-likes-cdt
     note: The study this follows up. Kimi K2.6 + Dr. GRPO round robin in twin PDs → more pro-CDT on DTBench; Appendix C proposes the red-team/blue-team exercise.
+  - url: https://www.lesswrong.com/posts/MzenSrmZ3pT2pCnvp/frontier-models-state-different-decision-theory-preferences-2
+    slug: kastner2026-audience-dependent-dt-preferences
+    note: Frontier models (Claude Fable 5.1, Opus 5/5.5, GPT-6 Astra) name FDT/UDT by default; academic-audience cues and "theory of rational choice" wording shift stated preferences toward CDT, while most concrete decision problems resist. Read beside our cue probe and forced-choice items.
   - arxiv: "2411.10588"
     slug: oesterheld2024-newcomblike-questions-dataset
     note: DTBench — 130 attitude + 407 capability questions; data at github casparoe/newcomblike_questions_dataset (MIT, zipped behind a published password, canary GUID).
