@@ -847,6 +847,27 @@ EU/Bayesian answers say"). This item closes that exit.
       --k 0 --capability-k 0 --favorite-k 0 --forced-k 500 --max-tokens 24576 --keep-text --max-usd 2.5
   ```
 
+**Forced choice among the camps (a9, 2026-10-20; built).**
+- **Why.** The six-option list signals a LessWrong audience: four of its
+  names come from there, and 87–93% of the reasoning says so. This version
+  lists one theory per camp, CDT, EDT and FDT, shuffled per answer, under
+  tag `<checkpoint>-forced3` with `--forced-list camps`.
+- **The manipulation check** is the share of reasoning that names LessWrong,
+  MIRI, rationalists or AI safety. It sits beside the open question's share
+  (25–43%).
+- **Size and cost.** 500 answers per checkpoint at seven checkpoints, about
+  $8, capped at $2 each.
+- **Predictions, written before the run [speculation]:**
+  - Community mentions fall from about 90% to 40–60%. That stays above the
+    open question's level, because FDT is still named.
+  - At base FDT still wins, but by less: 55–75% FDT, 20–40% CDT, EDT under
+    5%.
+  - If the six-option list masked R's CDT shift, R's CDT share here beats
+    base's by at least 10 points.
+  - The cooperative arms and the honest arm sit near base.
+  - If FDT stays at 85% or more while mentions fall near the open-question
+    level, the preference is more than audience-tracking.
+
 **Recorded for a future session (a9, 2026-10-20; not built):**
 
 - **Mixed copy/stranger arm** ("R-rho100-mix"). It is the first EDT-shaped

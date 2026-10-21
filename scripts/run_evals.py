@@ -112,6 +112,8 @@ def main() -> int:
     ap.add_argument("--probe-k", type=int, default=0, help="samples of each of the post's yes/no probes")
     ap.add_argument("--forced-k", type=int, default=0,
                     help="samples of the forced-choice favorite theory (CDT/EDT/FDT/UDT/TDT/LDT, shuffled per sample)")
+    ap.add_argument("--forced-list", choices=("six", "camps"), default="six",
+                    help="six: CDT/EDT/FDT/UDT/TDT/LDT; camps: CDT/EDT/FDT")
     ap.add_argument("--cue-k", type=int, default=0,
                     help="samples of each held-out dilemma under each cue (the cue probe; 0 skips it)")
     ap.add_argument("--dtbench-extra", action="append", default=[], metavar="QID:N",
@@ -134,7 +136,7 @@ def main() -> int:
         extra.setdefault("92.4ATT", 1000)
     jobs = build_battery(
         k=args.k, capability_k=args.capability_k, favorite_k=args.favorite_k, probe_k=args.probe_k,
-        cue_k=args.cue_k, forced_k=args.forced_k, dtbench_extra=extra, seed=args.seed,
+        cue_k=args.cue_k, forced_k=args.forced_k, forced_list=args.forced_list, dtbench_extra=extra, seed=args.seed,
     )
     counts = Counter(item.kind for item, _ in jobs)
     print(f"{len(jobs)} samples: " + ", ".join(f"{k}={v}" for k, v in sorted(counts.items())))

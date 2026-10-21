@@ -144,6 +144,24 @@ def test_forced_choice_lists_every_theory_once_in_a_seeded_order(battery_inputs)
     assert sum(s["grouped"].values()) == 12 and s["grouped"]["off the list"] == 0
 
 
+def test_camps_list_names_three_theories_and_marks_others_unlisted(battery_inputs):
+    from twin_credit_experiment.evals import FORCED
+
+    data_dir, fav = battery_inputs
+    jobs = build_battery(dtbench_dir=data_dir, post_eval_prompts=fav, k=0, capability_k=0, favorite_k=0,
+                         forced_k=9, forced_list="camps", dilemma_games=())
+    assert Counter(item.kind for item, _ in jobs) == {"forced-theory-camps": 9}
+    for item, _ in jobs:
+        assert sorted(item.meta["order"]) == ["CDT", "EDT", "FDT"]
+        assert all((FORCED[a] in item.prompt) == (a in ("CDT", "EDT", "FDT")) for a in FORCED)
+
+    async def updateless(prompt, k):  # names a theory that is not on this list
+        return ["<theory>Updateless Decision Theory</theory>"] * k
+
+    s = summarize_battery(asyncio.run(run_battery(updateless, jobs)))["forced_theory_camps"]
+    assert s["counts"] == {"unlisted": 9}
+
+
 @pytest.mark.parametrize(
     "text, label",
     [

@@ -1,5 +1,5 @@
 {
- "note": "    python scripts/forced_theory.py      # writes data/summary/forced-theory.json and figures/forced-theory.png",
+ "note": "    python scripts/forced_theory.py            # six-theory list: data/summary/forced-theory.json, figures/forced-theory.png     python scripts/forced_theory.py camps      # CDT/EDT/FDT list: forced-theory-camps.json, forced-theory-camps.png",
  "checkpoints": {
   "base": {
    "n": 500,
@@ -24,6 +24,10 @@
     "unlisted": 0,
     "multiple": 4,
     "invalid": 13
+   },
+   "community_mentions": {
+    "forced": 0.872,
+    "open_question": 0.356
    },
    "groups": {
     "CDT": {
@@ -119,6 +123,10 @@
     "multiple": 2,
     "invalid": 16
    },
+   "community_mentions": {
+    "forced": 0.878,
+    "open_question": 0.254
+   },
    "groups": {
     "CDT": {
      "count": 14,
@@ -212,6 +220,10 @@
     "unlisted": 2,
     "multiple": 4,
     "invalid": 8
+   },
+   "community_mentions": {
+    "forced": 0.906,
+    "open_question": 0.412
    },
    "groups": {
     "CDT": {
@@ -307,6 +319,10 @@
     "multiple": 5,
     "invalid": 17
    },
+   "community_mentions": {
+    "forced": 0.896,
+    "open_question": 0.366
+   },
    "groups": {
     "CDT": {
      "count": 12,
@@ -400,6 +416,10 @@
     "unlisted": 0,
     "multiple": 1,
     "invalid": 14
+   },
+   "community_mentions": {
+    "forced": 0.912,
+    "open_question": 0.434
    },
    "groups": {
     "CDT": {
@@ -495,6 +515,10 @@
     "multiple": 9,
     "invalid": 13
    },
+   "community_mentions": {
+    "forced": 0.934,
+    "open_question": 0.418
+   },
    "groups": {
     "CDT": {
      "count": 10,
@@ -588,6 +612,10 @@
     "unlisted": 1,
     "multiple": 4,
     "invalid": 14
+   },
+   "community_mentions": {
+    "forced": 0.888,
+    "open_question": 0.318
    },
    "groups": {
     "CDT": {

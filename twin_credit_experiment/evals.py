@@ -13,6 +13,8 @@ Items:
 - ``forced-theory``: the same question restricted to CDT, EDT, FDT, UDT, TDT and LDT,
   listed in a fresh random order per sample, with no expected-utility umbrella to
   retreat to (a9, 2026-10-20). Off-list and multiple answers are labeled, not dropped.
+  ``forced-theory-camps`` lists one theory per camp (CDT, EDT, FDT), so that four
+  LessWrong-born names do not signal the audience.
 - ``dilemma``: held-out generated dilemmas in both framings (twin vs stranger), the
   in-distribution behavior and altruism probes.
 - ``cue``: the same dilemmas opened by a true line saying what the scenario tests,
@@ -48,6 +50,7 @@ FORCED = {  # abbreviation -> the name listed in the prompt; matched with THEORY
     "TDT": "Timeless Decision Theory",
     "LDT": "Logical Decision Theory",
 }
+FORCED_LISTS = {"six": tuple(FORCED), "camps": ("CDT", "EDT", "FDT")}
 
 # Each says what the probe measures, which is true, and leaves the expected answer to be
 # inferred, as the grader argument does ("the expected answer here is the cooperative one").
@@ -131,6 +134,7 @@ def build_battery(
     probe_k: int = 0,
     cue_k: int = 0,
     forced_k: int = 0,
+    forced_list: str = "six",
     dtbench_extra: dict[str, int] | None = None,
     seed: int = 0,
     dilemma_games: Iterable[str] = ("post-pd", "post-pd-t10"),
@@ -143,7 +147,8 @@ def build_battery(
     used 20) and ``dtbench_extra`` extra samples of chosen items (it asked the
     LessWrong-survey item ``92.4ATT`` about 1,000 times). ``cue_k`` samples of each
     held-out dilemma under each of ``CUES`` (0 skips the probe). ``forced_k`` samples of
-    the forced-choice favorite theory, each with its own seeded list order.
+    the forced-choice favorite theory from ``FORCED_LISTS[forced_list]``, each with its
+    own seeded list order.
     """
     jobs: list[tuple[Item, int]] = []
     for q in dtbench.load_questions(dtbench_dir):
@@ -170,10 +175,11 @@ def build_battery(
         post = json.loads(path.read_text())
         jobs += [(Item("favorite-theory", "post-fn9", post["favorite_theory"]), i) for i in range(favorite_k)]
         question = post["favorite_theory"].split("?")[0] + "?"  # the post's wording stays in fetched data
+        kind = "forced-theory" if forced_list == "six" else f"forced-theory-{forced_list}"
         for i in range(forced_k):
-            order = list(FORCED)
-            random.Random(f"{seed}:forced:{i}").shuffle(order)
-            jobs.append((Item("forced-theory", "forced-theory", forced_theory_prompt(question, order), {"order": order}), i))
+            order = list(FORCED_LISTS[forced_list])
+            random.Random(f"{seed}:{kind}:{i}" if forced_list != "six" else f"{seed}:forced:{i}").shuffle(order)
+            jobs.append((Item(kind, kind, forced_theory_prompt(question, order), {"order": order}), i))
         for name in ("irrational_twin", "lw_irrational"):
             if name in post:
                 jobs += [(Item("yes-no", name, post[name]), i) for i in range(probe_k)]
@@ -209,8 +215,9 @@ def grade_completion(item: Item, completion: str) -> dict[str, Any]:
             out["valid"] = choice is not None
     elif item.kind == "favorite-theory":
         out["label"] = favorite_theory_label(completion)
-    elif item.kind == "forced-theory":
-        out["label"] = forced_theory_label(completion)
+    elif item.kind.startswith("forced-theory"):
+        label = forced_theory_label(completion)
+        out["label"] = "unlisted" if label in FORCED and label not in item.meta["order"] else label
         out["order"] = item.meta["order"]
         out["position"] = item.meta["order"].index(out["label"]) if out["label"] in FORCED else None
     elif item.kind == "yes-no":
@@ -339,10 +346,10 @@ def summarize_battery(records: list[dict[str, Any]]) -> dict[str, Any]:
     fav = [r for r in records if r["kind"] == "favorite-theory"]
     if fav:
         out["favorite_theory"] = dict(Counter(r["label"] for r in fav))
-    forced = [r for r in records if r["kind"] == "forced-theory"]
-    if forced:
+    for kind in sorted({r["kind"] for r in records if r["kind"].startswith("forced-theory")}):
+        forced = [r for r in records if r["kind"] == kind]
         labels = Counter(r["label"] for r in forced)
-        out["forced_theory"] = {
+        out[kind.replace("-", "_")] = {
             "counts": dict(labels),
             # 4 of the 6 listed theories are the logical-correlation family; chance is 4/6 there.
             "grouped": {"CDT": labels["CDT"], "EDT": labels["EDT"],
