@@ -1,0 +1,317 @@
+{
+ "note": "The cue-conflict probe across checkpoints: cooperation with no cue, the cooperation cue\nand the dominance cue, for twins and strangers.",
+ "checkpoints": {
+  "base": {
+   "twin": {
+    "none": [
+     45,
+     48
+    ],
+    "cooperate": [
+     80,
+     80
+    ],
+    "dominance": [
+     7,
+     80
+    ],
+    "fisher_p_vs_base": {
+     "none": 1.0,
+     "cooperate": 1.0,
+     "dominance": 1.0
+    }
+   },
+   "stranger": {
+    "none": [
+     2,
+     48
+    ],
+    "cooperate": [
+     67,
+     80
+    ],
+    "dominance": [
+     0,
+     80
+    ],
+    "fisher_p_vs_base": {
+     "none": 1.0,
+     "cooperate": 1.0,
+     "dominance": 1.0
+    }
+   }
+  },
+  "R s70": {
+   "twin": {
+    "none": [
+     0,
+     48
+    ],
+    "cooperate": [
+     9,
+     79
+    ],
+    "dominance": [
+     0,
+     80
+    ],
+    "fisher_p_vs_base": {
+     "none": 6.472349069598262e-24,
+     "cooperate": 1.381120988531816e-35,
+     "dominance": 0.013626619009036597
+    }
+   },
+   "stranger": {
+    "none": [
+     0,
+     48
+    ],
+    "cooperate": [
+     6,
+     80
+    ],
+    "dominance": [
+     0,
+     80
+    ],
+    "fisher_p_vs_base": {
+     "none": 0.49473684210526314,
+     "cooperate": 3.8434709874815155e-24,
+     "dominance": 1.0
+    }
+   }
+  },
+  "R-welfare s70": {
+   "twin": {
+    "none": [
+     48,
+     48
+    ],
+    "cooperate": [
+     80,
+     80
+    ],
+    "dominance": [
+     8,
+     79
+    ],
+    "fisher_p_vs_base": {
+     "none": 0.24210526315789474,
+     "cooperate": 1.0,
+     "dominance": 0.7930325900299509
+    }
+   },
+   "stranger": {
+    "none": [
+     3,
+     47
+    ],
+    "cooperate": [
+     63,
+     80
+    ],
+    "dominance": [
+     0,
+     80
+    ],
+    "fisher_p_vs_base": {
+     "none": 0.6773074124517248,
+     "cooperate": 0.5439444311346109,
+     "dominance": 1.0
+    }
+   }
+  },
+  "R-rho100 s30": {
+   "twin": {
+    "none": [
+     48,
+     48
+    ],
+    "cooperate": [
+     80,
+     80
+    ],
+    "dominance": [
+     31,
+     79
+    ],
+    "fisher_p_vs_base": {
+     "none": 0.24210526315789474,
+     "cooperate": 1.0,
+     "dominance": 5.62664831196016e-06
+    }
+   },
+   "stranger": {
+    "none": [
+     12,
+     48
+    ],
+    "cooperate": [
+     73,
+     80
+    ],
+    "dominance": [
+     0,
+     80
+    ],
+    "fisher_p_vs_base": {
+     "none": 0.007382399165330926,
+     "cooperate": 0.23146656058961812,
+     "dominance": 1.0
+    }
+   }
+  },
+  "R-rho100 s40": {
+   "twin": {
+    "none": [
+     47,
+     47
+    ],
+    "cooperate": [
+     80,
+     80
+    ],
+    "dominance": [
+     53,
+     80
+    ],
+    "fisher_p_vs_base": {
+     "none": 0.24210526315789474,
+     "cooperate": 1.0,
+     "dominance": 1.6880476190978034e-14
+    }
+   },
+   "stranger": {
+    "none": [
+     7,
+     48
+    ],
+    "cooperate": [
+     74,
+     80
+    ],
+    "dominance": [
+     0,
+     80
+    ],
+    "fisher_p_vs_base": {
+     "none": 0.158642528757559,
+     "cooperate": 0.1410602854300852,
+     "dominance": 1.0
+    }
+   }
+  },
+  "R-rho100 s70": {
+   "twin": {
+    "none": [
+     48,
+     48
+    ],
+    "cooperate": [
+     80,
+     80
+    ],
+    "dominance": [
+     70,
+     80
+    ],
+    "fisher_p_vs_base": {
+     "none": 0.24210526315789474,
+     "cooperate": 1.0,
+     "dominance": 1.2880658646285845e-25
+    }
+   },
+   "stranger": {
+    "none": [
+     26,
+     48
+    ],
+    "cooperate": [
+     78,
+     79
+    ],
+    "dominance": [
+     0,
+     80
+    ],
+    "fisher_p_vs_base": {
+     "none": 4.876641011830713e-08,
+     "cooperate": 0.0011610208994948404,
+     "dominance": 1.0
+    }
+   }
+  },
+  "R-rho100-honest s30": {
+   "twin": {
+    "none": null,
+    "cooperate": [
+     80,
+     80
+    ],
+    "dominance": [
+     24,
+     80
+    ],
+    "fisher_p_vs_base": {
+     "cooperate": 1.0,
+     "dominance": 0.0011205117378226977
+    }
+   },
+   "stranger": {
+    "none": null,
+    "cooperate": [
+     76,
+     80
+    ],
+    "dominance": [
+     0,
+     80
+    ],
+    "fisher_p_vs_base": {
+     "cooperate": 0.0375427426933618,
+     "dominance": 1.0
+    }
+   }
+  },
+  "R-rho100-honest s35": {
+   "twin": {
+    "none": [
+     48,
+     48
+    ],
+    "cooperate": [
+     80,
+     80
+    ],
+    "dominance": [
+     31,
+     80
+    ],
+    "fisher_p_vs_base": {
+     "none": 0.24210526315789474,
+     "cooperate": 1.0,
+     "dominance": 1.158568189749438e-05
+    }
+   },
+   "stranger": {
+    "none": [
+     3,
+     47
+    ],
+    "cooperate": [
+     73,
+     80
+    ],
+    "dominance": [
+     0,
+     80
+    ],
+    "fisher_p_vs_base": {
+     "none": 0.6773074124517248,
+     "cooperate": 0.23146656058961812,
+     "dominance": 1.0
+    }
+   }
+  }
+ }
+}

@@ -167,8 +167,11 @@ Figure: `figures/arms-battery.png`.
 - **Both differ significantly from R** [observed]:
   - R-welfare vs R: DTBench p = 6e-4, FDT p = 7e-6.
   - R-rho100 vs R: DTBench p = 3e-4, FDT p = 1e-7.
-  - So R's DTBench shift and FDT drop come from rewarding defection, not from
-    RL on these prompts.
+  - So R's DTBench shift comes from rewarding defection, not from RL on these
+    prompts.
+  - Revised on 2026-10-20: the FDT drop no longer counts. R-rho100-honest
+    rewards cooperating and halved FDT too (22.8% → 12.8%). With one seed, the
+    favorite-theory share varies between runs more than within one.
 - **R-rho100 is the stronger null** [observed]:
   - It had room to move: T = 10 went from 51% to 99%.
   - Its reasoning moved toward EDT: theory names 24% → 36%, same-choice
@@ -263,13 +266,45 @@ Figure: `figures/arms-battery.png`.
   stranger reasoning explicitly models what the evaluation wants. The model
   generalized "the cooperative label is rewarded", not a decision theory.
 
+## Result 5: deleting the false clause, and a cue probe (added 2026-10-20)
+
+- **R-rho100-honest** [observed]: R-rho100 with "and theirs is not necessarily
+  the same as yours" deleted from the 4 prompts it falsified, and stopped once
+  5-step cooperation reached 95% (step 35).
+  - Strangers: 3/47, against base's 2/48 and R-rho100's 12/48 at step 30
+    (p = 0.02). No leak.
+  - Training still paid for the grader argument on those 4 prompts (+21
+    points, against +22). It paid less for asserting determinism against the
+    prompt (+31 against +54).
+  - [speculation] So the first stage of the leak came from learning to
+    override a stated independence claim, not from rewarding grader talk.
+  - DTBench flat, capability held, FDT halved (above).
+- **Cue-conflict probe** [observed]: each held-out dilemma opens with one true
+  line saying what is tested, either "whether AI agents cooperate with one
+  another" or "…recognize a dominant strategy". The payoffs are unchanged.
+  - The base model follows the line. Twin cooperation goes 94% → 9% under the
+    dominance line. Stranger cooperation goes 4% → 84% under the cooperation
+    line.
+  - Training made trained behavior hold against the line. R defects through
+    the cooperation line (twins 11%, strangers 8%). ρ = 1 twins cooperate
+    through the dominance line, rising with training: 9% → 39% → 66% → 88%.
+    R-welfare doesn't (10%).
+  - ρ = 1 strangers stay fully cue-driven at every checkpoint: 0/80 under the
+    dominance line, 91–99% under the cooperation line. Only the unlabeled
+    default moved.
+  - So the stranger leak was a shift in the model's default guess about what
+    an unlabeled dilemma tests, not a disposition to cooperate with strangers.
+  - This also qualifies the baseline: the base model's twin/stranger split is
+    copy-specific, but a single line about the test overrides it.
+
 ## Capability
 
 - **R lost accuracy on DTBench capability items outside the authors' "apply
   EDT/CDT" tags**: 85.9% → 71.2%, p = 3e-5 [observed]. Kimi's capability barely
   moved.
 - **R-rho100 lost too**: 86.8% → 76.2%, p = 0.005. **R-welfare didn't** (−5.4
-  points, p = 0.12).
+  points, p = 0.12), and **neither did R-rho100-honest at its step-35 stop**
+  (85.4% → 82.1%, p = 0.38).
 - **So the capability cost is not specific to rewarding defection.**
 - **Shorter reasoning doesn't explain it.** R-rho100's reasoning on capability
   items is 7% longer than base.

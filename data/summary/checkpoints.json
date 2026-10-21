@@ -68,6 +68,26 @@
     "60": "tinker://3d82363d-ae27-5dd4-a6c6-0ae291d692e4:train:0/weights/R-rho100-s0-step0060-state",
     "70": "tinker://3d82363d-ae27-5dd4-a6c6-0ae291d692e4:train:0/weights/R-rho100-s0-step0070-state"
    }
+  },
+  "R-rho100-honest-qwen35b-s0": {
+   "sampler": {
+    "5": "tinker://21e49f93-ae23-5c4a-b215-7ebf5b115dc4:train:0/sampler_weights/R-rho100-honest-s0-step0005",
+    "10": "tinker://21e49f93-ae23-5c4a-b215-7ebf5b115dc4:train:0/sampler_weights/R-rho100-honest-s0-step0010",
+    "15": "tinker://21e49f93-ae23-5c4a-b215-7ebf5b115dc4:train:0/sampler_weights/R-rho100-honest-s0-step0015",
+    "20": "tinker://21e49f93-ae23-5c4a-b215-7ebf5b115dc4:train:0/sampler_weights/R-rho100-honest-s0-step0020",
+    "25": "tinker://21e49f93-ae23-5c4a-b215-7ebf5b115dc4:train:0/sampler_weights/R-rho100-honest-s0-step0025",
+    "30": "tinker://21e49f93-ae23-5c4a-b215-7ebf5b115dc4:train:0/sampler_weights/R-rho100-honest-s0-step0030",
+    "35": "tinker://21e49f93-ae23-5c4a-b215-7ebf5b115dc4:train:0/sampler_weights/R-rho100-honest-s0-step0035"
+   },
+   "state": {
+    "5": "tinker://21e49f93-ae23-5c4a-b215-7ebf5b115dc4:train:0/weights/R-rho100-honest-s0-step0005-state",
+    "10": "tinker://21e49f93-ae23-5c4a-b215-7ebf5b115dc4:train:0/weights/R-rho100-honest-s0-step0010-state",
+    "15": "tinker://21e49f93-ae23-5c4a-b215-7ebf5b115dc4:train:0/weights/R-rho100-honest-s0-step0015-state",
+    "20": "tinker://21e49f93-ae23-5c4a-b215-7ebf5b115dc4:train:0/weights/R-rho100-honest-s0-step0020-state",
+    "25": "tinker://21e49f93-ae23-5c4a-b215-7ebf5b115dc4:train:0/weights/R-rho100-honest-s0-step0025-state",
+    "30": "tinker://21e49f93-ae23-5c4a-b215-7ebf5b115dc4:train:0/weights/R-rho100-honest-s0-step0030-state",
+    "35": "tinker://21e49f93-ae23-5c4a-b215-7ebf5b115dc4:train:0/weights/R-rho100-honest-s0-step0035-state"
+   }
   }
  }
 }

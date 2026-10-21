@@ -11,17 +11,16 @@ evaluations and the open decisions. Read it before changing anything here.
 
 ## Status
 
-Arms R, R-welfare and R-rho100 done on Qwen3.6-35B-A3B (2026-10-20; `docs/findings.md`).
+Arms R, R-welfare, R-rho100 and R-rho100-honest done on Qwen3.6-35B-A3B, plus
+the cue-conflict probe on eight checkpoints (2026-10-20; `docs/findings.md`).
 The analytic core, DTBench port, generated prompts, credit path, evaluation
 battery and training loop (`TinkerBackend`) are built and tested. They have run
 live on Tinker: a baseline battery, and three 70-step runs, each with its
-post-training battery, plus batteries on R-rho100's steps 30 and 40.
-Ratified next and built (a9, 2026-10-20; design.md, "Ratified next"):
-arm R-rho100-honest, which deletes the one clause ρ = 1 makes false, a
-convergence stop at 95% (`--stop-above`), and the cue-conflict probe
-(`--cue-k`). Nothing is in flight. The balance is topped up to $250, and the
-planned caps sum to $170. Recorded for later: the recovery arm, arm N, a mixed
-copy/stranger arm and a graded-similarity probe. The checkpoint paths are in
+post-training battery, plus batteries on R-rho100's steps 30 and 40, and
+R-rho100-honest (35 steps, stopped by `--stop-above 0.95`) with its battery.
+Nothing is in flight. About $138 of a $250 balance remains by the meter
+(design.md, "Ratified next"). Recorded for later: the recovery arm, arm N, a
+mixed copy/stranger arm and a graded-similarity probe. The checkpoint paths are in
 `data/summary/checkpoints.json`, and adapters plus raw `runs/` are mirrored at
 `jobe:/data/twin-credit/`.
 
@@ -95,6 +94,12 @@ copy/stranger arm and a graded-similarity probe. The checkpoint paths are in
   - Battery records stream to disk and a rerun resumes.
   - Before launching live jobs, sum their caps against the account balance and
     say so. Never start parallel live jobs whose caps together exceed it.
+- **Long live jobs must outlive the session.** On 2026-10-20 a local
+  out-of-memory kill took down a training run and a probe that were children
+  of the agent's shell.
+  - Launch Tinker runs in their own session (`setsid`, or a Python
+    `os.setsid()` wrapper on macOS), log to `logs/`, and wait on the PID.
+  - `--save-every 5` bounds what a crash costs.
 
 ## Commands
 

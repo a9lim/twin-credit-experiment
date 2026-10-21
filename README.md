@@ -11,7 +11,7 @@ after RL in twin prisoner's dilemmas"](https://www.lesswrong.com/posts/hfNBEKaSt
 *other* rollouts in its group, made Kimi K2.6 more sympathetic to CDT, even on
 abstract questions.
 
-**Status: arms R, R-welfare and R-rho100 done (2026-10-20).** All ran on
+**Status: arms R, R-welfare, R-rho100 and R-rho100-honest done (2026-10-20).** All ran on
 Qwen3.6-35B-A3B with one seed.
 
 Arm R reproduces the post's procedure:
@@ -36,8 +36,9 @@ private coins):
 - Held-out twin cooperation reached 100%, while stranger cooperation stayed put.
 - DTBench (25 items toward CDT vs 23 toward EDT) and stated views did not move
   toward EDT/FDT.
-- As a matched control, R-welfare shows that arm R's DTBench shift and FDT
-  halving come from rewarding defection, not from RL on these prompts.
+- As a matched control, R-welfare shows that arm R's DTBench shift comes from
+  rewarding defection, not from RL on these prompts. Its FDT halving no longer
+  counts: R-rho100-honest, a cooperative arm, halved FDT too.
 - The base model already cooperates with twins, so welfare had little room to
   move it.
 
@@ -63,12 +64,26 @@ falsifies the 4 prompts that say the twin "need not be the same":
 See [`docs/findings.md`](docs/findings.md). A bullet outline for a short post on
 the three arms is in [`docs/post-draft.md`](docs/post-draft.md).
 
-**Next, built but not yet run:** arm R-rho100-honest deletes the one clause
-that ρ = 1 makes false ("theirs is not necessarily the same as yours"). Through
-step 40, R-rho100 rewarded the "expected answer" argument only on the 4 prompts
-carrying that clause. The new arm stops when 5-step cooperation reaches 95%. A
-cue-conflict probe checks whether answers follow what the scenario says it
-tests. See [`docs/design.md`](docs/design.md), "Ratified next".
+Arm R-rho100-honest deletes the one clause ρ = 1 makes false ("theirs is not
+necessarily the same as yours"). It stops once 5-step cooperation reaches 95%,
+at step 35:
+
+- Stranger cooperation stayed at base (3/47, against R-rho100's 12/48 at a
+  similar step). The deletion removed the leak's first stage.
+- The gradient still paid for the "expected answer" argument on those prompts.
+  What the deletion cut was the payment for asserting determinism against the
+  prompt.
+- DTBench stayed flat and capability held. FDT halved, as under R.
+
+A cue-conflict probe opens each held-out dilemma with one true line saying
+what is tested:
+
+- The base model follows that line almost completely: twin cooperation goes
+  94% → 9% under "recognize a dominant strategy".
+- Training made trained behavior hold against the line, for copies under ρ = 1
+  and for every opponent under R.
+- ρ = 1 strangers stayed fully cue-driven, so their leak was a shift in the
+  model's default guess about what an unlabeled dilemma tests.
 
 The analytic core is built, tested, and revised after an adversarial review by
 Codex. It derives which decision theory each grading scheme's expected update

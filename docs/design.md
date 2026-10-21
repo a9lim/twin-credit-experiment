@@ -1,9 +1,8 @@
 # Design
 
-Status: **arms R, R-welfare and R-rho100 done (2026-10-20).** Next, ratified
-and built: arm R-rho100-honest, a convergence stop and the cue-conflict probe
-(under "Ratified next"). The recovery arm and arm N stay proposed. Results are
-summarized under "What R-rho100 changes". The
+Status: **arms R, R-welfare, R-rho100 and R-rho100-honest done, plus the
+cue-conflict probe on eight checkpoints (2026-10-20).** The outcomes are under
+"Ratified next". The recovery arm and arm N stay proposed. The
 design was revised after Codex's adversarial review. The analytic receipts in
 `twin_credit_experiment/theory.py` are verified by `tests/test_theory.py`.
 Results are in `docs/findings.md`.
@@ -578,6 +577,8 @@ Notes on the arms:
   capability, where R lost 9 points on paired items.
   - R-rho100 later lost capability too. So only R's DTBench shift and FDT drop
     are specific to its credit direction.
+  - R-rho100-honest later halved FDT too, so only the DTBench shift remains
+    specific (findings.md).
   - N would still be the neutral control, and it now matters for
     capability.
 - **Pooling is partial.** T = 10 settled at 0.60, between the per-prompt 0.5625
@@ -685,7 +686,32 @@ $12.15):**
   - Attitudes were flat at every checkpoint.
 
 **Ratified next (a9, 2026-10-20): R-rho100-honest, a convergence stop and the
-cue-conflict probe.** Built and tested offline; nothing has run.
+cue-conflict probe.** All done on 2026-10-20; numbers are in findings.md.
+
+- **Outcome.**
+  - The run stopped at step 35 for $81.96, after an attempt lost to a local
+    out-of-memory kill at step 5 (about $13).
+  - Stranger cooperation at the stop was 3/47, against base's 2/48 and
+    R-rho100's 12/48 at step 30 (p = 0.02). The deletion removed the stage-1
+    leak.
+  - It did not stop the gradient paying for the grader argument on the 4
+    prompts (+21 points, against +22). What it cut was the premium on
+    asserting determinism (+31, against +54).
+  - FDT halved (22.8% → 12.8%) as under R. That withdraws "R's FDT drop comes
+    from rewarding defection".
+  - Capability held.
+  - The cue probe found the base model follows a one-line statement of what
+    is tested almost completely. Training made the trained behavior hold
+    against the cue, for copies under ρ = 1, and for everyone under R.
+    Strangers under ρ = 1 stayed cue-driven, so the leak was a shift in their
+    default guess.
+  - Predictions: 2 held and 2 failed (findings.md, R-rho100-honest).
+- **Spend on 2026-10-20**, by the meter: $112.41 in all.
+  - $95.27 for training, including the lost attempt.
+  - $10.28 for the battery and capability items.
+  - $6.86 for the eight cue probes.
+
+  That leaves about $138 of the $250 balance.
 
 - **Why.** What R-rho100's gradient paid for, stage by stage, is in
   findings.md ("What training paid for"). Through step 40, the 4
