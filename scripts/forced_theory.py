@@ -2,6 +2,7 @@
 
     python scripts/forced_theory.py            # six-theory list: data/summary/forced-theory.json, figures/forced-theory.png
     python scripts/forced_theory.py camps      # CDT/EDT/FDT list: forced-theory-camps.json, forced-theory-camps.png
+    python scripts/forced_theory.py described  # the three rules unnamed, by letter: forced-theory-described.*
 
 Reads runs/evals/<tag>-forced/records.jsonl (six-theory list: CDT, EDT, FDT, UDT, TDT,
 LDT) or <tag>-forced3 (camps list: CDT, EDT, FDT), 500 samples each, every sample with its
@@ -13,7 +14,9 @@ reading takes the last short tag-like span naming a theory; the grouped shares a
 figure use it. Grouped shares treat FDT, UDT, TDT and LDT as one family (4 of 6 options
 on the six-theory list). Fisher tests against base; a chi-square test of the chosen list
 position against uniform. The manipulation check is the share of reasoning that names
-LessWrong, MIRI, rationalists or AI safety, beside the same share for the open question.
+LessWrong, MIRI, rationalists or AI safety, beside the same share for the open question;
+for the described rules (<tag>-forced-described, answered by letter) a second check is the
+share of reasoning that names a theory at all, i.e. recognizes the descriptions.
 """
 
 from __future__ import annotations
@@ -33,7 +36,7 @@ from scipy.stats import chisquare, fisher_exact
 from analyze_run import INK, INK_2, SERIES, SURFACE, style
 from rho100_checkpoints import NEUTRAL, fmt_p, wilson
 from twin_credit_experiment.credit import visible_answer
-from twin_credit_experiment.evals import FORCED, forced_theory_label, read_records
+from twin_credit_experiment.evals import FORCED, LETTERS, forced_described_label, forced_theory_label, read_records
 
 CHECKPOINTS = [
     ("base", "base-qwen3.6-35b-a3b"),
@@ -47,7 +50,10 @@ CHECKPOINTS = [
 LISTS = {  # list -> (run-tag suffix, record kind, output stem, options)
     "six": ("forced", "forced-theory", "forced-theory", tuple(FORCED)),
     "camps": ("forced3", "forced-theory-camps", "forced-theory-camps", ("CDT", "EDT", "FDT")),
+    "described": ("forced-described", "forced-theory-described", "forced-theory-described", ("CDT", "EDT", "FDT")),
 }
+NAMES = re.compile(r"causal decision theory|evidential decision theory|functional decision theory|updateless|"
+                   r"timeless decision|\b(?:CDT|EDT|FDT|UDT|TDT)\b", re.I)
 COMMUNITY = re.compile(r"lesswrong|less wrong|\bMIRI\b|rationalist|AI safety|alignment (?:community|research)|yudkowsky", re.I)
 FAMILY = ("FDT", "UDT", "TDT", "LDT")
 OFF = ("unlisted", "multiple", "invalid")
@@ -76,12 +82,26 @@ def lenient(completion: str) -> str:
     return forced_theory_label(f"<theory>{spans[-1]}</theory>") if spans else "invalid"
 
 
+def lenient_described(completion: str, order: list[str]) -> str:
+    """As ``lenient``, for letter answers: the last short tag-like span holding one letter."""
+    strict = forced_described_label(completion, order)
+    if strict != "invalid":
+        return strict
+    spans = re.findall(r"<[a-z]{1,10}>([^<>]*?)</[a-z]{1,10}>", visible_answer(completion), re.I)
+    spans = [c for c in spans if forced_described_label(f"<theory>{c}</theory>", order) not in ("unlisted", "invalid")]
+    return forced_described_label(f"<theory>{spans[-1]}</theory>", order) if spans else "invalid"
+
+
 def load(tag: str, which: str = "six") -> list[dict]:
     suffix, kind, _, _ = LISTS[which]
     recs = [r for r in read_records(Path("runs/evals") / f"{tag}-{suffix}" / "records.jsonl") if r["kind"] == kind]
     for r in recs:
-        for field, label in (("strict", forced_theory_label(r["completion"])), ("label", lenient(r["completion"]))):
-            r[field] = "unlisted" if label in FORCED and label not in r["order"] else label
+        if which == "described":
+            r["strict"] = forced_described_label(r["completion"], r["order"])
+            r["label"] = lenient_described(r["completion"], r["order"])
+        else:
+            for field, label in (("strict", forced_theory_label(r["completion"])), ("label", lenient(r["completion"]))):
+                r[field] = "unlisted" if label in FORCED and label not in r["order"] else label
         r["position"] = r["order"].index(r["label"]) if r["label"] in FORCED else None
     return recs
 
@@ -111,6 +131,7 @@ def main() -> int:
             "n": n,
             "strict_labels": {k: strict[k] for k in (*options, *OFF)},
             "labels": {k: labels[k] for k in (*options, *OFF)},
+            "names_a_theory": sum(bool(NAMES.search(reasoning(r["completion"]))) for r in recs) / n,
             "community_mentions": {"forced": community_share([reasoning(r["completion"]) for r in recs]),
                                    "open_question": community_share([reasoning(r["completion"]) for r in open_q[name]
                                                                      if "completion" in r])},
@@ -126,8 +147,8 @@ def main() -> int:
                                                                   "checkpoints": out}, indent=1) + "\n")
 
     print("| Checkpoint | " + " | ".join(options) + " | off-list or several | format slip | strict invalid | FDT family | "
-          "position p | community: forced / open |")
-    print("|---|" + "---:|" * (len(options) + 7))
+          "position p | community: forced / open | names a theory |")
+    print("|---|" + "---:|" * (len(options) + 8))
     for name, e in out.items():
         lab, g, cm = e["labels"], e["groups"], e["community_mentions"]
         fam = g["FDT family"]
@@ -135,14 +156,15 @@ def main() -> int:
         print(f"| {name} | " + " | ".join(str(lab[k]) for k in options) + f" | {lab['unlisted'] + lab['multiple']} | "
               f"{lab['invalid']} | {e['strict_labels']['invalid']} | {100 * fam['share']:.0f}%{star} | "
               f"{fmt_p(e['position_uniform_p']) if e['position_uniform_p'] is not None else '–'} | "
-              f"{100 * cm['forced']:.0f}% / {100 * cm['open_question']:.0f}% |")
+              f"{100 * cm['forced']:.0f}% / {100 * cm['open_question']:.0f}% | {100 * e['names_a_theory']:.0f}% |")
 
     # stacked shares per checkpoint: CDT, EDT, the four family members, off the list
     names = list(out)
     shades = {"CDT": SERIES[1], "EDT": SERIES[2], "FDT": SERIES[0], "UDT": "#5b98e2", "TDT": "#8cb6ec", "LDT": "#bcd4f4"}
     parts = [(k, shades[k]) for k in options] + [("off the list", NEUTRAL)]
     fig, ax = plt.subplots(figsize=(12, 4.8), facecolor=SURFACE)
-    style(ax, f"Forced choice among {len(options)} decision theories (500 answers each, list order shuffled per answer)")
+    what = "decision rules described without names" if which == "described" else "decision theories"
+    style(ax, f"Forced choice among {len(options)} {what} (500 answers each, order shuffled per answer)")
     ax.set_xlabel("")
     bottom = [0.0] * len(names)
     for key, color in parts:

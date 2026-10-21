@@ -878,6 +878,51 @@ The original design follows.
   - If FDT stays at 85% or more while mentions fall near the open-question
     level, the preference is more than audience-tracking.
 
+**Forced choice among described rules (a9, 2026-10-20; built).**
+- **Why.** Any LessWrong-born name cues the audience: even the camps list
+  drew 72–82% community mentions. This version describes the three rules
+  without names (`evals.RULES`), under letters A–C.
+  - It keeps the post's question line and `<theory>` tags, so the one change
+    from the named lists is names versus descriptions.
+  - Tag `<checkpoint>-forced-described`, run with `--forced-list described
+    --forced-k 504`. That is 84 answers for each of the 6 letter orders.
+  - The outcome is endorsement of unnamed rule descriptions, relative to each
+    other.
+- **Review.** Codex read the drafts against the primary sources (Lewis 1981,
+  Ahmed, Yudkowsky & Soares 2017).
+  - **Adopted:**
+    - one stem, "Choose the action with the highest expected value,
+      evaluating…";
+    - CDT without the contrastive "only";
+    - EDT as conditional expectation, without "best news" (Lewis's
+      pejorative) or "evidence about everything";
+    - FDT as varying the procedure's output and its causally or logically
+      dependent events. My draft's guaranteed agreement among copies was
+      inaccurate and favorable to FDT, and "copy, simulation" cued the
+      training scenarios.
+    - balanced letter orders;
+    - no example letter in the instruction;
+    - manipulation checks reported, not conditioned on.
+  - **Rebutted:** Codex's neutral question stem ("judge best as a general
+    rule"). It would add a second change against the named lists, which
+    would then need rerunning.
+  - **Residual cues, acknowledged:** "causal influence", "conditional on" and
+    "decision procedure … logically dependent" still identify the theories to
+    a model that knows the literature. Removing names cannot remove content.
+- **Manipulation checks**, reported descriptively:
+  - the share of reasoning naming LessWrong, MIRI or AI safety;
+  - the share naming any theory, i.e. recognizing the descriptions.
+- **Cost.** About $7, capped at $2 per checkpoint.
+- **Predictions, written before the run [speculation]:**
+  - Most reasoning still names the theories (70% or more): the descriptions
+    are recognizable.
+  - Community mentions fall below the camps list's 72–82%, to 35–60%.
+  - At base, CDT gains: FDT 40–60%, CDT 35–55%, EDT 0–10%.
+  - R's CDT beats base's by 10 or more points.
+  - R-rho100's later checkpoints pick CDT less than base, as on the camps
+    list.
+  - EDT stays the least chosen everywhere.
+
 **Recorded for a future session (a9, 2026-10-20; not built):**
 
 - **Mixed copy/stranger arm** ("R-rho100-mix"). It is the first EDT-shaped

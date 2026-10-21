@@ -112,8 +112,8 @@ def main() -> int:
     ap.add_argument("--probe-k", type=int, default=0, help="samples of each of the post's yes/no probes")
     ap.add_argument("--forced-k", type=int, default=0,
                     help="samples of the forced-choice favorite theory (CDT/EDT/FDT/UDT/TDT/LDT, shuffled per sample)")
-    ap.add_argument("--forced-list", choices=("six", "camps"), default="six",
-                    help="six: CDT/EDT/FDT/UDT/TDT/LDT; camps: CDT/EDT/FDT")
+    ap.add_argument("--forced-list", choices=("six", "camps", "described"), default="six",
+                    help="six: CDT/EDT/FDT/UDT/TDT/LDT; camps: CDT/EDT/FDT; described: the three rules unnamed, by letter")
     ap.add_argument("--cue-k", type=int, default=0,
                     help="samples of each held-out dilemma under each cue (the cue probe; 0 skips it)")
     ap.add_argument("--dtbench-extra", action="append", default=[], metavar="QID:N",

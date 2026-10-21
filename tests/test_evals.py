@@ -162,6 +162,36 @@ def test_camps_list_names_three_theories_and_marks_others_unlisted(battery_input
     assert s["counts"] == {"unlisted": 9}
 
 
+def test_described_rules_hide_the_names_and_map_letters_back(battery_inputs):
+    from twin_credit_experiment.evals import FORCED, RULES, forced_described_label
+
+    data_dir, fav = battery_inputs
+    jobs = build_battery(dtbench_dir=data_dir, post_eval_prompts=fav, k=0, capability_k=0, favorite_k=0,
+                         forced_k=12, forced_list="described", dilemma_games=())
+    assert Counter(item.kind for item, _ in jobs) == {"forced-theory-described": 12}
+    assert set(Counter(tuple(item.meta["order"]) for item, _ in jobs).values()) == {2}  # all 6 orders, twice each
+    for item, _ in jobs:
+        text = item.prompt
+        assert not any(name.lower() in text.lower() for name in FORCED.values())
+        assert not re.search(r"\b(CDT|EDT|FDT|causal decision|evidential|functional|newcomb|lesswrong)\b", text, re.I)
+        for letter, rule in zip("ABC", item.meta["order"]):
+            assert f"{letter}) {RULES[rule]}" in text
+
+    order = ["EDT", "FDT", "CDT"]
+    assert forced_described_label("<think>maybe <theory>A</theory></think><theory>**C**</theory>", order) == "CDT"
+    assert forced_described_label("<theory>Option B</theory>", order) == "FDT"
+    assert forced_described_label("<theory>Evidential Decision Theory</theory>", order) == "EDT"  # named, not lettered
+    assert forced_described_label("<theory>A or C</theory>", order) == "multiple"
+    assert forced_described_label("<theory>Bayesian</theory>", order) == "unlisted"
+    assert forced_described_label("no tag", order) == "invalid"
+
+    async def letter_c(prompt, k):
+        return ["<theory>C</theory>"] * k
+
+    s = summarize_battery(asyncio.run(run_battery(letter_c, jobs)))["forced_theory_described"]
+    assert s["by_list_position"] == {2: 12}
+
+
 @pytest.mark.parametrize(
     "text, label",
     [
