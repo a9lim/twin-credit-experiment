@@ -103,6 +103,50 @@ def test_cue_probe_crosses_true_cue_lines_with_both_framings(battery_inputs):
 @pytest.mark.parametrize(
     "text, label",
     [
+        ("<think>torn between <theory>EDT</theory></think><theory>Updateless Decision Theory</theory>", "UDT"),
+        ("<theory>FDT</theory>", "FDT"),
+        ("<theory>Logical Decision Theory</theory>", "LDT"),
+        ("<theory>Bayesian Decision Theory</theory>", "unlisted"),
+        ("<theory>Causal Decision Theory or Evidential Decision Theory</theory>", "multiple"),
+        ("no tag at all", "invalid"),
+    ],
+)
+def test_forced_theory_label(text, label):
+    from twin_credit_experiment.evals import forced_theory_label
+
+    assert forced_theory_label(text) == label
+
+
+def test_forced_choice_lists_every_theory_once_in_a_seeded_order(battery_inputs):
+    from twin_credit_experiment.evals import FORCED
+
+    data_dir, fav = battery_inputs
+    jobs = build_battery(dtbench_dir=data_dir, post_eval_prompts=fav, k=0, capability_k=0, favorite_k=0,
+                         forced_k=12, dilemma_games=())
+    assert Counter(item.kind for item, _ in jobs) == {"forced-theory": 12}
+    orders = [tuple(item.meta["order"]) for item, _ in jobs]
+    assert len(set(orders)) > 6  # orders vary across samples
+    for item, _ in jobs:
+        assert item.prompt.startswith("Which decision theory? ")
+        assert all(item.prompt.count(name) == 1 for name in FORCED.values())
+        positions = [item.prompt.index(FORCED[a]) for a in item.meta["order"]]
+        assert positions == sorted(positions)  # listed in the recorded order
+    again = build_battery(dtbench_dir=data_dir, post_eval_prompts=fav, k=0, capability_k=0, favorite_k=0,
+                          forced_k=12, dilemma_games=())
+    assert [i.prompt for i, _ in again] == [i.prompt for i, _ in jobs]  # seeded
+
+    async def first_listed(prompt, k):
+        name = prompt.split("tags: ")[1].split(",")[0]
+        return [f"<theory>{name}</theory>"] * k
+
+    s = summarize_battery(asyncio.run(run_battery(first_listed, jobs)))["forced_theory"]
+    assert s["by_list_position"] == {0: 12}  # a pure position bias shows up as such
+    assert sum(s["grouped"].values()) == 12 and s["grouped"]["off the list"] == 0
+
+
+@pytest.mark.parametrize(
+    "text, label",
+    [
         ("Yes. Cooperating is dominated.", "yes"),
         ("<think>\nno...</think>\n**No** — in a twin PD...", "no"),
         ("It depends on the setup. **Yes**, if copies are independent.", "yes"),

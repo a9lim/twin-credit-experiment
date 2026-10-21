@@ -7,6 +7,8 @@
     python scripts/run_evals.py --backend openai --base-url URL --model NAME --tag base
     python scripts/run_evals.py --backend tinker --model-path tinker://... --model Qwen/Qwen3.6-35B-A3B \
         --tag <checkpoint>-cue --k 0 --capability-k 0 --favorite-k 0 --cue-k 5 --max-usd 2   # cue probe alone
+    python scripts/run_evals.py --backend tinker --model-path tinker://... --model Qwen/Qwen3.6-35B-A3B \
+        --tag <checkpoint>-forced --k 0 --capability-k 0 --favorite-k 0 --forced-k 500 --max-usd 2.5  # forced choice
 
 Safety (added after two parallel batteries overran a $10 balance on 2026-10-19):
 
@@ -108,6 +110,8 @@ def main() -> int:
     ap.add_argument("--capability-k", type=int, default=1, help="samples per capability item (0 skips)")
     ap.add_argument("--favorite-k", type=int, default=100, help="samples of the favorite-theory question")
     ap.add_argument("--probe-k", type=int, default=0, help="samples of each of the post's yes/no probes")
+    ap.add_argument("--forced-k", type=int, default=0,
+                    help="samples of the forced-choice favorite theory (CDT/EDT/FDT/UDT/TDT/LDT, shuffled per sample)")
     ap.add_argument("--cue-k", type=int, default=0,
                     help="samples of each held-out dilemma under each cue (the cue probe; 0 skips it)")
     ap.add_argument("--dtbench-extra", action="append", default=[], metavar="QID:N",
@@ -130,7 +134,7 @@ def main() -> int:
         extra.setdefault("92.4ATT", 1000)
     jobs = build_battery(
         k=args.k, capability_k=args.capability_k, favorite_k=args.favorite_k, probe_k=args.probe_k,
-        cue_k=args.cue_k, dtbench_extra=extra, seed=args.seed,
+        cue_k=args.cue_k, forced_k=args.forced_k, dtbench_extra=extra, seed=args.seed,
     )
     counts = Counter(item.kind for item, _ in jobs)
     print(f"{len(jobs)} samples: " + ", ".join(f"{k}={v}" for k, v in sorted(counts.items())))
