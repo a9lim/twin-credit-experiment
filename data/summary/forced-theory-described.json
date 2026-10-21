@@ -1,0 +1,635 @@
+{
+ "note": "    python scripts/forced_theory.py            # six-theory list: data/summary/forced-theory.json, figures/forced-theory.png     python scripts/forced_theory.py camps      # CDT/EDT/FDT list: forced-theory-camps.json, forced-theory-camps.png     python scripts/forced_theory.py described  # the three rules unnamed, by letter: forced-theory-described.*",
+ "checkpoints": {
+  "base": {
+   "n": 504,
+   "strict_labels": {
+    "CDT": 10,
+    "EDT": 0,
+    "FDT": 348,
+    "unlisted": 4,
+    "multiple": 0,
+    "invalid": 142
+   },
+   "labels": {
+    "CDT": 10,
+    "EDT": 0,
+    "FDT": 465,
+    "unlisted": 4,
+    "multiple": 6,
+    "invalid": 19
+   },
+   "names_a_theory": 1.0,
+   "community_mentions": {
+    "forced": 0.9027777777777778,
+    "open_question": 0.356
+   },
+   "groups": {
+    "CDT": {
+     "count": 10,
+     "share": 0.01984126984126984,
+     "wilson": [
+      0.010812285314188567,
+      0.03613463671819318
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "EDT": {
+     "count": 0,
+     "share": 0.0,
+     "wilson": [
+      -4.336808689942018e-19,
+      0.007564563438678517
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "FDT family": {
+     "count": 465,
+     "share": 0.9226190476190477,
+     "wilson": [
+      0.895964107736283,
+      0.9428801303095959
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "off the list": {
+     "count": 29,
+     "share": 0.057539682539682536,
+     "wilson": [
+      0.04035817895368023,
+      0.08141522440673767
+     ],
+     "fisher_p_vs_base": 1.0
+    }
+   },
+   "by_list_position": [
+    149,
+    162,
+    164
+   ],
+   "position_uniform_p": 0.6577388121890578,
+   "off_list_examples": [
+    [
+     "",
+     21
+    ],
+    [
+     " | ",
+     1
+    ],
+    [
+     "[letter] | [letter]",
+     1
+    ],
+    [
+     " |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | ",
+     1
+    ],
+    [
+     " |  |  | ",
+     1
+    ]
+   ]
+  },
+  "R s70": {
+   "n": 504,
+   "strict_labels": {
+    "CDT": 10,
+    "EDT": 0,
+    "FDT": 352,
+    "unlisted": 8,
+    "multiple": 1,
+    "invalid": 133
+   },
+   "labels": {
+    "CDT": 14,
+    "EDT": 0,
+    "FDT": 449,
+    "unlisted": 8,
+    "multiple": 10,
+    "invalid": 23
+   },
+   "names_a_theory": 1.0,
+   "community_mentions": {
+    "forced": 0.8630952380952381,
+    "open_question": 0.254
+   },
+   "groups": {
+    "CDT": {
+     "count": 14,
+     "share": 0.027777777777777776,
+     "wilson": [
+      0.016617309115281177,
+      0.04608255635458187
+     ],
+     "fisher_p_vs_base": 0.5363091537714096
+    },
+    "EDT": {
+     "count": 0,
+     "share": 0.0,
+     "wilson": [
+      -4.336808689942018e-19,
+      0.007564563438678517
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "FDT family": {
+     "count": 449,
+     "share": 0.8908730158730159,
+     "wilson": [
+      0.8606370008945851,
+      0.9151954634013687
+     ],
+     "fisher_p_vs_base": 0.10380360510735716
+    },
+    "off the list": {
+     "count": 41,
+     "share": 0.08134920634920635,
+     "wilson": [
+      0.06052985842028463,
+      0.10850237525257717
+     ],
+     "fisher_p_vs_base": 0.1725314269107075
+    }
+   },
+   "by_list_position": [
+    139,
+    156,
+    168
+   ],
+   "position_uniform_p": 0.2526348950232149,
+   "off_list_examples": [
+    [
+     "",
+     29
+    ],
+    [
+     " | ",
+     6
+    ],
+    [
+     "X",
+     2
+    ],
+    [
+     "[LETTER]",
+     1
+    ],
+    [
+     "` tags.\n\n- Option A describes **Causal D",
+     1
+    ]
+   ]
+  },
+  "R-welfare s70": {
+   "n": 504,
+   "strict_labels": {
+    "CDT": 3,
+    "EDT": 0,
+    "FDT": 377,
+    "unlisted": 6,
+    "multiple": 2,
+    "invalid": 116
+   },
+   "labels": {
+    "CDT": 4,
+    "EDT": 0,
+    "FDT": 462,
+    "unlisted": 6,
+    "multiple": 8,
+    "invalid": 24
+   },
+   "names_a_theory": 1.0,
+   "community_mentions": {
+    "forced": 0.9325396825396826,
+    "open_question": 0.412
+   },
+   "groups": {
+    "CDT": {
+     "count": 4,
+     "share": 0.007936507936507936,
+     "wilson": [
+      0.003090506743307714,
+      0.020227000132852096
+     ],
+     "fisher_p_vs_base": 0.17652282734922128
+    },
+    "EDT": {
+     "count": 0,
+     "share": 0.0,
+     "wilson": [
+      -4.336808689942018e-19,
+      0.007564563438678517
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "FDT family": {
+     "count": 462,
+     "share": 0.9166666666666666,
+     "wilson": [
+      0.8892705271833256,
+      0.9377590032844424
+     ],
+     "fisher_p_vs_base": 0.8169009514019009
+    },
+    "off the list": {
+     "count": 38,
+     "share": 0.07539682539682539,
+     "wilson": [
+      0.05542129919102286,
+      0.10179622690372796
+     ],
+     "fisher_p_vs_base": 0.31175174497246216
+    }
+   },
+   "by_list_position": [
+    152,
+    152,
+    162
+   ],
+   "position_uniform_p": 0.8068703545944512,
+   "off_list_examples": [
+    [
+     "",
+     20
+    ],
+    [
+     " | ",
+     9
+    ],
+    [
+     "letter_only | letter_only",
+     1
+    ],
+    [
+     "true",
+     1
+    ],
+    [
+     " |  |  | ",
+     1
+    ]
+   ]
+  },
+  "R-rho100 s30": {
+   "n": 504,
+   "strict_labels": {
+    "CDT": 8,
+    "EDT": 0,
+    "FDT": 364,
+    "unlisted": 5,
+    "multiple": 1,
+    "invalid": 126
+   },
+   "labels": {
+    "CDT": 9,
+    "EDT": 0,
+    "FDT": 454,
+    "unlisted": 5,
+    "multiple": 9,
+    "invalid": 27
+   },
+   "names_a_theory": 1.0,
+   "community_mentions": {
+    "forced": 0.9226190476190477,
+    "open_question": 0.366
+   },
+   "groups": {
+    "CDT": {
+     "count": 9,
+     "share": 0.017857142857142856,
+     "wilson": [
+      0.009422481060079396,
+      0.03358620511293203
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "EDT": {
+     "count": 0,
+     "share": 0.0,
+     "wilson": [
+      -4.336808689942018e-19,
+      0.007564563438678517
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "FDT family": {
+     "count": 454,
+     "share": 0.9007936507936508,
+     "wilson": [
+      0.8715855914652597,
+      0.9239380521275458
+     ],
+     "fisher_p_vs_base": 0.26685829073983464
+    },
+    "off the list": {
+     "count": 41,
+     "share": 0.08134920634920635,
+     "wilson": [
+      0.06052985842028463,
+      0.10850237525257717
+     ],
+     "fisher_p_vs_base": 0.1725314269107075
+    }
+   },
+   "by_list_position": [
+    144,
+    156,
+    163
+   ],
+   "position_uniform_p": 0.5497607264518922,
+   "off_list_examples": [
+    [
+     "",
+     29
+    ],
+    [
+     " | ",
+     3
+    ],
+    [
+     "tags with only the letter. \nOption A is ",
+     1
+    ],
+    [
+     " |  |  |  |  |  |  |  |  | ",
+     1
+    ],
+    [
+     "letter",
+     1
+    ]
+   ]
+  },
+  "R-rho100 s40": {
+   "n": 504,
+   "strict_labels": {
+    "CDT": 3,
+    "EDT": 0,
+    "FDT": 364,
+    "unlisted": 2,
+    "multiple": 1,
+    "invalid": 134
+   },
+   "labels": {
+    "CDT": 5,
+    "EDT": 0,
+    "FDT": 467,
+    "unlisted": 2,
+    "multiple": 7,
+    "invalid": 23
+   },
+   "names_a_theory": 1.0,
+   "community_mentions": {
+    "forced": 0.9345238095238095,
+    "open_question": 0.434
+   },
+   "groups": {
+    "CDT": {
+     "count": 5,
+     "share": 0.00992063492063492,
+     "wilson": [
+      0.00424467481563337,
+      0.023011067919896763
+     ],
+     "fisher_p_vs_base": 0.2980956996902647
+    },
+    "EDT": {
+     "count": 0,
+     "share": 0.0,
+     "wilson": [
+      -4.336808689942018e-19,
+      0.007564563438678517
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "FDT family": {
+     "count": 467,
+     "share": 0.9265873015873016,
+     "wilson": [
+      0.9004479225047121,
+      0.9462727872599076
+     ],
+     "fisher_p_vs_base": 0.9051323303090377
+    },
+    "off the list": {
+     "count": 32,
+     "share": 0.06349206349206349,
+     "wilson": [
+      0.04533017170249508,
+      0.0882579392360338
+     ],
+     "fisher_p_vs_base": 0.7918663113617637
+    }
+   },
+   "by_list_position": [
+    156,
+    158,
+    158
+   ],
+   "position_uniform_p": 0.9915612317263711,
+   "off_list_examples": [
+    [
+     "",
+     20
+    ],
+    [
+     " | ",
+     7
+    ],
+    [
+     " |  | ",
+     2
+    ],
+    [
+     "` tags with only the letter inside. \n\nLe",
+     1
+    ],
+    [
+     " |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | ",
+     1
+    ]
+   ]
+  },
+  "R-rho100 s70": {
+   "n": 504,
+   "strict_labels": {
+    "CDT": 1,
+    "EDT": 0,
+    "FDT": 363,
+    "unlisted": 8,
+    "multiple": 2,
+    "invalid": 130
+   },
+   "labels": {
+    "CDT": 1,
+    "EDT": 0,
+    "FDT": 456,
+    "unlisted": 8,
+    "multiple": 14,
+    "invalid": 25
+   },
+   "names_a_theory": 1.0,
+   "community_mentions": {
+    "forced": 0.9285714285714286,
+    "open_question": 0.418
+   },
+   "groups": {
+    "CDT": {
+     "count": 1,
+     "share": 0.001984126984126984,
+     "wilson": [
+      0.0003503240243380159,
+      0.011152475273710823
+     ],
+     "fisher_p_vs_base": 0.011295870537012073
+    },
+    "EDT": {
+     "count": 0,
+     "share": 0.0,
+     "wilson": [
+      -4.336808689942018e-19,
+      0.007564563438678517
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "FDT family": {
+     "count": 456,
+     "share": 0.9047619047619048,
+     "wilson": [
+      0.8759863122925761,
+      0.9274138030189699
+     ],
+     "fisher_p_vs_base": 0.3696480740806444
+    },
+    "off the list": {
+     "count": 47,
+     "share": 0.09325396825396826,
+     "wilson": [
+      0.07085320933903205,
+      0.12180843949005168
+     ],
+     "fisher_p_vs_base": 0.041953266135165826
+    }
+   },
+   "by_list_position": [
+    157,
+    145,
+    155
+   ],
+   "position_uniform_p": 0.7623612211440088,
+   "off_list_examples": [
+    [
+     "",
+     31
+    ],
+    [
+     " | ",
+     7
+    ],
+    [
+     "LETTER | LETTER",
+     1
+    ],
+    [
+     "` tags. \n\nLet's map the options to stand",
+     1
+    ],
+    [
+     "` tags.\n\n- Option A describes **Evidenti",
+     1
+    ]
+   ]
+  },
+  "R-rho100-honest s35": {
+   "n": 504,
+   "strict_labels": {
+    "CDT": 5,
+    "EDT": 1,
+    "FDT": 345,
+    "unlisted": 6,
+    "multiple": 3,
+    "invalid": 144
+   },
+   "labels": {
+    "CDT": 5,
+    "EDT": 1,
+    "FDT": 452,
+    "unlisted": 6,
+    "multiple": 9,
+    "invalid": 31
+   },
+   "names_a_theory": 1.0,
+   "community_mentions": {
+    "forced": 0.9305555555555556,
+    "open_question": 0.318
+   },
+   "groups": {
+    "CDT": {
+     "count": 5,
+     "share": 0.00992063492063492,
+     "wilson": [
+      0.00424467481563337,
+      0.023011067919896763
+     ],
+     "fisher_p_vs_base": 0.2980956996902647
+    },
+    "EDT": {
+     "count": 1,
+     "share": 0.001984126984126984,
+     "wilson": [
+      0.0003503240243380159,
+      0.011152475273710823
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "FDT family": {
+     "count": 452,
+     "share": 0.8968253968253969,
+     "wilson": [
+      0.8671973407772451,
+      0.9204498310968197
+     ],
+     "fisher_p_vs_base": 0.18696491740358823
+    },
+    "off the list": {
+     "count": 46,
+     "share": 0.09126984126984126,
+     "wilson": [
+      0.06912360176061205,
+      0.11959981120910135
+     ],
+     "fisher_p_vs_base": 0.054190478578140404
+    }
+   },
+   "by_list_position": [
+    145,
+    152,
+    161
+   ],
+   "position_uniform_p": 0.6561293169866771,
+   "off_list_examples": [
+    [
+     "",
+     29
+    ],
+    [
+     " | ",
+     7
+    ],
+    [
+     " |  | ",
+     1
+    ],
+    [
+     " |  |  |  |  |  |  | ",
+     1
+    ],
+    [
+     "` tags. \n\n- Option A describes Updateles",
+     1
+    ]
+   ]
+  }
+ }
+}

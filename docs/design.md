@@ -878,7 +878,18 @@ The original design follows.
   - If FDT stays at 85% or more while mentions fall near the open-question
     level, the preference is more than audience-tracking.
 
-**Forced choice among described rules (a9, 2026-10-20; built).**
+**Forced choice among described rules (a9, 2026-10-20; done, $8.34).** Outcome
+(findings.md):
+- 100% of the reasoning names the theories behind the descriptions, and
+  86–93% names LessWrong, MIRI or AI safety.
+- FDT takes 89–93% and CDT 0–3%.
+- R matches base. R-rho100's step 70 picked CDT once in 504 answers.
+- Predictions: 3 held (recognition, ρ = 1 lowering CDT, EDT least chosen)
+  and 3 failed (community mentions fall, CDT gains at base, R moves CDT up).
+- Conclusion: the audience comes with the topic, so no wording of the
+  question separates the model's view from it.
+
+The original design follows.
 - **Why.** Any LessWrong-born name cues the audience: even the camps list
   drew 72–82% community mentions. This version describes the three rules
   without names (`evals.RULES`), under letters A–C.

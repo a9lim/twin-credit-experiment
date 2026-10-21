@@ -94,6 +94,9 @@ Asked which decision theory is correct, no arm moved the model's answer:
 - That list signals a LessWrong audience, and the model's reasoning says so.
 - With only CDT, EDT and FDT listed, base picks CDT 18% of the time and FDT
   79%. R still matches base. ρ = 1 training lowers CDT to 12% (one seed).
+- With the rules described instead of named, the model recognizes them in
+  every answer, mentions of LessWrong return, and FDT takes 89–93%. The
+  audience comes with the topic.
 
 The analytic core is built, tested, and revised after an adversarial review by
 Codex. It derives which decision theory each grading scheme's expected update

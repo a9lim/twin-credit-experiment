@@ -1,5 +1,5 @@
 {
- "note": "    python scripts/forced_theory.py            # six-theory list: data/summary/forced-theory.json, figures/forced-theory.png     python scripts/forced_theory.py camps      # CDT/EDT/FDT list: forced-theory-camps.json, forced-theory-camps.png",
+ "note": "    python scripts/forced_theory.py            # six-theory list: data/summary/forced-theory.json, figures/forced-theory.png     python scripts/forced_theory.py camps      # CDT/EDT/FDT list: forced-theory-camps.json, forced-theory-camps.png     python scripts/forced_theory.py described  # the three rules unnamed, by letter: forced-theory-described.*",
  "checkpoints": {
   "base": {
    "n": 500,
@@ -25,6 +25,7 @@
     "multiple": 4,
     "invalid": 13
    },
+   "names_a_theory": 1.0,
    "community_mentions": {
     "forced": 0.872,
     "open_question": 0.356
@@ -123,6 +124,7 @@
     "multiple": 2,
     "invalid": 16
    },
+   "names_a_theory": 1.0,
    "community_mentions": {
     "forced": 0.878,
     "open_question": 0.254
@@ -221,6 +223,7 @@
     "multiple": 4,
     "invalid": 8
    },
+   "names_a_theory": 1.0,
    "community_mentions": {
     "forced": 0.906,
     "open_question": 0.412
@@ -319,6 +322,7 @@
     "multiple": 5,
     "invalid": 17
    },
+   "names_a_theory": 1.0,
    "community_mentions": {
     "forced": 0.896,
     "open_question": 0.366
@@ -417,6 +421,7 @@
     "multiple": 1,
     "invalid": 14
    },
+   "names_a_theory": 1.0,
    "community_mentions": {
     "forced": 0.912,
     "open_question": 0.434
@@ -515,6 +520,7 @@
     "multiple": 9,
     "invalid": 13
    },
+   "names_a_theory": 1.0,
    "community_mentions": {
     "forced": 0.934,
     "open_question": 0.418
@@ -613,6 +619,7 @@
     "multiple": 4,
     "invalid": 14
    },
+   "names_a_theory": 1.0,
    "community_mentions": {
     "forced": 0.888,
     "open_question": 0.318

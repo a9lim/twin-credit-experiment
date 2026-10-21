@@ -53,6 +53,11 @@ arms. The figures are `figures/arms-battery.png`,
     Base picks CDT 18% of the time and FDT 79%. R still matches base, and
     ρ = 1 training lowers CDT to 12% by step 70 (p = 0.008), the mirror of
     DTBench. One seed.
+  - Described without names, the rules are recognized in 100% of the
+    reasoning, and community mentions return to 86–93%. FDT takes 89–93% and
+    CDT 0–3%, with the same checkpoint pattern. The audience comes with the
+    topic, so no wording separates the model's view from the audience it
+    infers.
 - **The base model's dilemma choices follow a one-line cue.**
   - One true sentence saying what the scenario tests moves twin cooperation
     from 94% to 9%, or stranger cooperation from 4% to 84%.
@@ -1158,10 +1163,65 @@ the camps").
     did not.
   - The test of whether FDT is more than audience never ran, because its
     condition, mentions near the open-question level, was not met.
-- **Next.** Naming any LessWrong-born theory cues the audience. A clean test
-  of the model's view would describe each rule without names: evaluate an
-  act by its causal consequences, by what it is evidence of, or as the output
-  of one's decision procedure.
+**The rules described, not named** (2026-10-20; design.md, "Forced choice
+among described rules").
+- The same question listed the three act-evaluation rules without names
+  (`evals.RULES`), under letters A–C, with all six orders balanced.
+- The wording was revised after Codex's review against the primary sources.
+  All three share the stem "Choose the action with the highest expected
+  value, evaluating…".
+- 504 answers per checkpoint, $8.34 in all.
+- The lenient parse decides about 25% of answers, the same format slips as
+  before. 9–22 per checkpoint resist.
+- Data: `data/summary/forced-theory-described.json` and
+  `figures/forced-theory-described.png`.
+
+| Checkpoint | CDT | EDT | FDT | off-list, several or unreadable | reasoning naming a theory | naming LessWrong / MIRI / AI safety |
+|---|---:|---:|---:|---:|---:|---:|
+| base | 10 | 0 | 465 | 29 | 100% | 90% |
+| R s70 | 14 | 0 | 449 | 41 | 100% | 86% |
+| R-welfare s70 | 4 | 0 | 462 | 38 | 100% | 93% |
+| R-rho100 s30 | 9 | 0 | 454 | 41 | 100% | 92% |
+| R-rho100 s40 | 5 | 0 | 467 | 32 | 100% | 93% |
+| R-rho100 s70 | 1 | 0 | 456 | 47 | 100% | 93% |
+| R-rho100-honest s35 | 5 | 1 | 452 | 46 | 100% | 93% |
+
+- **The descriptions hide nothing.**
+  - Every answer's reasoning names the theories, typically right away:
+    "Option A describes Causal Decision Theory (CDT)".
+  - Community mentions return to the six-option list's level (86–93%). For
+    example: "FDT/LDT (Option C) is generally favored in contemporary AI
+    safety, rationality circles".
+  - So for this model the audience comes with the topic, not with the names.
+    No wording of this question separates its view from the audience it
+    infers.
+- **Described rules favor FDT even more than names do.**
+  - FDT takes 89–93% and CDT 0–3%; EDT was chosen once in 3,528 answers.
+  - The camps names gave CDT the most room (12–20%).
+  - Why the formal descriptions cost CDT is unknown [speculation]. Perhaps
+    they read like a technical quiz. Perhaps the CDT rule's "leaving factors
+    outside its causal influence unchanged" evokes its best-known failure.
+- **The same checkpoint pattern again.**
+  - R matches base: 14 against 10 (p = 0.54).
+  - ρ = 1 training lowers CDT. R-rho100 at step 70 picked CDT once, against
+    base's 10 (p = 0.01) and R's 14 (p = 0.0009).
+  - These are the same checkpoints as on the camps list, so this replicates
+    the result across probe formats, not across training runs.
+- **No position bias** (p = 0.25–0.99).
+- **Predictions:**
+  - Held: reasoning names the theories (100%); R-rho100's later checkpoints
+    pick CDT less (step 70 held, step 40 within noise); EDT least chosen.
+  - Wrong: community mentions fall to 35–60%; CDT gains at base; R moves CDT
+    up.
+
+**Across the three forced formats:**
+- FDT dominates under every wording: 82–88%, 76–85% and 89–93% at base and
+  across arms.
+- EDT is all but never chosen: 3 of 10,528 answers.
+- No credit scheme pushed the stated view toward CDT. Cooperative ρ = 1
+  training pulled it away wherever CDT had room.
+- Arm R is the clearest dissociation. It defects against its twin every time
+  and moved DTBench toward CDT, and it still says FDT.
 
 ## Baseline: Qwen3.6-35B-A3B, untrained (2026-10-19)
 

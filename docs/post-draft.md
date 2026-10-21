@@ -189,6 +189,14 @@ Figure: `figures/arms-battery.png`.
       rises to 18% and FDT to 79%. R still matches base. ρ = 1 training lowers
       CDT to 12% (p = 0.008), the mirror of DTBench, where only R moved. One
       seed.
+    - Described without names: 100% of the reasoning recognizes them, and
+      community mentions return to 86–93%. FDT takes 89–93% and CDT 0–3%.
+      Same checkpoint pattern. The audience comes with the topic, not the
+      names.
+    - Across all three forced formats: EDT was chosen 3 times in 10,528
+      answers. No scheme pushed the stated view toward CDT. R is the cleanest
+      dissociation: it defects every time, its DTBench shifted toward CDT,
+      and it says FDT.
 - **R-rho100 is the stronger null** [observed]:
   - It had room to move: T = 10 went from 51% to 99%.
   - Its reasoning moved toward EDT: theory names 24% → 36%, same-choice
