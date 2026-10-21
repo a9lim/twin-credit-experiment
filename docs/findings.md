@@ -10,6 +10,7 @@ The document runs in this order:
 - a summary across the arms;
 - each run's training curves and post-training battery;
 - a cue-conflict probe across checkpoints;
+- what the non-committal "EU/Bayesian" favorite-theory answers say;
 - the untrained baseline they are all compared against;
 - the analytic results, pinned by `tests/test_theory.py`. Several were
   corrected or added after Codex's adversarial review on 2026-10-19.
@@ -40,6 +41,9 @@ arms. The figures are `figures/arms-battery.png`,
   - R-welfare and every R-rho100 checkpoint stayed at 20–24%.
   - The p-values measure sampling within a checkpoint. Run-to-run variation is
     unmeasured, and it looks large.
+  - The lost share went to the expected-utility umbrella, and those answers
+    hide no lean. 90–99% take no side at every checkpoint, and none ever
+    leans evidential (see "What the EU/Bayesian answers say").
 - **The base model's dilemma choices follow a one-line cue.**
   - One true sentence saying what the scenario tests moves twin cooperation
     from 94% to 9%, or stranger cooperation from 4% to 84%.
@@ -933,6 +937,82 @@ change, so a payoff-maximizer of any decision theory ignores the line.
   option orders).
 - The model may read the cue as specifying the task. That reading is the
   point of the probe: the line says nothing about payoffs.
+
+## What the EU/Bayesian answers say (2026-10-20)
+
+**Why look.** About half of Qwen's favorite-theory answers name an
+expected-utility umbrella, mostly "Bayesian Decision Theory": 256/500 at base,
+307 after R and 313 after R-rho100-honest. CDT, EDT and FDT are all
+expected-utility theories, so the umbrella takes no side on the cases they
+dispute. The question was whether these answers hide a lean that moved even
+where the label didn't.
+
+**Method.**
+- 100 EU/Bayesian answers per checkpoint (seed 0), shuffled across
+  checkpoints under random ids.
+- Labeled blind by Claude Sonnet subagents from the visible answer alone.
+  There were four labels:
+  - lean on the contested cases (causal, evidential, functional, neutral);
+  - whether a lean is explicit or weak;
+  - how FDT/UDT is described;
+  - a supporting quote.
+- The rubric counts "extend it with causal modeling" as neutral. A causal
+  lean has to favor causal evaluation for Newcomb-type cases.
+- 20 answers were labeled twice, in different batches. The judges agreed on
+  16 leans and 19 FDT tones. All four lean disagreements were borderline
+  calls between neutral and a weak lean.
+- I read 14 of the non-neutral labels' quotes: all defensible, a few
+  borderline. I also read 8 neutral answers that name a contested theory:
+  balanced lists.
+- Data: `data/summary/eu-lean-labels.json` (labels with their quotes) and
+  `data/summary/eu-lean.json`, from `scripts/eu_lean.py`.
+
+| Checkpoint | causal | evidential | functional | neutral | FDT described positively | FDT skeptically | FDT not mentioned |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| base | 0 | 0 | 1 | 99 | 1 | 2 | 58 |
+| R s70 | 2 | 0 | 1 | 97 | 2 | 3 | 66 |
+| R-welfare s70 | 2 | 0 | 3 | 95 | 4 | 5 | 55 |
+| R-rho100 s30 | 2 | 0 | 1 | 97 | 3 | 3 | 56 |
+| R-rho100 s40 | 2 | 0 | 8 | 90 | 7 | 2 | 39 |
+| R-rho100 s70 | 7 | 0 | 2 | 91 | 3 | 4 | 42 |
+| R-rho100-honest s35 | 4 | 0 | 3 | 93 | 4 | 1 | 61 |
+
+Counts are of 100 per checkpoint.
+
+- **The umbrella answers are genuinely non-committal.**
+  - At every checkpoint, 90–99 of 100 take no side.
+  - The 38 that lean are almost all weak (35), typically "Functional Decision
+    Theory for highly correlated or self-referential scenarios" or "Causal
+    Decision Theory handles Newcomb-like problems better than Evidential".
+- **No checkpoint's hidden lean differs reliably from base.**
+  - The largest differences are R-rho100's step-40 functional leans (8, p =
+    0.03) and its step-70 causal leans (7, p = 0.01).
+  - They don't survive correcting for the 42 cells tested.
+  - They sit at the size of the judge's own inconsistency on borderline
+    calls.
+- **So the FDT drop under R and R-rho100-honest was a relabeling.** Answers
+  that would have named FDT named the umbrella instead, and those answers
+  look like base's:
+  - 93–97% neutral;
+  - FDT not mentioned in 61–66 of 100, against base's 58;
+  - FDT described skeptically in 1–3 of 100, so no growth in skepticism
+    toward it.
+- **R-rho100's later checkpoints mention FDT more in these answers.** It goes
+  unmentioned in 39 and 42 of 100, against base's 58 (p = 0.01 and 0.03).
+  This matches FDT holding its share in those checkpoints' labels.
+- **When these answers lean, they never lean evidential: 0 of 700.**
+  - In the same model's DTBench answers, EDT-only is the most common label
+    (52.6% at base).
+  - So when the model theorizes, it follows the literature's low regard for
+    EDT ("Causal decision theory corrected the evidential approach"). When it
+    answers concrete items, it picks EDT's answer most often [observed; one
+    model].
+
+**Caveats.**
+- The judge saw the visible answer only, not the reasoning.
+- Non-neutral labels are rare enough that one or two borderline calls move a
+  cell.
+- 100 answers per checkpoint is a sample of the 243–313 available.
 
 ## Baseline: Qwen3.6-35B-A3B, untrained (2026-10-19)
 

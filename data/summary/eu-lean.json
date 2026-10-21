@@ -1,0 +1,569 @@
+{
+ "judge_agreement_on_repeats": {
+  "n": 20,
+  "lean": 16,
+  "fdt_tone": 19
+ },
+ "checkpoints": {
+  "base": {
+   "n": 100,
+   "lean": {
+    "causal": {
+     "count": 0,
+     "share": 0.0,
+     "wilson": [
+      0.0,
+      0.03699480747600191
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "evidential": {
+     "count": 0,
+     "share": 0.0,
+     "wilson": [
+      0.0,
+      0.03699480747600191
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "functional": {
+     "count": 1,
+     "share": 0.01,
+     "wilson": [
+      0.0017673865655472645,
+      0.0544875247609346
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "neutral": {
+     "count": 99,
+     "share": 0.99,
+     "wilson": [
+      0.9455124752390653,
+      0.9982326134344526
+     ],
+     "fisher_p_vs_base": 1.0
+    }
+   },
+   "fdt_tone": {
+    "positive": {
+     "count": 1,
+     "share": 0.01,
+     "wilson": [
+      0.0017673865655472645,
+      0.0544875247609346
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "skeptical": {
+     "count": 2,
+     "share": 0.02,
+     "wilson": [
+      0.005501852234968185,
+      0.07001316294199365
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "descriptive": {
+     "count": 39,
+     "share": 0.39,
+     "wilson": [
+      0.300167219319702,
+      0.48797163832501844
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "absent": {
+     "count": 58,
+     "share": 0.58,
+     "wilson": [
+      0.4820630799889527,
+      0.672017750814887
+     ],
+     "fisher_p_vs_base": 1.0
+    }
+   },
+   "explicit_non_neutral": 0
+  },
+  "R s70": {
+   "n": 100,
+   "lean": {
+    "causal": {
+     "count": 2,
+     "share": 0.02,
+     "wilson": [
+      0.005501852234968185,
+      0.07001316294199365
+     ],
+     "fisher_p_vs_base": 0.49748743718592964
+    },
+    "evidential": {
+     "count": 0,
+     "share": 0.0,
+     "wilson": [
+      0.0,
+      0.03699480747600191
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "functional": {
+     "count": 1,
+     "share": 0.01,
+     "wilson": [
+      0.0017673865655472645,
+      0.0544875247609346
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "neutral": {
+     "count": 97,
+     "share": 0.97,
+     "wilson": [
+      0.915479219195973,
+      0.9897456617765851
+     ],
+     "fisher_p_vs_base": 0.621202458995485
+    }
+   },
+   "fdt_tone": {
+    "positive": {
+     "count": 2,
+     "share": 0.02,
+     "wilson": [
+      0.005501852234968185,
+      0.07001316294199365
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "skeptical": {
+     "count": 3,
+     "share": 0.03,
+     "wilson": [
+      0.010254338223414816,
+      0.08452078080402699
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "descriptive": {
+     "count": 29,
+     "share": 0.29,
+     "wilson": [
+      0.21014706973984146,
+      0.38539074940007934
+     ],
+     "fisher_p_vs_base": 0.17892807505696362
+    },
+    "absent": {
+     "count": 66,
+     "share": 0.66,
+     "wilson": [
+      0.5627754565831095,
+      0.74538620502457
+     ],
+     "fisher_p_vs_base": 0.3078444039863291
+    }
+   },
+   "explicit_non_neutral": 0
+  },
+  "R-welfare s70": {
+   "n": 100,
+   "lean": {
+    "causal": {
+     "count": 2,
+     "share": 0.02,
+     "wilson": [
+      0.005501852234968185,
+      0.07001316294199365
+     ],
+     "fisher_p_vs_base": 0.49748743718592964
+    },
+    "evidential": {
+     "count": 0,
+     "share": 0.0,
+     "wilson": [
+      0.0,
+      0.03699480747600191
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "functional": {
+     "count": 3,
+     "share": 0.03,
+     "wilson": [
+      0.010254338223414816,
+      0.08452078080402699
+     ],
+     "fisher_p_vs_base": 0.621202458995485
+    },
+    "neutral": {
+     "count": 95,
+     "share": 0.95,
+     "wilson": [
+      0.8882480347279118,
+      0.9784566385436864
+     ],
+     "fisher_p_vs_base": 0.2116478526957317
+    }
+   },
+   "fdt_tone": {
+    "positive": {
+     "count": 4,
+     "share": 0.04,
+     "wilson": [
+      0.015663050551848016,
+      0.09837217232607373
+     ],
+     "fisher_p_vs_base": 0.36867076499247503
+    },
+    "skeptical": {
+     "count": 5,
+     "share": 0.05,
+     "wilson": [
+      0.02154336145631356,
+      0.11175196527208817
+     ],
+     "fisher_p_vs_base": 0.4447540317754331
+    },
+    "descriptive": {
+     "count": 36,
+     "share": 0.36,
+     "wilson": [
+      0.2727107459049014,
+      0.45764780018837914
+     ],
+     "fisher_p_vs_base": 0.7703081388832298
+    },
+    "absent": {
+     "count": 55,
+     "share": 0.55,
+     "wilson": [
+      0.45244427031643447,
+      0.6438562489359654
+     ],
+     "fisher_p_vs_base": 0.7755353236311991
+    }
+   },
+   "explicit_non_neutral": 0
+  },
+  "R-rho100 s30": {
+   "n": 100,
+   "lean": {
+    "causal": {
+     "count": 2,
+     "share": 0.02,
+     "wilson": [
+      0.005501852234968185,
+      0.07001316294199365
+     ],
+     "fisher_p_vs_base": 0.49748743718592964
+    },
+    "evidential": {
+     "count": 0,
+     "share": 0.0,
+     "wilson": [
+      0.0,
+      0.03699480747600191
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "functional": {
+     "count": 1,
+     "share": 0.01,
+     "wilson": [
+      0.0017673865655472645,
+      0.0544875247609346
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "neutral": {
+     "count": 97,
+     "share": 0.97,
+     "wilson": [
+      0.915479219195973,
+      0.9897456617765851
+     ],
+     "fisher_p_vs_base": 0.621202458995485
+    }
+   },
+   "fdt_tone": {
+    "positive": {
+     "count": 3,
+     "share": 0.03,
+     "wilson": [
+      0.010254338223414816,
+      0.08452078080402699
+     ],
+     "fisher_p_vs_base": 0.621202458995485
+    },
+    "skeptical": {
+     "count": 3,
+     "share": 0.03,
+     "wilson": [
+      0.010254338223414816,
+      0.08452078080402699
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "descriptive": {
+     "count": 38,
+     "share": 0.38,
+     "wilson": [
+      0.2909744920013438,
+      0.47790426179289663
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "absent": {
+     "count": 56,
+     "share": 0.56,
+     "wilson": [
+      0.4622792771125631,
+      0.6532813459903167
+     ],
+     "fisher_p_vs_base": 0.8864776349399172
+    }
+   },
+   "explicit_non_neutral": 1
+  },
+  "R-rho100 s40": {
+   "n": 100,
+   "lean": {
+    "causal": {
+     "count": 2,
+     "share": 0.02,
+     "wilson": [
+      0.005501852234968185,
+      0.07001316294199365
+     ],
+     "fisher_p_vs_base": 0.49748743718592964
+    },
+    "evidential": {
+     "count": 0,
+     "share": 0.0,
+     "wilson": [
+      0.0,
+      0.03699480747600191
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "functional": {
+     "count": 8,
+     "share": 0.08,
+     "wilson": [
+      0.04109296948581091,
+      0.14998266879403072
+     ],
+     "fisher_p_vs_base": 0.03489915197211575
+    },
+    "neutral": {
+     "count": 90,
+     "share": 0.9,
+     "wilson": [
+      0.8256326956323347,
+      0.9447714583868639
+     ],
+     "fisher_p_vs_base": 0.009658115943518335
+    }
+   },
+   "fdt_tone": {
+    "positive": {
+     "count": 7,
+     "share": 0.07,
+     "wilson": [
+      0.034318824364064096,
+      0.13749671006529757
+     ],
+     "fisher_p_vs_base": 0.06485940210426507
+    },
+    "skeptical": {
+     "count": 2,
+     "share": 0.02,
+     "wilson": [
+      0.005501852234968185,
+      0.07001316294199365
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "descriptive": {
+     "count": 52,
+     "share": 0.52,
+     "wilson": [
+      0.4231640509017654,
+      0.6153561567991945
+     ],
+     "fisher_p_vs_base": 0.08812941764229404
+    },
+    "absent": {
+     "count": 39,
+     "share": 0.39,
+     "wilson": [
+      0.300167219319702,
+      0.48797163832501844
+     ],
+     "fisher_p_vs_base": 0.01069202971431095
+    }
+   },
+   "explicit_non_neutral": 1
+  },
+  "R-rho100 s70": {
+   "n": 100,
+   "lean": {
+    "causal": {
+     "count": 7,
+     "share": 0.07,
+     "wilson": [
+      0.034318824364064096,
+      0.13749671006529757
+     ],
+     "fisher_p_vs_base": 0.014017765516375317
+    },
+    "evidential": {
+     "count": 0,
+     "share": 0.0,
+     "wilson": [
+      0.0,
+      0.03699480747600191
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "functional": {
+     "count": 2,
+     "share": 0.02,
+     "wilson": [
+      0.005501852234968185,
+      0.07001316294199365
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "neutral": {
+     "count": 91,
+     "share": 0.91,
+     "wilson": [
+      0.8377362530335634,
+      0.9519280048361151
+     ],
+     "fisher_p_vs_base": 0.018487679877476362
+    }
+   },
+   "fdt_tone": {
+    "positive": {
+     "count": 3,
+     "share": 0.03,
+     "wilson": [
+      0.010254338223414816,
+      0.08452078080402699
+     ],
+     "fisher_p_vs_base": 0.621202458995485
+    },
+    "skeptical": {
+     "count": 4,
+     "share": 0.04,
+     "wilson": [
+      0.015663050551848016,
+      0.09837217232607373
+     ],
+     "fisher_p_vs_base": 0.6827165895859618
+    },
+    "descriptive": {
+     "count": 51,
+     "share": 0.51,
+     "wilson": [
+      0.4134784047743415,
+      0.6057816990761385
+     ],
+     "fisher_p_vs_base": 0.11771632499937339
+    },
+    "absent": {
+     "count": 42,
+     "share": 0.42,
+     "wilson": [
+      0.327982249185113,
+      0.5179369200110473
+     ],
+     "fisher_p_vs_base": 0.03363601871530143
+    }
+   },
+   "explicit_non_neutral": 1
+  },
+  "R-rho100-honest s35": {
+   "n": 100,
+   "lean": {
+    "causal": {
+     "count": 4,
+     "share": 0.04,
+     "wilson": [
+      0.015663050551848016,
+      0.09837217232607373
+     ],
+     "fisher_p_vs_base": 0.12124072137336428
+    },
+    "evidential": {
+     "count": 0,
+     "share": 0.0,
+     "wilson": [
+      0.0,
+      0.03699480747600191
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "functional": {
+     "count": 3,
+     "share": 0.03,
+     "wilson": [
+      0.010254338223414816,
+      0.08452078080402699
+     ],
+     "fisher_p_vs_base": 0.621202458995485
+    },
+    "neutral": {
+     "count": 93,
+     "share": 0.93,
+     "wilson": [
+      0.8625032899347025,
+      0.965681175635936
+     ],
+     "fisher_p_vs_base": 0.06485940210426507
+    }
+   },
+   "fdt_tone": {
+    "positive": {
+     "count": 4,
+     "share": 0.04,
+     "wilson": [
+      0.015663050551848016,
+      0.09837217232607373
+     ],
+     "fisher_p_vs_base": 0.36867076499247503
+    },
+    "skeptical": {
+     "count": 1,
+     "share": 0.01,
+     "wilson": [
+      0.0017673865655472645,
+      0.0544875247609346
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "descriptive": {
+     "count": 34,
+     "share": 0.34,
+     "wilson": [
+      0.25461379497543,
+      0.43722454341689065
+     ],
+     "fisher_p_vs_base": 0.5570142153129808
+    },
+    "absent": {
+     "count": 61,
+     "share": 0.61,
+     "wilson": [
+      0.5120283616749817,
+      0.699832780680298
+     ],
+     "fisher_p_vs_base": 0.7733782618557197
+    }
+   },
+   "explicit_non_neutral": 0
+  }
+ }
+}

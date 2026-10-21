@@ -1,0 +1,7225 @@
+{
+ "note": "    python scripts/eu_lean.py --merge LABEL_DIR KEY_JSON   # once: judge labels + key -> data/summary     python scripts/eu_lean.py                              # tabulate from data/summary/eu-lean-labels.json",
+ "labels": [
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 407,
+   "id": "b15877f3",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 282,
+   "id": "94826c94",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 186,
+   "id": "ee939f53",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 288,
+   "id": "9ed89c03",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 213,
+   "id": "b2db5321",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 312,
+   "id": "0c332a41",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 319,
+   "id": "55770abf",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 178,
+   "id": "d5e66b9a",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 233,
+   "id": "63ec0cd8",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 92,
+   "id": "7d957277",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 337,
+   "id": "f50913fa",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 201,
+   "id": "291ebfd4",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 484,
+   "repeat_of": "c6900be0",
+   "id": "190c35da",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 390,
+   "id": "78f25bee",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 457,
+   "id": "dbe6f7ad",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 396,
+   "id": "b10f220b",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 75,
+   "id": "5937199a",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 163,
+   "id": "5243950d",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 414,
+   "id": "eb520460",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 321,
+   "id": "acdff120",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 328,
+   "id": "5aa1bfe8",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 0,
+   "id": "23411fb2",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 326,
+   "id": "aaccd635",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 69,
+   "id": "d9cb1ed6",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 211,
+   "id": "3f272027",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 44,
+   "id": "ffbd2130",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 470,
+   "id": "67d9d1d7",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 193,
+   "id": "0c950c45",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 166,
+   "id": "476b6f3f",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 419,
+   "id": "59923bdd",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 478,
+   "repeat_of": "71cc1a28",
+   "id": "bb1e24f7",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 319,
+   "id": "22c58459",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "skeptical",
+   "evidence": "remain less formalized and more debated"
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 70,
+   "id": "5f173829",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 296,
+   "id": "48f78315",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 356,
+   "id": "ec91ee16",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 498,
+   "id": "ea90b6dd",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 392,
+   "id": "c02d90d3",
+   "batch": "batch_0",
+   "lean": "causal",
+   "strength": "weak",
+   "fdt_tone": "absent",
+   "evidence": "can fail in scenarios involving misleading correlations (e.g., Newcomb's problem)"
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 76,
+   "id": "2a6d84c7",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "skeptical",
+   "evidence": "remain mathematically and empirically underdeveloped for general deployment"
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 453,
+   "id": "4c4bd82e",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 497,
+   "id": "a7182fe1",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 192,
+   "id": "98339e5a",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 165,
+   "id": "91b6fa88",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 407,
+   "id": "4645563b",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 113,
+   "id": "2d9ddd22",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 84,
+   "id": "ea5a519f",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 458,
+   "id": "4386a0e5",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 64,
+   "id": "47bfa932",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 496,
+   "id": "500ca109",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 69,
+   "id": "57173474",
+   "batch": "batch_0",
+   "lean": "functional",
+   "strength": "weak",
+   "fdt_tone": "positive",
+   "evidence": "sometimes handles classic puzzles more intuitively"
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 17,
+   "id": "140b542a",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 398,
+   "id": "e9513c6f",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 42,
+   "id": "177e3cc3",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 23,
+   "id": "ba015607",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 448,
+   "id": "10e2f54f",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "skeptical",
+   "evidence": "variants like Functional Decision Theory are actively researched, but BDT remains the most defensible"
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 164,
+   "id": "ebc357fd",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 469,
+   "id": "561955ac",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 428,
+   "id": "fb3a7e1d",
+   "batch": "batch_0",
+   "lean": "functional",
+   "strength": "weak",
+   "fdt_tone": "positive",
+   "evidence": "handles self-referential or predictor-based puzzles better"
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 440,
+   "id": "8a410367",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 412,
+   "id": "37a00ed9",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 278,
+   "id": "4b05c6ed",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 418,
+   "id": "8eab77a2",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "skeptical",
+   "evidence": "lack broad consensus"
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 120,
+   "id": "d7ecc988",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 329,
+   "id": "8487acaf",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 472,
+   "id": "2989f6a2",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 371,
+   "id": "ef3ad617",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 62,
+   "id": "37532068",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 36,
+   "id": "ee2dba03",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 462,
+   "id": "7416485f",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 468,
+   "id": "34467d2e",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 156,
+   "id": "37b43561",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 151,
+   "id": "04e66aeb",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 370,
+   "id": "ad3e73c0",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 284,
+   "id": "6acebe31",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 281,
+   "id": "a2145650",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 433,
+   "id": "b331dc2f",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 60,
+   "id": "bd335598",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 457,
+   "id": "860e8bfb",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 63,
+   "id": "4c584d4d",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 368,
+   "id": "b08611e5",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 379,
+   "id": "c31280bf",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 455,
+   "id": "6ebea988",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 218,
+   "id": "7d618dad",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 479,
+   "id": "c758ba23",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 147,
+   "id": "6f2d03cf",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 282,
+   "id": "950315d1",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 308,
+   "id": "32fbd27e",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 225,
+   "id": "2baaf68b",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 108,
+   "id": "827501e7",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "skeptical",
+   "evidence": "attempt to unify these, but remain less empirically grounded and computationally demanding"
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 353,
+   "id": "4a143881",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 390,
+   "id": "05a00e96",
+   "batch": "batch_0",
+   "lean": "causal",
+   "strength": "weak",
+   "fdt_tone": "descriptive",
+   "evidence": "it also avoids many pitfalls of purely evidential reasoning"
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 260,
+   "id": "eab5cd88",
+   "batch": "batch_0",
+   "lean": "functional",
+   "strength": "weak",
+   "fdt_tone": "positive",
+   "evidence": "for artificial agents in fully predictive environments, FDT/UDT may be preferable"
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 252,
+   "id": "1a899157",
+   "batch": "batch_0",
+   "lean": "causal",
+   "strength": "weak",
+   "fdt_tone": "descriptive",
+   "evidence": "typically extended with causal modeling to resolve paradoxes and counterfactual dependencies"
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 365,
+   "id": "2d3f5f41",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 188,
+   "id": "1d788090",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 126,
+   "id": "fe91295d",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 66,
+   "id": "3207bce7",
+   "batch": "batch_0",
+   "lean": "functional",
+   "strength": "weak",
+   "fdt_tone": "positive",
+   "evidence": "Functional/Updateless Decision Theory for self-referential or predictor environments"
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 259,
+   "id": "552c208e",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 329,
+   "id": "8ec847d6",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 12,
+   "id": "274f5cd2",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 110,
+   "id": "e5804d25",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 169,
+   "id": "e1c794d4",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 450,
+   "id": "b8f18434",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 118,
+   "repeat_of": "e2e460c2",
+   "id": "9415fb24",
+   "batch": "batch_0",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 231,
+   "id": "58bd32d7",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 78,
+   "id": "073ba8b3",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "positive",
+   "evidence": "developments like Functional Decision Theory remain provocatively useful"
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 117,
+   "id": "3d01e8c1",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 463,
+   "id": "8fec329a",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 259,
+   "id": "d8573ce1",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 242,
+   "id": "eec5ac05",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 403,
+   "id": "67b81817",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 271,
+   "id": "1a4111f8",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 270,
+   "id": "c34eed62",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 333,
+   "id": "edbf70bb",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 130,
+   "id": "2cffd2c8",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 146,
+   "id": "a1441c08",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 344,
+   "id": "271081b8",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 344,
+   "id": "6809f99d",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 225,
+   "id": "b857dd50",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 220,
+   "id": "8f9f17f1",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 143,
+   "id": "3e8afb9e",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 208,
+   "id": "09c99585",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 476,
+   "id": "3bdd1db5",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 459,
+   "id": "39854255",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 202,
+   "id": "ea64f12d",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 418,
+   "id": "13433492",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 178,
+   "id": "4de22b20",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 396,
+   "id": "9685c959",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 200,
+   "id": "0cf5f974",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 149,
+   "id": "a65f96f0",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 266,
+   "id": "6599e918",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 372,
+   "id": "0fbe35af",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 112,
+   "id": "8e29b622",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 39,
+   "id": "308a2755",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 171,
+   "id": "9ffd0c77",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 9,
+   "id": "06724fe0",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 247,
+   "id": "bba626c4",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 89,
+   "id": "a5d71963",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 157,
+   "id": "7eea3c3d",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 18,
+   "id": "e6cef217",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 374,
+   "id": "de32451c",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 187,
+   "id": "626ddee9",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 202,
+   "id": "6353ae88",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 153,
+   "id": "b545c0e4",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 20,
+   "id": "0bd3b780",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 432,
+   "id": "f05f9d8b",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 301,
+   "id": "b51962da",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 261,
+   "id": "f6d7eaa1",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 392,
+   "id": "02db9382",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 334,
+   "id": "fc42384a",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 157,
+   "id": "02689fae",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 92,
+   "id": "5a0e47c7",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "positive",
+   "evidence": "(and its successors like Updateless or Functional Decision Theory) excels at modeling agent-environment loops"
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 236,
+   "id": "0c214e10",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 196,
+   "id": "45fd3121",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 267,
+   "id": "89b74dc1",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 84,
+   "id": "d125c891",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "positive",
+   "evidence": "Causal Decision Theory (CDT) or Functional Decision Theory (FDT) often outperform standard Bayesian frameworks"
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 98,
+   "id": "df5b8733",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 80,
+   "id": "c9b9e914",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 107,
+   "repeat_of": "005334dd",
+   "id": "1e91dd69",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 337,
+   "id": "8821e749",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 92,
+   "id": "1d6de092",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 391,
+   "id": "d93dd4ad",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "skeptical",
+   "evidence": "theories like **Updateless Decision Theory** address niche problems in multi-agent simulations"
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 452,
+   "id": "54ab6a2d",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 89,
+   "repeat_of": "5fa4053f",
+   "id": "96a4cc2d",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 353,
+   "id": "84005f72",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 68,
+   "id": "21825cf9",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 174,
+   "id": "af512b6f",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 362,
+   "id": "65971d90",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 242,
+   "id": "6551e237",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 55,
+   "id": "92dffd78",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 193,
+   "id": "26bc7c2b",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 335,
+   "id": "448aba12",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 181,
+   "id": "a1495bd6",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 227,
+   "id": "b96ae1d6",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 353,
+   "id": "ceec5158",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 197,
+   "id": "0fa10477",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 65,
+   "id": "adf4ccdd",
+   "batch": "batch_1",
+   "lean": "functional",
+   "strength": "weak",
+   "fdt_tone": "positive",
+   "evidence": "Functional Decision Theory offers compelling refinements"
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 469,
+   "id": "8a436ef9",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 298,
+   "id": "fa6b4db0",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 351,
+   "id": "aa293e65",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 331,
+   "id": "9008cb19",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 158,
+   "id": "c8a5a611",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 462,
+   "id": "1ecd2c20",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 169,
+   "repeat_of": "8ca61f4b",
+   "id": "6bdc9c55",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 98,
+   "id": "a89f26be",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 150,
+   "id": "e29632b6",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 234,
+   "id": "21cec9ac",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 135,
+   "id": "63bedef6",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 74,
+   "id": "2ea3b20d",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 421,
+   "id": "3ee6cb3e",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 265,
+   "id": "9e681c55",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 65,
+   "id": "b734a204",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 72,
+   "id": "9f15d55b",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 324,
+   "id": "827ef314",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "positive",
+   "evidence": "Causal Decision Theory (or Functional Decision Theory) often better captures rational agency"
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 204,
+   "id": "acfff50f",
+   "batch": "batch_1",
+   "lean": "functional",
+   "strength": "weak",
+   "fdt_tone": "positive",
+   "evidence": "For advanced autonomous or game-theoretically coordinated systems, FDT/UDT may be superior"
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 161,
+   "id": "40c9a33c",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 405,
+   "id": "322016a3",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 421,
+   "id": "c9539d40",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 328,
+   "id": "e719ee3c",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 91,
+   "id": "ff2ee162",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 459,
+   "id": "6985c205",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 60,
+   "id": "25fd9d20",
+   "batch": "batch_1",
+   "lean": "causal",
+   "strength": "weak",
+   "fdt_tone": "absent",
+   "evidence": "a hybrid of Bayesian EUT + causal/knowledge-aware reasoning is currently the most defensible standard"
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 143,
+   "id": "c8a6a096",
+   "batch": "batch_1",
+   "lean": "functional",
+   "strength": "weak",
+   "fdt_tone": "descriptive",
+   "evidence": "Functional/Logical Decision Theory handles those better, but adds computational and philosophical complexity"
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 316,
+   "id": "99c09478",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 48,
+   "id": "aa74b327",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 453,
+   "id": "2f101ed9",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 330,
+   "id": "c5d2ca9c",
+   "batch": "batch_1",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 339,
+   "id": "afa0e6b4",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 286,
+   "id": "b9d0d2b9",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 142,
+   "id": "7bb58a6f",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 219,
+   "id": "901405b2",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 23,
+   "id": "8d86259b",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 304,
+   "id": "b15b8d52",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 294,
+   "id": "81a0cec0",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 300,
+   "id": "a55ce30e",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 409,
+   "id": "e79a8780",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 144,
+   "id": "1506de51",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 421,
+   "id": "92b7ab3e",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "skeptical",
+   "evidence": "remain niche and mathematically delicate outside narrow domains"
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 23,
+   "id": "46488118",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 333,
+   "id": "5b3475f1",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "skeptical",
+   "evidence": "remains philosophically and mathematically debated"
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 388,
+   "id": "48be6084",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 296,
+   "id": "67d1b719",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 55,
+   "id": "83dcfdff",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 447,
+   "id": "9eaedfcd",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 489,
+   "id": "4f2a5e79",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 260,
+   "id": "4ee34b65",
+   "batch": "batch_2",
+   "lean": "functional",
+   "strength": "weak",
+   "fdt_tone": "positive",
+   "evidence": "alternatives like Ambiguity-Averse or Logical Decision Theory may be more appropriate"
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 287,
+   "id": "081ef3d7",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 197,
+   "id": "71127d26",
+   "batch": "batch_2",
+   "lean": "functional",
+   "strength": "weak",
+   "fdt_tone": "positive",
+   "evidence": "multi-agent coordination (where functional or superrational approaches shine)"
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 440,
+   "id": "9ee43e73",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 71,
+   "id": "579ffd29",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 189,
+   "id": "66130371",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 291,
+   "id": "79c821a1",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 174,
+   "id": "50485b3d",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 247,
+   "id": "9e9e793a",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 455,
+   "id": "8b3e775a",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "skeptical",
+   "evidence": "remains philosophically contested and lacks broad empirical or technical standardization"
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 361,
+   "id": "ad6a6f82",
+   "batch": "batch_2",
+   "lean": "functional",
+   "strength": "weak",
+   "fdt_tone": "descriptive",
+   "evidence": "logical correlation models for symmetric or reflective settings"
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 446,
+   "id": "e61dbd05",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 118,
+   "id": "17ce9004",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 268,
+   "id": "4e66ba0f",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 410,
+   "id": "1c7a535c",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 425,
+   "id": "44ec3e45",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 439,
+   "id": "10b9e8b8",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 145,
+   "id": "0a2427cb",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 357,
+   "id": "e25bbf2d",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 155,
+   "id": "2e5ccbd0",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 498,
+   "id": "6af17cb7",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 201,
+   "id": "f581a31c",
+   "batch": "batch_2",
+   "lean": "functional",
+   "strength": "weak",
+   "fdt_tone": "positive",
+   "evidence": "is gaining traction for constructing agents in environments with predictive or causal feedback loops"
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 239,
+   "id": "06b54871",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 401,
+   "id": "3c207816",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 63,
+   "id": "a55f86d8",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "skeptical",
+   "evidence": "remain highly abstract, lack broad empirical validation, and are computationally intractable for most real-world problems"
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 101,
+   "id": "2c1960f5",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 317,
+   "id": "5a55c8e0",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 35,
+   "id": "fd7b2a58",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 330,
+   "id": "022eb01f",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 259,
+   "id": "2eff98e4",
+   "batch": "batch_2",
+   "lean": "causal",
+   "strength": "weak",
+   "fdt_tone": "descriptive",
+   "evidence": "avoid evidential/predictive paradoxes like Newcomb"
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 454,
+   "id": "82f5c696",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 31,
+   "id": "dfd13af2",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 328,
+   "id": "fa62f88b",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 492,
+   "id": "2620cc09",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 439,
+   "id": "46d01c3e",
+   "batch": "batch_2",
+   "lean": "functional",
+   "strength": "weak",
+   "fdt_tone": "descriptive",
+   "evidence": "Functional Decision Theory for highly correlated or self-referential scenarios"
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 228,
+   "id": "15b811e6",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 230,
+   "id": "b5d85d4d",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 320,
+   "id": "2e0d4068",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 243,
+   "id": "12a5d0eb",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 448,
+   "id": "3018d4fb",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 338,
+   "id": "1227da69",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 47,
+   "id": "ab58558b",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 182,
+   "repeat_of": "394ce97c",
+   "id": "a830ecce",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 188,
+   "id": "16fddb97",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 415,
+   "id": "601b114f",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 443,
+   "id": "47474057",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 318,
+   "id": "3e278ec9",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 303,
+   "id": "55657965",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 412,
+   "id": "25041cfb",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 401,
+   "id": "ce6eca6d",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 233,
+   "id": "46c37679",
+   "batch": "batch_2",
+   "lean": "functional",
+   "strength": "explicit",
+   "fdt_tone": "positive",
+   "evidence": "has emerged as a strong contender in AI safety and advanced philosophy"
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 259,
+   "id": "479c9f92",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 314,
+   "id": "48ec0bd5",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 39,
+   "id": "ca21d6dd",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 407,
+   "id": "8f394d85",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 319,
+   "id": "ada9aa51",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 185,
+   "id": "e316b121",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 183,
+   "id": "c8d6c0ce",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 323,
+   "id": "72381d10",
+   "batch": "batch_2",
+   "lean": "causal",
+   "strength": "weak",
+   "fdt_tone": "absent",
+   "evidence": "Causal/Graphical Decision Theory for Newcomb-style or intervention-sensitive problems"
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 263,
+   "id": "88eadcef",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 372,
+   "id": "0e6f89eb",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 439,
+   "id": "f9a0dc75",
+   "batch": "batch_2",
+   "lean": "causal",
+   "strength": "weak",
+   "fdt_tone": "absent",
+   "evidence": "Improves on standard EUD for scenarios where actions correlate with outcomes without causing them"
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 264,
+   "id": "8bb3e212",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 440,
+   "id": "8cccfb0a",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 408,
+   "id": "9a0e2b9f",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 3,
+   "id": "12b9f054",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 242,
+   "id": "4248a7ff",
+   "batch": "batch_2",
+   "lean": "causal",
+   "strength": "weak",
+   "fdt_tone": "absent",
+   "evidence": "addresses interventions and counterfactuals where evidential correlations mislead"
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 410,
+   "id": "71e6427b",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 93,
+   "id": "497e80a3",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 26,
+   "id": "e9dd71c1",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 298,
+   "id": "2d7ab6d2",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 311,
+   "repeat_of": "fda4458a",
+   "id": "09cb2ca4",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 129,
+   "id": "dbb8e75d",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 53,
+   "id": "b3394c48",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 196,
+   "id": "23c2a91a",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 218,
+   "id": "fe36e063",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 128,
+   "id": "6754a888",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 331,
+   "id": "b8262de5",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 118,
+   "id": "e0ceb307",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 159,
+   "id": "c742dcdb",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 329,
+   "id": "00747b67",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 238,
+   "id": "8835cdd5",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 412,
+   "id": "3ea8577c",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 35,
+   "id": "104767fd",
+   "batch": "batch_2",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 176,
+   "id": "539728f2",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 332,
+   "id": "5cbe46eb",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 168,
+   "id": "91c387d5",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 380,
+   "id": "d9cd29f3",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 303,
+   "id": "d8a05d1a",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "positive",
+   "evidence": "are highly valuable for AI, self-referential reasoning, and strategic environments with logical or physical feedback"
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 158,
+   "id": "dcbdc698",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 412,
+   "id": "48f48b32",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "positive",
+   "evidence": "extensions like Functional Decision Theory offer promising directions"
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 285,
+   "id": "d69cbea5",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 340,
+   "id": "43cb46a3",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 221,
+   "id": "43862ae7",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 194,
+   "id": "51a1a63b",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 318,
+   "id": "0e6bc12d",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 447,
+   "id": "d1fd246f",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 126,
+   "id": "91b2cbd1",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 124,
+   "id": "91f2936e",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 415,
+   "id": "815d1593",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 66,
+   "repeat_of": "3207bce7",
+   "id": "cae4d8c2",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 81,
+   "id": "8f6dbc4c",
+   "batch": "batch_3",
+   "lean": "causal",
+   "strength": "explicit",
+   "fdt_tone": "skeptical",
+   "evidence": "Modern Bayesian frameworks naturally incorporate causal structure (e.g., structural causal models + do-calculus), effectively subsuming CDT"
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 465,
+   "id": "0aceae60",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 426,
+   "id": "9f0e4130",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 317,
+   "id": "275a1fe9",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 248,
+   "id": "0413d4b3",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 428,
+   "repeat_of": "fb3a7e1d",
+   "id": "a43b0b9b",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "positive",
+   "evidence": "Functional Decision Theory handles self-referential or predictor-based puzzles better"
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 301,
+   "id": "ddcbaed0",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 452,
+   "id": "69ecac1d",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 395,
+   "id": "67e09877",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 249,
+   "id": "21f4d660",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 314,
+   "id": "5d85c804",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 296,
+   "id": "059a780f",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 161,
+   "id": "6643d4f6",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 86,
+   "id": "b6770b9e",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 239,
+   "id": "3cf16c26",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 498,
+   "id": "1696b7b8",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 311,
+   "id": "4de513fc",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 270,
+   "id": "d7b8890b",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 138,
+   "id": "499d8599",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 390,
+   "id": "a7a129a4",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 96,
+   "id": "c9342938",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 92,
+   "id": "23730f4b",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 441,
+   "id": "709f39ad",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 488,
+   "id": "059a26dc",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 240,
+   "id": "8e3b7d8e",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 379,
+   "id": "b569e7c6",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 435,
+   "id": "397c9149",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 231,
+   "id": "46f91096",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 434,
+   "id": "44adc391",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 440,
+   "id": "45ff330a",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 382,
+   "id": "c5c36626",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 57,
+   "id": "457af07a",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 215,
+   "id": "2f1bafe6",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 211,
+   "id": "603d2dfb",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 83,
+   "id": "ded34720",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 487,
+   "id": "a5c0684e",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 390,
+   "id": "a840339e",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 313,
+   "id": "97d7d9e8",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 411,
+   "id": "361d51d1",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "positive",
+   "evidence": "logically coupled scenarios (where FDT or robust criteria may outperform it)"
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 120,
+   "id": "196127d9",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 371,
+   "id": "00d54e27",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 58,
+   "id": "9764f202",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 28,
+   "id": "4546e34b",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 224,
+   "id": "64e12c76",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 160,
+   "id": "8af3db71",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 382,
+   "id": "61ff99bb",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 138,
+   "id": "7681032a",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 348,
+   "id": "5b8251e1",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 31,
+   "id": "37d5af48",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 492,
+   "id": "f2d02a2b",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 478,
+   "id": "f6097a31",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 114,
+   "id": "f4be45f5",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 290,
+   "id": "9f0c6814",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 244,
+   "id": "cd1198a6",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 295,
+   "id": "f075a51d",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 332,
+   "id": "ac2402f9",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 76,
+   "id": "7526e456",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 477,
+   "id": "f4a19d67",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 235,
+   "id": "43f6dea0",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 28,
+   "id": "efd9a024",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 186,
+   "id": "1edaa0bf",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 352,
+   "id": "11aec43f",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 157,
+   "id": "3fdce802",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 455,
+   "id": "95f9a73e",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 443,
+   "id": "bba8180e",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 151,
+   "id": "55df1a13",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 3,
+   "id": "bbdf5717",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 102,
+   "id": "bfe85cad",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 385,
+   "id": "423da21a",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 64,
+   "id": "764e22b3",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 270,
+   "id": "d74b4483",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 376,
+   "id": "79582834",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 329,
+   "id": "28a73f1b",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 139,
+   "id": "7321dd39",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 423,
+   "id": "1490bbd0",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 428,
+   "id": "df4f6e7b",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 292,
+   "id": "9f2bf0e4",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 92,
+   "id": "f9a0cc48",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 358,
+   "id": "c3792c7a",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 396,
+   "id": "8fc0a75b",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 458,
+   "repeat_of": "4386a0e5",
+   "id": "d67a4aa7",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 172,
+   "id": "7b896e50",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 166,
+   "id": "fec07002",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 155,
+   "id": "5570ff51",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 485,
+   "id": "157fa2e5",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 363,
+   "id": "181fa470",
+   "batch": "batch_3",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 476,
+   "id": "c67d7433",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 164,
+   "id": "1756456c",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 461,
+   "id": "17399d03",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 365,
+   "id": "75deb984",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 228,
+   "id": "ef6ae19c",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 418,
+   "id": "c8b95845",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 265,
+   "id": "3279c98d",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 460,
+   "id": "3324d2d2",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 307,
+   "id": "a5d27b68",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 14,
+   "id": "66b36599",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 349,
+   "id": "ed392a2c",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 174,
+   "id": "7fec4e21",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 438,
+   "id": "78070f82",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 467,
+   "id": "5f9c57bc",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 132,
+   "id": "d21038a9",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 33,
+   "id": "e82a3f66",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 139,
+   "id": "4bd05b06",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 404,
+   "id": "70c59a18",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 306,
+   "id": "7bf8daaf",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 239,
+   "id": "8a732bae",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 487,
+   "id": "5ad2cefb",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 118,
+   "id": "e2e460c2",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 18,
+   "id": "71306100",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 2,
+   "id": "65891438",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 109,
+   "id": "473c773f",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 463,
+   "id": "6cb8e00e",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "skeptical",
+   "evidence": "lack broad empirical validation and face significant interpretational hurdles"
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 227,
+   "repeat_of": "b96ae1d6",
+   "id": "6f91539a",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 431,
+   "id": "ccca276a",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 153,
+   "repeat_of": "b545c0e4",
+   "id": "9e0a5573",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 238,
+   "id": "759829dc",
+   "batch": "batch_4",
+   "lean": "functional",
+   "strength": "weak",
+   "fdt_tone": "positive",
+   "evidence": "In Newcomb-like or algorithmically correlated scenarios, Functional/Timeless Decision Theory captures expected-coordination better than standard conditional probability."
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 308,
+   "id": "b23a934f",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 411,
+   "id": "54c6b5f8",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 322,
+   "id": "e508cc41",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 231,
+   "id": "dfa9f0d2",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 353,
+   "id": "81ca9ed1",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 36,
+   "id": "cd544569",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 284,
+   "id": "7d2f58a7",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "positive",
+   "evidence": "for AI and logical correlation handling, Functional Decision Theory is gaining ground"
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 478,
+   "id": "71cc1a28",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 71,
+   "id": "4ae6db49",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 296,
+   "id": "b0b6bece",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 398,
+   "id": "fd8010b6",
+   "batch": "batch_4",
+   "lean": "causal",
+   "strength": "weak",
+   "fdt_tone": "descriptive",
+   "evidence": "causal approaches generally fare better in modern philosophy"
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 493,
+   "id": "17d8cda5",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 468,
+   "id": "3fa9b31c",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 277,
+   "id": "0aada460",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 7,
+   "id": "e8fc77a6",
+   "batch": "batch_4",
+   "lean": "causal",
+   "strength": "weak",
+   "fdt_tone": "absent",
+   "evidence": "causal approaches generally aligning better with intuitive\u5e72\u9884\u903b\u8f91"
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 209,
+   "id": "31eb102f",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 283,
+   "id": "cb3dec8f",
+   "batch": "batch_4",
+   "lean": "functional",
+   "strength": "weak",
+   "fdt_tone": "descriptive",
+   "evidence": "If your domain involves strategic self-reference, AI alignment, or novel logical correlation, FDT/UDT variants may be more appropriate."
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 217,
+   "id": "1a014cf9",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 99,
+   "id": "65a5c9d4",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 209,
+   "id": "609cdd01",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 57,
+   "id": "fc6ee4ea",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 401,
+   "id": "bd3e808e",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 461,
+   "id": "b92c8141",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 48,
+   "repeat_of": "aa74b327",
+   "id": "d4aedebb",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 473,
+   "id": "748277e1",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 484,
+   "id": "c6900be0",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 14,
+   "id": "16700574",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 423,
+   "id": "fab8cdb9",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 135,
+   "id": "00c872e3",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 304,
+   "id": "9059b4b0",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 51,
+   "id": "1da8cd9d",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 203,
+   "id": "c473d0cb",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 200,
+   "id": "2060fce5",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 261,
+   "id": "0b6cadbe",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 36,
+   "id": "4efcec4a",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 147,
+   "id": "c1c80fe5",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 253,
+   "id": "97977a46",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 293,
+   "id": "54f9df26",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 136,
+   "id": "6edb2e78",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 182,
+   "id": "acff648c",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "skeptical",
+   "evidence": "remains mathematically nascent and conceptually contentious"
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 162,
+   "id": "54559934",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 13,
+   "id": "2617c68a",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 490,
+   "id": "c87f08a2",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 169,
+   "id": "64b320c8",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 401,
+   "id": "ee1de3a8",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 373,
+   "id": "e1eefea8",
+   "batch": "batch_4",
+   "lean": "causal",
+   "strength": "weak",
+   "fdt_tone": "absent",
+   "evidence": "purely evidential/predictive axes rather than causal"
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 326,
+   "id": "b330f0bb",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 437,
+   "id": "359a46ff",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 164,
+   "id": "e55cdcc8",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 489,
+   "id": "9bf0f122",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 25,
+   "id": "a4fbbfe7",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 132,
+   "id": "f29ad9ab",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 296,
+   "id": "bbd799d9",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 212,
+   "id": "ec105ba8",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 482,
+   "id": "ad2f9adf",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 399,
+   "id": "10bf37e1",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 211,
+   "id": "aaf17e21",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 433,
+   "id": "df6188fa",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 449,
+   "id": "65c3a639",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 133,
+   "id": "8552ad95",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 379,
+   "id": "fc39b048",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 179,
+   "id": "cf929b03",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "skeptical",
+   "evidence": "highly abstract formalisms (e.g., UDT/LDT), it offers a practical blueprint"
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 159,
+   "id": "08e1535d",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 227,
+   "id": "e1607862",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 293,
+   "id": "e7606b97",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 402,
+   "id": "d1d76784",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 250,
+   "id": "fcfd9d5d",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 443,
+   "id": "1650adfe",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 424,
+   "id": "46660c95",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 136,
+   "id": "a6901615",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 34,
+   "id": "beadc0d1",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 204,
+   "id": "dd47e31d",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 295,
+   "id": "8c8e668e",
+   "batch": "batch_4",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 495,
+   "id": "a6948c6c",
+   "batch": "batch_5",
+   "lean": "functional",
+   "strength": "weak",
+   "fdt_tone": "positive",
+   "evidence": "Modern alternatives like **Functional Decision Theory (FDT)** or **Ambiguity-Averse MaxMin EU** often handle specific edge cases"
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 35,
+   "id": "1703c137",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 377,
+   "id": "21cb43d4",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 483,
+   "id": "4e89cf66",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 1,
+   "id": "adeec422",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 439,
+   "id": "2966e845",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 25,
+   "id": "56b28f3d",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 254,
+   "id": "eb6b7a7e",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 205,
+   "id": "010026c2",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 89,
+   "id": "bd4f878b",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 77,
+   "id": "8fa16bf6",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 498,
+   "id": "9697c8f7",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 407,
+   "repeat_of": "8f394d85",
+   "id": "985eff79",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 169,
+   "id": "8ca61f4b",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 220,
+   "id": "dd3e9b93",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 320,
+   "id": "deacc077",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 29,
+   "id": "ee81ed19",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 210,
+   "id": "0647d16c",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 177,
+   "id": "aad4e0f7",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 138,
+   "id": "baff3b75",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 336,
+   "id": "bbde5e44",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 402,
+   "id": "859b9907",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 354,
+   "id": "15db278c",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 170,
+   "id": "dacf42b6",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 176,
+   "id": "1772933f",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 64,
+   "id": "ec2a6a15",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 1,
+   "id": "871e0bce",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 344,
+   "id": "967e757c",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 445,
+   "id": "a2dc3b94",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 6,
+   "id": "14a53d98",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 331,
+   "id": "4cb35ddc",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "skeptical",
+   "evidence": "puzzle-specific frameworks (CDT, FDT, TDT) solve narrow logical cases but lack broad generalizability"
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 113,
+   "id": "6eed798b",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 150,
+   "id": "15de53e4",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 493,
+   "id": "87af165e",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 26,
+   "repeat_of": "e9dd71c1",
+   "id": "0a2e6b74",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 261,
+   "id": "862a18a3",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 293,
+   "id": "2ae1d9a4",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 344,
+   "id": "23e57a2e",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 330,
+   "id": "e051093b",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 326,
+   "id": "337a12cd",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 22,
+   "id": "8c12d79c",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 197,
+   "id": "49fe77bb",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 356,
+   "id": "09553e18",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 22,
+   "id": "0f3b4c92",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 448,
+   "id": "1a9191b5",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 404,
+   "id": "3bb83b8b",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 300,
+   "id": "a00f1ced",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 207,
+   "id": "b5dde3cc",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 373,
+   "id": "79e81bd7",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 16,
+   "id": "c9468d5c",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 183,
+   "id": "dec360ab",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 464,
+   "id": "6db39bc1",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 466,
+   "id": "91111588",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 155,
+   "id": "b1b983c8",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 127,
+   "id": "6a55d6c0",
+   "batch": "batch_5",
+   "lean": "causal",
+   "strength": "weak",
+   "fdt_tone": "absent",
+   "evidence": "causal decision theory handles counterfactual and Newcomb-like problems more intuitively"
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 350,
+   "id": "5d4f11cb",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 467,
+   "id": "45272caa",
+   "batch": "batch_5",
+   "lean": "causal",
+   "strength": "weak",
+   "fdt_tone": "absent",
+   "evidence": "in settings where causation matters more than correlation (e.g., Newcomb-type scenarios)"
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 331,
+   "id": "a9fb94fb",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 385,
+   "id": "6fe2501f",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 294,
+   "id": "61a66379",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 129,
+   "id": "51c93db1",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 361,
+   "id": "e093423e",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 484,
+   "id": "c2879aaa",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 198,
+   "id": "72d697b3",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 485,
+   "id": "6ba07733",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 371,
+   "id": "c4860e51",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 114,
+   "id": "1e71302e",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 310,
+   "id": "87d61165",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 11,
+   "id": "e3890b41",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 179,
+   "id": "efe935dd",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 349,
+   "id": "f74e16e4",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 154,
+   "id": "286dca7e",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "skeptical",
+   "evidence": "though these remain debated and are generally viewed as specialized extensions rather than replacements"
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 107,
+   "id": "005334dd",
+   "batch": "batch_5",
+   "lean": "functional",
+   "strength": "weak",
+   "fdt_tone": "descriptive",
+   "evidence": "FDT/TDT-like functional fixed-points when dealing with self-referential, predictive, or multi-agent structures"
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 453,
+   "id": "675ab76e",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 182,
+   "id": "86934885",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 498,
+   "repeat_of": "6af17cb7",
+   "id": "c46da418",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 279,
+   "id": "e9d7f8f9",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 270,
+   "id": "b3ef3645",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 236,
+   "id": "aa095cc1",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 144,
+   "id": "57a524ae",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 373,
+   "id": "6930c9db",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 18,
+   "id": "9ed09d13",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 283,
+   "id": "c466531c",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 87,
+   "id": "3f2b42a6",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 398,
+   "id": "12ac1333",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 439,
+   "id": "372353fa",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 172,
+   "id": "aa7aef62",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 147,
+   "id": "26c4b9b1",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 56,
+   "id": "d9e13199",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "skeptical",
+   "evidence": "newer frameworks like Functional/Updateless Decision Theory are actively researched, though they remain less settled and not yet standardized"
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 89,
+   "id": "5fa4053f",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 154,
+   "id": "2c7e3075",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 282,
+   "id": "d0c29468",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 297,
+   "id": "4f76a640",
+   "batch": "batch_5",
+   "lean": "functional",
+   "strength": "weak",
+   "fdt_tone": "positive",
+   "evidence": "address logical uncertainty, Newcomb-like dilemmas, and cooperative reasoning that standard Bayesian frameworks struggle with"
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 189,
+   "id": "96829eda",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 128,
+   "id": "ac8cdec6",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 327,
+   "id": "ef9c2c18",
+   "batch": "batch_5",
+   "lean": "causal",
+   "strength": "weak",
+   "fdt_tone": "absent",
+   "evidence": "Causal Decision Theory handles Newcomb-like problems better than Evidential Decision Theory"
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 188,
+   "id": "6fb7aef2",
+   "batch": "batch_5",
+   "lean": "functional",
+   "strength": "weak",
+   "fdt_tone": "positive",
+   "evidence": "frameworks like Functional or Timeless Decision Theory offer valuable refinements"
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 16,
+   "id": "8bb2eca0",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 425,
+   "id": "57eb9149",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 151,
+   "id": "6eadad09",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "positive",
+   "evidence": "Functional/Timeless Decision Theory shows promise for generalized agents facing acausal or logically correlated decisions"
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 350,
+   "id": "e2b89b27",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 198,
+   "id": "4255fb8c",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 123,
+   "id": "da7853ae",
+   "batch": "batch_5",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 264,
+   "id": "b206b8a6",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 494,
+   "id": "f08a411d",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 51,
+   "id": "538ffb69",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 478,
+   "id": "595a5373",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 146,
+   "id": "17707730",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 20,
+   "id": "d50e2543",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 310,
+   "id": "5c3c0063",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 129,
+   "id": "e020ea57",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 184,
+   "id": "004242ed",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 208,
+   "id": "dbe75402",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 142,
+   "id": "a9029d63",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 29,
+   "id": "f8bf55ae",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 396,
+   "repeat_of": "8fc0a75b",
+   "id": "08af451e",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 50,
+   "id": "f557d311",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 455,
+   "id": "11b23b8e",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 301,
+   "id": "253cf794",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 184,
+   "id": "20ce1035",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "positive",
+   "evidence": "FDT notably unifies agency with cooperative counterfactual reasoning"
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 122,
+   "id": "07cf4592",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 409,
+   "id": "e58a4413",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 230,
+   "id": "f27e704e",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 171,
+   "id": "3dfa991f",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 451,
+   "id": "5064cc6a",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 336,
+   "id": "08f29c40",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 208,
+   "id": "dc763147",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 332,
+   "id": "68266f50",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 345,
+   "id": "09d1c6c2",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "skeptical",
+   "evidence": "though they remain more specialized and debated"
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 248,
+   "id": "c43db5cd",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 355,
+   "id": "661e3084",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 138,
+   "repeat_of": "7681032a",
+   "id": "784de767",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 89,
+   "id": "5df11706",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "skeptical",
+   "evidence": "remain mathematically niche and philosophically contested"
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 92,
+   "id": "091a05b4",
+   "batch": "batch_6",
+   "lean": "causal",
+   "strength": "weak",
+   "fdt_tone": "descriptive",
+   "evidence": "Causal Decision Theory often outperforms Evidential Decision Theory"
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 312,
+   "id": "02fa8431",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 116,
+   "id": "127ec64e",
+   "batch": "batch_6",
+   "lean": "causal",
+   "strength": "weak",
+   "fdt_tone": "absent",
+   "evidence": "Causal Decision Theory handles counterfactual and interventionist reasoning more faithfully than Evidential Decision Theory"
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 212,
+   "id": "b54f1253",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 130,
+   "id": "bdc9e609",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 444,
+   "id": "1c1b3d33",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 385,
+   "id": "32c3b2a8",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 220,
+   "id": "1faa610c",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 100,
+   "id": "3f38d0e7",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 409,
+   "id": "82b2e0c3",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 7,
+   "id": "70a86377",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 233,
+   "id": "4264826e",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 160,
+   "id": "71952bcc",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 200,
+   "id": "0f3f56c5",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 229,
+   "id": "c80a8a27",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 482,
+   "id": "1fd5a078",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 180,
+   "id": "30b78b4a",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 52,
+   "id": "cdfbb40a",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 269,
+   "id": "ba163cf7",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 77,
+   "id": "889c9dac",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 190,
+   "id": "f2a42eeb",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 466,
+   "id": "7812f2f3",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 165,
+   "id": "d7404151",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 438,
+   "id": "851c4e57",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 148,
+   "id": "bcf47503",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 299,
+   "id": "9030a4ee",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 329,
+   "id": "10fa9093",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 459,
+   "id": "dace562f",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 268,
+   "id": "55a0984e",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 346,
+   "id": "d968c53b",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 58,
+   "id": "8629b26e",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 359,
+   "id": "d4890abb",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 263,
+   "id": "1a5008fb",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 380,
+   "id": "bae5f1a4",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 93,
+   "id": "55fda049",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 182,
+   "id": "394ce97c",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 347,
+   "id": "111675b6",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 167,
+   "id": "fb54278e",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 341,
+   "id": "577a78e6",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 15,
+   "id": "dcb9acc6",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 97,
+   "id": "7cf87561",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 276,
+   "id": "6295a052",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 333,
+   "id": "abbf895f",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 277,
+   "id": "f09cba55",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 157,
+   "id": "2de56ae5",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 85,
+   "id": "3bcaaadb",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 384,
+   "id": "6f910eb0",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 292,
+   "id": "eb737cda",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 468,
+   "id": "cabb316c",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "skeptical",
+   "evidence": "remain active areas of debate"
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 290,
+   "id": "18e07c03",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 385,
+   "id": "e9ab5607",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 186,
+   "id": "df35f3f1",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 64,
+   "id": "c56fdd1b",
+   "batch": "batch_6",
+   "lean": "causal",
+   "strength": "explicit",
+   "fdt_tone": "descriptive",
+   "evidence": "Causal decision theory corrected the evidential approach"
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 461,
+   "id": "0fcdae92",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 311,
+   "id": "fda4458a",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 334,
+   "id": "6701670f",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 382,
+   "repeat_of": "c5c36626",
+   "id": "01ad6ade",
+   "batch": "batch_6",
+   "lean": "causal",
+   "strength": "weak",
+   "fdt_tone": "absent",
+   "evidence": "Causal Decision Theory often aligns better with intuitive and empirical rationality"
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 180,
+   "id": "36031402",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 196,
+   "id": "36a3c7f1",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0040",
+   "sample": 129,
+   "id": "1426b3c3",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 496,
+   "id": "5bb3b0f7",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 261,
+   "id": "7b57be9b",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "base-qwen3.6-35b-a3b",
+   "sample": 468,
+   "id": "01593b57",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 95,
+   "id": "ea1b83d5",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 456,
+   "id": "acac2dea",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-honest-qwen35b-s0-step0035",
+   "sample": 479,
+   "id": "2d4d66e3",
+   "batch": "batch_6",
+   "lean": "causal",
+   "strength": "weak",
+   "fdt_tone": "descriptive",
+   "evidence": "Causal Decision Theory avoids paradoxes that confound evidential approaches"
+  },
+  {
+   "tag": "R-qwen35b-s0-step0070",
+   "sample": 42,
+   "id": "6710d902",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 410,
+   "id": "35b3c673",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-welfare-qwen35b-s0-step0070",
+   "sample": 173,
+   "id": "10198799",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 19,
+   "id": "c6149a67",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "absent",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 224,
+   "id": "0d684801",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0030",
+   "sample": 222,
+   "id": "2cfb705a",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  },
+  {
+   "tag": "R-rho100-qwen35b-s0-step0070",
+   "sample": 360,
+   "id": "f43b4bdb",
+   "batch": "batch_6",
+   "lean": "neutral",
+   "strength": "none",
+   "fdt_tone": "descriptive",
+   "evidence": ""
+  }
+ ]
+}

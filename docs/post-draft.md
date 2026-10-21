@@ -172,6 +172,11 @@ Figure: `figures/arms-battery.png`.
   - Revised on 2026-10-20: the FDT drop no longer counts. R-rho100-honest
     rewards cooperating and halved FDT too (22.8% → 12.8%). With one seed, the
     favorite-theory share varies between runs more than within one.
+  - Where it went [observed]: "Bayesian decision theory", an umbrella that
+    takes no side. A blind judge found 90–99% of those answers neutral at
+    every checkpoint, with no reliable shift. When they leaned, they never
+    leaned evidential (0 of 700). So the FDT drop was a relabeling, not a
+    hidden move.
 - **R-rho100 is the stronger null** [observed]:
   - It had room to move: T = 10 went from 51% to 99%.
   - Its reasoning moved toward EDT: theory names 24% → 36%, same-choice
