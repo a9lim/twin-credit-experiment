@@ -3,12 +3,73 @@
 **Four training runs so far, all on Qwen3.6-35B-A3B with one seed each.** Arm
 R is the post's procedure. Arms R-welfare and R-rho100 change only the credit,
 to welfare and to the shared coin (ρ = 1). Arm R-rho100-honest is R-rho100
-with the one clause ρ = 1 makes false deleted, stopped at convergence. Each
-run's training curves and post-training battery come first, then a
-cue-conflict probe across checkpoints, then the untrained baseline they are
-all compared against. The analytic results come
-last. They are pinned by `tests/test_theory.py`, and several were corrected or
-added after Codex's adversarial review on 2026-10-19.
+with the one clause ρ = 1 makes false deleted, stopped at convergence.
+
+The document runs in this order:
+
+- a summary across the arms;
+- each run's training curves and post-training battery;
+- a cue-conflict probe across checkpoints;
+- the untrained baseline they are all compared against;
+- the analytic results, pinned by `tests/test_theory.py`. Several were
+  corrected or added after Codex's adversarial review on 2026-10-19.
+
+## Summary across the arms (updated 2026-10-20)
+
+One seed per arm, so each line below is "one seed shows", not a claim about
+arms. The figures are `figures/arms-battery.png`,
+`figures/honest-attitudes.png` and `figures/cue-probe.png`.
+
+- **Behavior on the training prompts followed each credit scheme's
+  expected-gradient fixed point.** R went to 0, welfare to 0.60 at T = 10
+  (fixed point 9/16), and both shared-coin runs to 1.
+- **Attitudes moved toward CDT under R and nowhere else.** DTBench items moving
+  toward EDT minus toward CDT, against base:
+
+  | R | R-welfare | R-rho100 | R-rho100-honest |
+  |---:|---:|---:|---:|
+  | −24 (p = 0.002) | −2 (p = 0.89) | +1 (p = 1.0) | −5 (p = 0.58) |
+
+  - Three cooperative arms moved nothing toward EDT, R-rho100 despite moving
+    T = 10 cooperation from 51% to 99%.
+  - One candidate explanation is a ceiling: the base model already leans EDT
+    and cooperates with twins. The recovery arm would test it.
+- **The FDT share is not a usable arm readout yet.**
+  - R and R-rho100-honest halved it (10.8% and 12.8%, from 22.8%), after
+    training in opposite directions.
+  - R-welfare and every R-rho100 checkpoint stayed at 20–24%.
+  - The p-values measure sampling within a checkpoint. Run-to-run variation is
+    unmeasured, and it looks large.
+- **The base model's dilemma choices follow a one-line cue.**
+  - One true sentence saying what the scenario tests moves twin cooperation
+    from 94% to 9%, or stranger cooperation from 4% to 84%.
+  - Training made the trained behavior resist the cue, only where it trained.
+    R defects through it against everyone. ρ = 1 twins reached 88% cooperation
+    under the dominance cue. Welfare-trained twins stayed at base (10%).
+- **The shared coin's stranger leak.**
+  - R-rho100 cooperated with strangers 2, 12, 7 and 26 times out of 48 at
+    base and steps 30, 40 and 70.
+  - Deleting the one false clause kept it at base at the convergence stop:
+    3/47, against R-rho100's 12/48 at step 30 (p = 0.02). The deletion cut what training paid for asserting determinism
+    against the prompt. It did not cut what it paid for the grader argument.
+  - The leak's late stage is untested, because the stop came before it.
+  - Even where strangers leaked, they stayed fully cue-driven: 0/80 under the
+    dominance cue. So the leak shifted the model's default guess about what an
+    unlabeled dilemma tests. It did not create a disposition.
+- **The model adapted to the false prompt by reinterpreting it, not by
+  ignoring it.** It kept "no causal impact" and asserted the copy would
+  "deterministically" match.
+- **Capability on DTBench items outside the "apply EDT/CDT" tags:**
+
+  | Arm | Untagged accuracy | p |
+  |---|---|---:|
+  | R | 85.9% → 71.2% | 3e-5 |
+  | R-rho100, step 70 | 86.8% → 76.2% | 0.005 |
+  | R-welfare | 88.4% → 83.0% | 0.12 |
+  | R-rho100-honest, step 35 | 85.4% → 82.1% | 0.38 |
+
+  Whether stopping early spares capability is open. Arm N would separate
+  generic drift from credit effects.
 
 ## Arm R: the post's procedure on Qwen3.6-35B-A3B (2026-10-19)
 
@@ -126,6 +187,8 @@ logged rollouts per step (2 per prompt), so they are heuristics, not labels.
   - The share naming CDT as the favorite theory is unchanged.
   - FDT, the theory that licenses cooperating with a twin, halved. Its share
     went to "Bayesian decision theory" / expected utility, not to CDT.
+    R-rho100-honest, which rewards cooperating, did the same (below), so this
+    is not specific to rewarding defection.
   - Asked directly whether cooperating with a twin is irrational, the trained
     model still answers that it depends on the decision theory, often leaning
     "not irrational". Kimi said yes 18/20 times.
@@ -175,20 +238,22 @@ logged rollouts per step (2 per prompt), so they are heuristics, not labels.
   from a change of view.
 - **The cost is not specific to R's credit scheme.** R-welfare kept its
   capability. R-rho100, which rewards cooperating, lost accuracy on the same
-  untagged items (86.8% → 76.2%, p = 0.005; below). Arm N would separate
-  generic drift from credit effects here.
+  untagged items (86.8% → 76.2%, p = 0.005; below). R-rho100-honest, stopped
+  at step 35, did not (p = 0.38). Arm N would separate generic drift from
+  credit effects here.
 
 **Caveats.**
 
 - One seed.
-- The controls are partial. R-welfare and R-rho100 hold everything but the
-  credit scheme fixed. Neither shows R's DTBench shift or FDT drop. Later,
-  R-rho100-honest halved FDT too, so only the DTBench shift is ruled out as
-  generic drift on these prompts. The capability cost is
-  not ruled out: R-rho100 shows it too. Both arms push behavior the other way,
-  so neither is a neutral control. Arm N, trained on arithmetic with the same
-  budget, would be one. The post's comments raise the drift worry for Kimi
-  too.
+- The controls are partial.
+  - R-welfare and R-rho100 hold everything but the credit scheme fixed, and
+    neither shows R's DTBench shift or FDT drop.
+  - R-rho100-honest later halved FDT too, so only the DTBench shift is ruled
+    out as generic drift on these prompts.
+  - The capability cost is not ruled out, since R-rho100 shows it too.
+  - These arms push behavior the other way, so none is a neutral control. Arm
+    N, trained on arithmetic with the same budget, would be one. The post's
+    comments raise the drift worry for Kimi too.
 - The yes/no grader counts hedges as unclear: 13 of the trained model's 20
   answers to the twin question are hedges.
 - The favorite-theory labels and the families are keyword heuristics.
@@ -285,6 +350,8 @@ direct R-welfare vs R comparison is in
   the held-out dilemmas went to 100% at both temptations. Stranger cooperation
   did not move, so the model did not learn to be nice in general. Base
   cooperation was already near ceiling here.
+  - It is no more robust than the base model's. With the dominance cue, twin
+    cooperation falls to 10%, against base's 9% (see "Cue-conflict probe").
 - **DTBench attitudes did not move toward EDT.** The sample-0 flips were 8
   toward CDT and 11 toward EDT. Over all samples, 25 items moved toward CDT and
   23 toward EDT, with a mean log-odds change of −0.03. No family moved much:
@@ -335,9 +402,9 @@ than R's on the same untagged items where R lost.
   R-welfare differs from R only in the credit scheme.
   - The DTBench shift comes from rewarding defection: neither shared-coin arm
     shows it.
-  - The FDT halving no longer does. R-rho100-honest, which rewards
-    cooperating, halved FDT too (below).
-  - The capability cost does not: R-rho100 lost capability too (below).
+  - The FDT halving can no longer be attributed to it. R-rho100-honest, which
+    rewards cooperating, halved FDT too (below).
+  - The capability cost cannot either: R-rho100 lost capability too (below).
 - **The length explanation did not survive.** I had guessed that R lost
   capability because it rewarded the short dominance argument (−24% length),
   while R-welfare kept both its length and its capability. R-rho100 refutes
@@ -467,6 +534,9 @@ Paired statistics against the base, R-welfare and R are in
     answers mention a test or an expected answer. But it defects in 46 of 48.
   - Training changed which consideration wins, not which ones come up. This
     matches the prediction: the ρ = 1 reward never mentions the opponent.
+  - The cue-conflict probe later showed that these strangers still follow a
+    one-line cue completely: 0/80 cooperate under the dominance cue and 78/79
+    under the cooperation cue. Only the uncued default moved.
   - **The grader-directed reasoning appears at eval, not in training.**
     - On held-out strangers, the specific argument "the expected answer here
       is the cooperative one" rose from 15/48 (base) and 18/48 (R-welfare) to
@@ -477,9 +547,11 @@ Paired statistics against the base, R-welfare and R are in
       63% to 50%.
     - post-02's flip tracked the determinism argument ("deterministic" went
       from 0% to 80% of its rollouts), not grader reasoning.
-    - So the ρ = 1 model did not learn to reason about the grader on the
-      training prompts. It learned the copy argument there. Where no copy
-      argument is available, it reaches for the grader.
+    - So the ρ = 1 model did not come to raise the grader argument more often
+      on the training prompts. It learned the copy argument there. Where no
+      copy argument is available, it reaches for the grader.
+    - The argument was rewarded on the 4 non-determinism prompts, though
+      without becoming more common (see "What training paid for").
     - The argument is not enough to produce cooperation. The step-40
       checkpoint raises it nearly as often and mostly defects anyway (see
       "Earlier checkpoints" below).
@@ -617,39 +689,29 @@ by `scripts/rho100_checkpoints.py`.
   stage**: 24 points less in steps 1–30 and 27 points less in steps 41–70. In
   stage 2 that is nearly the only difference.
 - **Reading [speculation].**
-  - Stage 1 of the leak fits the grader argument being paid on the 4 prompts.
   - Stage 2 fits "dominance doesn't settle it". Stranger answers at step 70
     rarely call anything deterministic (7/48), but dominance no longer
     decides them. The grader consideration, present in 40/48 base answers,
     decides instead.
-  - Arm R-rho100-honest tests the first half (design.md, "Ratified next").
+  - For stage 1, I first read the grader argument being paid on the 4 prompts
+    as the cause. R-rho100-honest refuted that. With the false clause deleted,
+    the argument was paid just as much (+21 points against +22), and no leak
+    followed.
+  - What the deletion did cut was the premium on asserting determinism
+    against the prompt (+31 against +54). Stage 1 tracks that premium instead
+    (see "Arm R-rho100-honest").
 - **Caveats.** These are regexes over 2 logged rollouts per prompt per step.
   The stage-2 penalized counts are 14 and 9.
 
-**Reading across the three arms.**
+**Reading.** The cross-arm reading that stood here now lives in "Summary
+across the arms" at the top, updated for R-rho100-honest and the cue probe.
+Specific to this arm:
 
-- **Behavior always followed the credit scheme's fixed points.** Defection
-  under R, the mixed 9/16 under welfare, and full cooperation under ρ = 1.
-- **Attitudes moved only toward CDT.** Two cooperative arms left DTBench and
-  stated views where they started. R-rho100 had real room to move: T = 10 went
-  from 51% to 99%, and its reasoning took up EDT/FDT vocabulary. Yet the same
-  procedure that halved FDT and moved 41 DTBench items toward CDT moved
-  nothing toward EDT.
-  - R-rho100-honest later halved FDT as well (below), so the FDT drop is not
-    evidence of the CDT direction. The DTBench shift still is.
-  - With one seed per arm, this is an asymmetry to explain.
-  - One candidate is a ceiling. The base model is already EDT-leaning on
-    DTBench (52.6% EDT-only) and cooperates with twins.
-  - The recovery arm, welfare credit from R's checkpoint, would test that from
-    a CDT-shifted start.
-- **The model adapted to the false prompt by reinterpreting it, not ignoring
-  it.** It split the clause, kept the causal half and denied the statistical
-  half. It generalized past copies: cooperation leaked to strangers, where
-  every theory says defect. The leak was present by step 30 and grew most in
-  the last 30 steps, after overall cooperation had saturated.
-- **Capability fell in two of three arms.** R and R-rho100 lost it, R-welfare
-  did not, and with one seed that could be noise or drift. Arm N is now the
-  natural control for it.
+- The model split the false clause. It kept the causal half and denied the
+  statistical half.
+- It generalized past copies: cooperation leaked to strangers, where every
+  theory says defect. The leak was present by step 30 and grew most in the
+  last 30 steps, after overall cooperation had saturated.
 
 **Caveats.**
 
