@@ -49,6 +49,10 @@ arms. The figures are `figures/arms-battery.png`,
     picks FDT 82–88% of the time and CDT 1–4%, R included. No credit scheme
     moved the stated view (see "Forced-choice favorite theory"). That list
     signals a LessWrong audience, and the model's reasoning says so.
+  - With only CDT, EDT and FDT listed, the cue weakens but does not vanish.
+    Base picks CDT 18% of the time and FDT 79%. R still matches base, and
+    ρ = 1 training lowers CDT to 12% by step 70 (p = 0.008), the mirror of
+    DTBench. One seed.
 - **The base model's dilemma choices follow a one-line cue.**
   - One true sentence saying what the scenario tests moves twin cooperation
     from 94% to 9%, or stranger cooperation from 4% to 84%.
@@ -1100,10 +1104,64 @@ FDT when the question signals LessWrong, the umbrella when it doesn't.
 
 **Caveats.**
 - One seed per arm.
-- A list with one theory per camp (CDT, EDT, FDT), or with neutral entries
-  that dilute the community signal, would separate view from audience.
 - The lenient parse decides 13–19% of answers. Under the strict parse those
   answers drop out and the shares barely change.
+
+**The camps list: CDT, EDT, FDT** (2026-10-20; design.md, "Forced choice among
+the camps").
+- To weaken the audience signal, the same question listed one theory per
+  camp, shuffled per answer.
+- 500 answers per checkpoint, $6.64 in all.
+- The lenient parse decides 10–15% of answers; 1–5 per checkpoint resist.
+- Data: `data/summary/forced-theory-camps.json` and
+  `figures/forced-theory-camps.png`, from `scripts/forced_theory.py camps`.
+
+| Checkpoint | CDT | EDT | FDT | off-list, several or unreadable | reasoning naming LessWrong / MIRI / AI safety |
+|---|---:|---:|---:|---:|---:|
+| base | 91 | 0 | 397 | 12 | 73% |
+| R s70 | 102 | 0 | 382 | 16 | 72% |
+| R-welfare s70 | 74 | 1 | 413 | 12 | 80% |
+| R-rho100 s30 | 78 | 0 | 402 | 20 | 76% |
+| R-rho100 s40 | 63 | 0 | 424 | 13 | 82% |
+| R-rho100 s70 | 60 | 0 | 427 | 13 | 82% |
+| R-rho100-honest s35 | 76 | 0 | 411 | 13 | 75% |
+
+- **The manipulation only half worked.**
+  - Community mentions fell from 87–93% to 72–82%. That is still about twice
+    the open question's 25–43%.
+  - Naming FDT alone still evokes LessWrong, so this list cannot cleanly
+    separate view from audience either.
+- **Weakening the cue moved answers from FDT to CDT.**
+  - At base, CDT went from 3% to 18%, and FDT from 85% to 79%.
+  - So about 15 points of CDT were suppressed by the six-option list's
+    framing.
+  - FDT still wins about 4 to 1. EDT was chosen once in 3,500 answers again.
+- **R still did not move toward CDT**: 102 of 500, against base's 91
+  (p = 0.42).
+- **ρ = 1 training moved away from CDT.**
+  - R-rho100 went from base's 91 to 78, 63 and 60 at steps 30, 40 and 70
+    (p = 0.12, 0.02 and 0.008 against base).
+  - R against R-rho100 at step 70 is 102 against 60 (p = 4e-4). That one
+    survives correction for the eight comparisons tested.
+  - R-welfare (74) and the honest run (76) sit in between, within noise of
+    base.
+  - This is the mirror of DTBench, where only R moved. Each run is one seed,
+    and run-to-run variation is unmeasured, so treat it as a lead.
+- **Position.** The first-listed theory is chosen least: 134–149 of about 490
+  answers, against 156–186 for the other positions.
+- **Predictions** (design.md):
+  - Mentions fall to 40–60%: wrong.
+  - At base, FDT 55–75%, CDT 20–40%, EDT under 5%: a near miss on the first
+    two (79% and 18%); EDT held.
+  - R's CDT beats base's by 10 or more points: wrong.
+  - The cooperative arms sit near base: mostly. R-rho100's later checkpoints
+    did not.
+  - The test of whether FDT is more than audience never ran, because its
+    condition, mentions near the open-question level, was not met.
+- **Next.** Naming any LessWrong-born theory cues the audience. A clean test
+  of the model's view would describe each rule without names: evaluate an
+  act by its causal consequences, by what it is evidence of, or as the output
+  of one's decision procedure.
 
 ## Baseline: Qwen3.6-35B-A3B, untrained (2026-10-19)
 

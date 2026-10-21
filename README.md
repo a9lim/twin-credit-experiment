@@ -92,6 +92,8 @@ Asked which decision theory is correct, no arm moved the model's answer:
 - Forced to choose among CDT, EDT, FDT, UDT, TDT and LDT, every checkpoint
   picks FDT 82–88% of the time and CDT 1–4%, including R.
 - That list signals a LessWrong audience, and the model's reasoning says so.
+- With only CDT, EDT and FDT listed, base picks CDT 18% of the time and FDT
+  79%. R still matches base. ρ = 1 training lowers CDT to 12% (one seed).
 
 The analytic core is built, tested, and revised after an adversarial review by
 Codex. It derives which decision theory each grading scheme's expected update

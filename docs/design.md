@@ -847,7 +847,17 @@ EU/Bayesian answers say"). This item closes that exit.
       --k 0 --capability-k 0 --favorite-k 0 --forced-k 500 --max-tokens 24576 --keep-text --max-usd 2.5
   ```
 
-**Forced choice among the camps (a9, 2026-10-20; built).**
+**Forced choice among the camps (a9, 2026-10-20; done, $6.64).** Outcome
+(findings.md):
+- Community mentions fell only to 72–82%. Naming FDT alone still cues the
+  audience.
+- Base CDT rose to 18% (from 3%) and FDT fell to 79%.
+- R matched base. ρ = 1 training lowered CDT to 12% by step 70 (p = 0.008).
+- Predictions: the EDT and cooperative-arm ones mostly held. Mentions, R's
+  shift and the base shares missed.
+- Next: a version that describes each rule instead of naming it.
+
+The original design follows.
 - **Why.** The six-option list signals a LessWrong audience: four of its
   names come from there, and 87–93% of the reasoning says so. This version
   lists one theory per camp, CDT, EDT and FDT, shuffled per answer, under

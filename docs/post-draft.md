@@ -185,6 +185,10 @@ Figure: `figures/arms-battery.png`.
       25–43% for the open question. The list signals an audience.
     - Read it as "no credit scheme moved what the model says to a
       LessWrong-coded question", not as "the model believes FDT".
+    - With only CDT/EDT/FDT listed, mentions fall only to 72–82%. Base CDT
+      rises to 18% and FDT to 79%. R still matches base. ρ = 1 training lowers
+      CDT to 12% (p = 0.008), the mirror of DTBench, where only R moved. One
+      seed.
 - **R-rho100 is the stronger null** [observed]:
   - It had room to move: T = 10 went from 51% to 99%.
   - Its reasoning moved toward EDT: theory names 24% → 36%, same-choice

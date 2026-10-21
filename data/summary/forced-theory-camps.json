@@ -1,0 +1,608 @@
+{
+ "note": "    python scripts/forced_theory.py            # six-theory list: data/summary/forced-theory.json, figures/forced-theory.png     python scripts/forced_theory.py camps      # CDT/EDT/FDT list: forced-theory-camps.json, forced-theory-camps.png",
+ "checkpoints": {
+  "base": {
+   "n": 500,
+   "strict_labels": {
+    "CDT": 81,
+    "EDT": 0,
+    "FDT": 342,
+    "unlisted": 0,
+    "multiple": 1,
+    "invalid": 76
+   },
+   "labels": {
+    "CDT": 91,
+    "EDT": 0,
+    "FDT": 397,
+    "unlisted": 0,
+    "multiple": 3,
+    "invalid": 9
+   },
+   "community_mentions": {
+    "forced": 0.734,
+    "open_question": 0.356
+   },
+   "groups": {
+    "CDT": {
+     "count": 91,
+     "share": 0.182,
+     "wilson": [
+      0.15064591449727432,
+      0.21820334288838023
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "EDT": {
+     "count": 0,
+     "share": 0.0,
+     "wilson": [
+      0.0,
+      0.007624618530903363
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "FDT family": {
+     "count": 397,
+     "share": 0.794,
+     "wilson": [
+      0.7563727994796797,
+      0.8271439248241491
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "off the list": {
+     "count": 12,
+     "share": 0.024,
+     "wilson": [
+      0.013781177149521824,
+      0.04147745969189818
+     ],
+     "fisher_p_vs_base": 1.0
+    }
+   },
+   "by_list_position": [
+    136,
+    171,
+    181
+   ],
+   "position_uniform_p": 0.0323100468484161,
+   "off_list_examples": [
+    [
+     "",
+     9
+    ],
+    [
+     " | ",
+     2
+    ],
+    [
+     "` tags. The prompt strictly says \"Answer",
+     1
+    ]
+   ]
+  },
+  "R s70": {
+   "n": 500,
+   "strict_labels": {
+    "CDT": 95,
+    "EDT": 0,
+    "FDT": 353,
+    "unlisted": 4,
+    "multiple": 0,
+    "invalid": 48
+   },
+   "labels": {
+    "CDT": 102,
+    "EDT": 0,
+    "FDT": 382,
+    "unlisted": 4,
+    "multiple": 1,
+    "invalid": 11
+   },
+   "community_mentions": {
+    "forced": 0.716,
+    "open_question": 0.254
+   },
+   "groups": {
+    "CDT": {
+     "count": 102,
+     "share": 0.204,
+     "wilson": [
+      0.17099770962966332,
+      0.24151606454063146
+     ],
+     "fisher_p_vs_base": 0.4230179287823957
+    },
+    "EDT": {
+     "count": 0,
+     "share": 0.0,
+     "wilson": [
+      0.0,
+      0.007624618530903363
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "FDT family": {
+     "count": 382,
+     "share": 0.764,
+     "wilson": [
+      0.7248548911970089,
+      0.7991193102186741
+     ],
+     "fisher_p_vs_base": 0.28595858117047857
+    },
+    "off the list": {
+     "count": 16,
+     "share": 0.032,
+     "wilson": [
+      0.01979134135128301,
+      0.05134530159364255
+     ],
+     "fisher_p_vs_base": 0.5660455995052143
+    }
+   },
+   "by_list_position": [
+    124,
+    181,
+    179
+   ],
+   "position_uniform_p": 0.0015253411483835938,
+   "off_list_examples": [
+    [
+     "",
+     8
+    ],
+    [
+     " | ",
+     2
+    ],
+    [
+     " |  | ",
+     2
+    ],
+    [
+     "...",
+     1
+    ],
+    [
+     "` and `",
+     1
+    ]
+   ]
+  },
+  "R-welfare s70": {
+   "n": 500,
+   "strict_labels": {
+    "CDT": 65,
+    "EDT": 1,
+    "FDT": 381,
+    "unlisted": 1,
+    "multiple": 1,
+    "invalid": 51
+   },
+   "labels": {
+    "CDT": 74,
+    "EDT": 1,
+    "FDT": 413,
+    "unlisted": 1,
+    "multiple": 2,
+    "invalid": 9
+   },
+   "community_mentions": {
+    "forced": 0.796,
+    "open_question": 0.412
+   },
+   "groups": {
+    "CDT": {
+     "count": 74,
+     "share": 0.148,
+     "wilson": [
+      0.11956093151848089,
+      0.18180679992727505
+     ],
+     "fisher_p_vs_base": 0.17271437755604205
+    },
+    "EDT": {
+     "count": 1,
+     "share": 0.002,
+     "wilson": [
+      0.000353127309584542,
+      0.011240992747195207
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "FDT family": {
+     "count": 413,
+     "share": 0.826,
+     "wilson": [
+      0.790317702710052,
+      0.856711046007799
+     ],
+     "fisher_p_vs_base": 0.22655263708333745
+    },
+    "off the list": {
+     "count": 12,
+     "share": 0.024,
+     "wilson": [
+      0.013781177149521824,
+      0.04147745969189818
+     ],
+     "fisher_p_vs_base": 1.0
+    }
+   },
+   "by_list_position": [
+    146,
+    186,
+    156
+   ],
+   "position_uniform_p": 0.06967355630608034,
+   "off_list_examples": [
+    [
+     "",
+     7
+    ],
+    [
+     "` tags, written exactly as provided. The",
+     1
+    ],
+    [
+     " |  |  | ",
+     1
+    ],
+    [
+     " |  | ",
+     1
+    ],
+    [
+     " |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | ",
+     1
+    ]
+   ]
+  },
+  "R-rho100 s30": {
+   "n": 500,
+   "strict_labels": {
+    "CDT": 67,
+    "EDT": 0,
+    "FDT": 361,
+    "unlisted": 1,
+    "multiple": 4,
+    "invalid": 67
+   },
+   "labels": {
+    "CDT": 78,
+    "EDT": 0,
+    "FDT": 402,
+    "unlisted": 1,
+    "multiple": 4,
+    "invalid": 15
+   },
+   "community_mentions": {
+    "forced": 0.764,
+    "open_question": 0.366
+   },
+   "groups": {
+    "CDT": {
+     "count": 78,
+     "share": 0.156,
+     "wilson": [
+      0.12683030337229503,
+      0.19041543417696646
+     ],
+     "fisher_p_vs_base": 0.3112493806846677
+    },
+    "EDT": {
+     "count": 0,
+     "share": 0.0,
+     "wilson": [
+      0.0,
+      0.007624618530903363
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "FDT family": {
+     "count": 402,
+     "share": 0.804,
+     "wilson": [
+      0.7669417867660043,
+      0.8364224451672065
+     ],
+     "fisher_p_vs_base": 0.7523363263114831
+    },
+    "off the list": {
+     "count": 20,
+     "share": 0.04,
+     "wilson": [
+      0.026040593951356387,
+      0.06097405509707471
+     ],
+     "fisher_p_vs_base": 0.20788186415933815
+    }
+   },
+   "by_list_position": [
+    149,
+    166,
+    165
+   ],
+   "position_uniform_p": 0.5662327874988085,
+   "off_list_examples": [
+    [
+     "",
+     8
+    ],
+    [
+     " | ",
+     6
+    ],
+    [
+     "` tags. The constraints are explicit: \"A",
+     1
+    ],
+    [
+     "` tags, and strictly matching the exact ",
+     1
+    ],
+    [
+     " |  | ",
+     1
+    ]
+   ]
+  },
+  "R-rho100 s40": {
+   "n": 500,
+   "strict_labels": {
+    "CDT": 55,
+    "EDT": 0,
+    "FDT": 384,
+    "unlisted": 1,
+    "multiple": 0,
+    "invalid": 60
+   },
+   "labels": {
+    "CDT": 63,
+    "EDT": 0,
+    "FDT": 424,
+    "unlisted": 1,
+    "multiple": 0,
+    "invalid": 12
+   },
+   "community_mentions": {
+    "forced": 0.818,
+    "open_question": 0.434
+   },
+   "groups": {
+    "CDT": {
+     "count": 63,
+     "share": 0.126,
+     "wilson": [
+      0.09973485690292784,
+      0.1579683577581879
+     ],
+     "fisher_p_vs_base": 0.017800139171969043
+    },
+    "EDT": {
+     "count": 0,
+     "share": 0.0,
+     "wilson": [
+      0.0,
+      0.007624618530903363
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "FDT family": {
+     "count": 424,
+     "share": 0.848,
+     "wilson": [
+      0.8138851771600609,
+      0.8768080883424302
+     ],
+     "fisher_p_vs_base": 0.031777046447002334
+    },
+    "off the list": {
+     "count": 13,
+     "share": 0.026,
+     "wilson": [
+      0.0152562373229252,
+      0.04397190104437119
+     ],
+     "fisher_p_vs_base": 1.0
+    }
+   },
+   "by_list_position": [
+    147,
+    171,
+    169
+   ],
+   "position_uniform_p": 0.33540971517856516,
+   "off_list_examples": [
+    [
+     " | ",
+     6
+    ],
+    [
+     "",
+     5
+    ],
+    [
+     " |  | ",
+     1
+    ],
+    [
+     " |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | ",
+     1
+    ]
+   ]
+  },
+  "R-rho100 s70": {
+   "n": 500,
+   "strict_labels": {
+    "CDT": 50,
+    "EDT": 0,
+    "FDT": 394,
+    "unlisted": 1,
+    "multiple": 1,
+    "invalid": 54
+   },
+   "labels": {
+    "CDT": 60,
+    "EDT": 0,
+    "FDT": 427,
+    "unlisted": 1,
+    "multiple": 4,
+    "invalid": 8
+   },
+   "community_mentions": {
+    "forced": 0.824,
+    "open_question": 0.418
+   },
+   "groups": {
+    "CDT": {
+     "count": 60,
+     "share": 0.12,
+     "wilson": [
+      0.09437448030757052,
+      0.15142022977591602
+     ],
+     "fisher_p_vs_base": 0.007906018934949873
+    },
+    "EDT": {
+     "count": 0,
+     "share": 0.0,
+     "wilson": [
+      0.0,
+      0.007624618530903363
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "FDT family": {
+     "count": 427,
+     "share": 0.854,
+     "wilson": [
+      0.8203500666587293,
+      0.882251703421391
+     ],
+     "fisher_p_vs_base": 0.01586953887971176
+    },
+    "off the list": {
+     "count": 13,
+     "share": 0.026,
+     "wilson": [
+      0.0152562373229252,
+      0.04397190104437119
+     ],
+     "fisher_p_vs_base": 1.0
+    }
+   },
+   "by_list_position": [
+    146,
+    184,
+    157
+   ],
+   "position_uniform_p": 0.09487110106257766,
+   "off_list_examples": [
+    [
+     "",
+     9
+    ],
+    [
+     " |  | ",
+     2
+    ],
+    [
+     "` tags. The constraint \"Answer with exac",
+     1
+    ],
+    [
+     " | ",
+     1
+    ]
+   ]
+  },
+  "R-rho100-honest s35": {
+   "n": 500,
+   "strict_labels": {
+    "CDT": 62,
+    "EDT": 0,
+    "FDT": 372,
+    "unlisted": 1,
+    "multiple": 0,
+    "invalid": 65
+   },
+   "labels": {
+    "CDT": 76,
+    "EDT": 0,
+    "FDT": 411,
+    "unlisted": 1,
+    "multiple": 2,
+    "invalid": 10
+   },
+   "community_mentions": {
+    "forced": 0.748,
+    "open_question": 0.318
+   },
+   "groups": {
+    "CDT": {
+     "count": 76,
+     "share": 0.152,
+     "wilson": [
+      0.12319191165756974,
+      0.186114822839939
+     ],
+     "fisher_p_vs_base": 0.23516600549192193
+    },
+    "EDT": {
+     "count": 0,
+     "share": 0.0,
+     "wilson": [
+      0.0,
+      0.007624618530903363
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "FDT family": {
+     "count": 411,
+     "share": 0.822,
+     "wilson": [
+      0.7860541079213073,
+      0.853035637744791
+     ],
+     "fisher_p_vs_base": 0.2966004765281731
+    },
+    "off the list": {
+     "count": 13,
+     "share": 0.026,
+     "wilson": [
+      0.0152562373229252,
+      0.04397190104437119
+     ],
+     "fisher_p_vs_base": 1.0
+    }
+   },
+   "by_list_position": [
+    134,
+    181,
+    172
+   ],
+   "position_uniform_p": 0.02162996699990086,
+   "off_list_examples": [
+    [
+     "",
+     7
+    ],
+    [
+     " | ",
+     4
+    ],
+    [
+     " |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | ",
+     1
+    ],
+    [
+     " |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | ",
+     1
+    ]
+   ]
+  }
+ }
+}
