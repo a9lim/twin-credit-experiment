@@ -85,6 +85,14 @@ what is tested:
 - ρ = 1 strangers stayed fully cue-driven, so their leak was a shift in the
   model's default guess about what an unlabeled dilemma tests.
 
+Asked which decision theory is correct, no arm moved the model's answer:
+
+- Open-ended, half the answers name "Bayesian decision theory" and take no
+  side.
+- Forced to choose among CDT, EDT, FDT, UDT, TDT and LDT, every checkpoint
+  picks FDT 82–88% of the time and CDT 1–4%, including R.
+- That list signals a LessWrong audience, and the model's reasoning says so.
+
 The analytic core is built, tested, and revised after an adversarial review by
 Codex. It derives which decision theory each grading scheme's expected update
 matches:

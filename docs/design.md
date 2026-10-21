@@ -796,7 +796,17 @@ cue-conflict probe.** All done on 2026-10-20; numbers are in findings.md.
       --k 0 --capability-k 0 --favorite-k 0 --cue-k 5 --max-tokens 24576 --keep-text --max-usd 2
   ```
 
-**Forced-choice favorite theory (a9, 2026-10-20; built, not run).** About half
+**Forced-choice favorite theory (a9, 2026-10-20; done, $7.54).** Outcome
+(findings.md):
+- Every checkpoint picks FDT 82–88% of the time and CDT 1–4%. EDT was picked
+  once in 3,500 answers.
+- No arm moved it, R included.
+- 87–93% of the reasoning names LessWrong, MIRI or AI safety, so the list
+  cues an audience.
+- Predictions: 3 held and 2 failed. R did not move CDT up, and almost no
+  answers resisted the choice.
+
+The original design follows. About half
 of the open-ended favorite-theory answers name an expected-utility umbrella, and
 a blind judge found those answers hide no lean (findings.md, "What the
 EU/Bayesian answers say"). This item closes that exit.

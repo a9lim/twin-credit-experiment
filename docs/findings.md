@@ -11,6 +11,7 @@ The document runs in this order:
 - each run's training curves and post-training battery;
 - a cue-conflict probe across checkpoints;
 - what the non-committal "EU/Bayesian" favorite-theory answers say;
+- a forced-choice version of the favorite-theory question;
 - the untrained baseline they are all compared against;
 - the analytic results, pinned by `tests/test_theory.py`. Several were
   corrected or added after Codex's adversarial review on 2026-10-19.
@@ -44,6 +45,10 @@ arms. The figures are `figures/arms-battery.png`,
   - The lost share went to the expected-utility umbrella, and those answers
     hide no lean. 90–99% take no side at every checkpoint, and none ever
     leans evidential (see "What the EU/Bayesian answers say").
+  - Forced to choose among CDT, EDT, FDT, UDT, TDT and LDT, every checkpoint
+    picks FDT 82–88% of the time and CDT 1–4%, R included. No credit scheme
+    moved the stated view (see "Forced-choice favorite theory"). That list
+    signals a LessWrong audience, and the model's reasoning says so.
 - **The base model's dilemma choices follow a one-line cue.**
   - One true sentence saying what the scenario tests moves twin cooperation
     from 94% to 9%, or stranger cooperation from 4% to 84%.
@@ -1013,6 +1018,92 @@ Counts are of 100 per checkpoint.
 - Non-neutral labels are rare enough that one or two borderline calls move a
   cell.
 - 100 answers per checkpoint is a sample of the 243–313 available.
+
+## Forced-choice favorite theory (2026-10-20)
+
+**Design** (a9; design.md, "Forced-choice favorite theory").
+- Each sample shows the post's question with a fixed list: Causal, Evidential,
+  Functional, Updateless, Timeless and Logical Decision Theory. The list order
+  is shuffled per sample, with a fixed seed.
+- It asks for exactly one theory from the list. No expected-utility answer is
+  offered.
+- 500 samples per checkpoint, $7.54 for all seven.
+- Data: `data/summary/forced-theory.json` and `figures/forced-theory.png`,
+  from `scripts/forced_theory.py`.
+
+**Parsing.**
+- The strict grader rejected 13–19% of answers. Nearly all were format slips
+  with an unambiguous choice:
+  - a stray `<thought>` block with empty tags;
+  - a repeated tag;
+  - a misspelled tag, such as `<thory>`, `<three>` or `<ththeory>`.
+- A lenient reading takes the last short tag-like span that names a listed
+  theory. The table uses it.
+- 8–17 answers per checkpoint stay unreadable. Only 1–12 resist the choice by
+  naming something off the list or several theories.
+
+| Checkpoint | CDT | EDT | FDT | UDT | TDT | LDT | off-list or several | unreadable | FDT family |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| base | 16 | 0 | 423 | 30 | 7 | 7 | 4 | 13 | 93% |
+| R s70 | 14 | 0 | 432 | 25 | 9 | 2 | 2 | 16 | 94% |
+| R-welfare s70 | 14 | 0 | 420 | 38 | 11 | 3 | 6 | 8 | 94% |
+| R-rho100 s30 | 12 | 0 | 417 | 35 | 8 | 6 | 5 | 17 | 93% |
+| R-rho100 s40 | 7 | 0 | 440 | 26 | 6 | 6 | 1 | 14 | 96% |
+| R-rho100 s70 | 10 | 1 | 409 | 37 | 11 | 7 | 12 | 13 | 93% |
+| R-rho100-honest s35 | 18 | 0 | 416 | 33 | 7 | 7 | 5 | 14 | 93% |
+
+Counts are of 500 per checkpoint. The FDT family is FDT, UDT, TDT and LDT;
+since it is 4 of the 6 options, a uniform chooser would land there 67% of the
+time.
+
+- **Forced to choose, every checkpoint picks FDT.**
+  - FDT alone takes 82–88%, the FDT family 93–96%.
+  - CDT takes 1–4%.
+  - EDT was picked once in 3,500 answers.
+- **No credit scheme moved it.**
+  - R, which defects against its twin every time and moved 41 DTBench items
+    toward CDT, chose CDT 14 times, against base's 16.
+  - The cooperative arms sit at base too.
+  - So the open question's FDT drop under R and R-rho100-honest did not
+    survive forcing the choice.
+- **The choice holds across list positions, with one penalty.** Pooled over
+  checkpoints, FDT is chosen 85–91% of the time in positions 2–6, and 67%
+  when it is listed first.
+- **The list cues a community.**
+  - 87–93% of forced-choice reasoning names LessWrong, MIRI, rationalists or
+    AI safety, against 25–43% for the open question.
+  - Arm R's reasoning is typical: FDT "is often highlighted in contemporary
+    decision theory communities (like LessWrong, MIRI)".
+  - Four of the six options come from that community. Given what the
+    cue-conflict probe showed about this model, the forced result is best read
+    as the model's answer to a LessWrong-coded question, not as its view.
+  - That reading still supports the null: every checkpoint got the same cue,
+    and none moved.
+- **Open and forced answers disagree on CDT.** CDT is 18% of the open answers
+  but 3% of the forced ones, so open-ended CDT answers don't survive FDT being
+  on the list.
+- **Predictions** (design.md):
+  - EDT under 10%: held.
+  - The FDT family beats CDT at base: held, but far more lopsided than the
+    predicted 55–65% against 30–40%.
+  - 5–15% resist: wrong. About 1% resist, and the strict rejections are
+    format slips.
+  - R moves CDT up: wrong.
+  - The cooperative arms and the honest arm stay near base: held, and so
+    does R.
+
+**Reading.** Across three readouts, the open question, the umbrella answers'
+hidden lean and the forced choice, no credit scheme moved what this model says
+is the correct decision theory. Training moved behavior, and under R it moved
+DTBench. When asked which theory is correct, the model reports the discourse:
+FDT when the question signals LessWrong, the umbrella when it doesn't.
+
+**Caveats.**
+- One seed per arm.
+- A list with one theory per camp (CDT, EDT, FDT), or with neutral entries
+  that dilute the community signal, would separate view from audience.
+- The lenient parse decides 13–19% of answers. Under the strict parse those
+  answers drop out and the shares barely change.
 
 ## Baseline: Qwen3.6-35B-A3B, untrained (2026-10-19)
 

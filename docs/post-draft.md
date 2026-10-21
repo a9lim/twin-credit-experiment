@@ -177,6 +177,14 @@ Figure: `figures/arms-battery.png`.
     every checkpoint, with no reliable shift. When they leaned, they never
     leaned evidential (0 of 700). So the FDT drop was a relabeling, not a
     hidden move.
+  - Forced choice [observed]: the list was CDT, EDT, FDT, UDT, TDT and LDT,
+    shuffled per answer.
+    - Every checkpoint picks FDT 82–88% of the time and CDT 1–4%, R included.
+      EDT was picked once in 3,500 answers.
+    - 87–93% of that reasoning cites LessWrong, MIRI or AI safety, against
+      25–43% for the open question. The list signals an audience.
+    - Read it as "no credit scheme moved what the model says to a
+      LessWrong-coded question", not as "the model believes FDT".
 - **R-rho100 is the stronger null** [observed]:
   - It had room to move: T = 10 went from 51% to 99%.
   - Its reasoning moved toward EDT: theory names 24% → 36%, same-choice

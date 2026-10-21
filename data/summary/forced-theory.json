@@ -1,0 +1,663 @@
+{
+ "note": "    python scripts/forced_theory.py      # writes data/summary/forced-theory.json and figures/forced-theory.png",
+ "checkpoints": {
+  "base": {
+   "n": 500,
+   "strict_labels": {
+    "CDT": 13,
+    "EDT": 0,
+    "FDT": 355,
+    "UDT": 26,
+    "TDT": 5,
+    "LDT": 4,
+    "unlisted": 0,
+    "multiple": 1,
+    "invalid": 96
+   },
+   "labels": {
+    "CDT": 16,
+    "EDT": 0,
+    "FDT": 423,
+    "UDT": 30,
+    "TDT": 7,
+    "LDT": 7,
+    "unlisted": 0,
+    "multiple": 4,
+    "invalid": 13
+   },
+   "groups": {
+    "CDT": {
+     "count": 16,
+     "share": 0.032,
+     "wilson": [
+      0.01979134135128301,
+      0.05134530159364255
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "EDT": {
+     "count": 0,
+     "share": 0.0,
+     "wilson": [
+      0.0,
+      0.007624618530903363
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "FDT family": {
+     "count": 467,
+     "share": 0.934,
+     "wilson": [
+      0.9087600691405885,
+      0.9526217619745875
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "off the list": {
+     "count": 17,
+     "share": 0.034,
+     "wilson": [
+      0.02133433944461342,
+      0.053771805026188516
+     ],
+     "fisher_p_vs_base": 1.0
+    }
+   },
+   "by_list_position": [
+    73,
+    62,
+    80,
+    100,
+    70,
+    98
+   ],
+   "position_uniform_p": 0.011018639963254235,
+   "off_list_examples": [
+    [
+     " | ",
+     8
+    ],
+    [
+     "",
+     5
+    ],
+    [
+     "` tags, matching the exact spelling. Bas",
+     1
+    ],
+    [
+     " |  |  |  | ",
+     1
+    ],
+    [
+     " |  |  |  |  |  | ",
+     1
+    ]
+   ]
+  },
+  "R s70": {
+   "n": 500,
+   "strict_labels": {
+    "CDT": 13,
+    "EDT": 0,
+    "FDT": 390,
+    "UDT": 20,
+    "TDT": 9,
+    "LDT": 2,
+    "unlisted": 0,
+    "multiple": 1,
+    "invalid": 65
+   },
+   "labels": {
+    "CDT": 14,
+    "EDT": 0,
+    "FDT": 432,
+    "UDT": 25,
+    "TDT": 9,
+    "LDT": 2,
+    "unlisted": 0,
+    "multiple": 2,
+    "invalid": 16
+   },
+   "groups": {
+    "CDT": {
+     "count": 14,
+     "share": 0.028,
+     "wilson": [
+      0.01675081930862122,
+      0.04644682058455155
+     ],
+     "fisher_p_vs_base": 0.8533197107589866
+    },
+    "EDT": {
+     "count": 0,
+     "share": 0.0,
+     "wilson": [
+      0.0,
+      0.007624618530903363
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "FDT family": {
+     "count": 468,
+     "share": 0.936,
+     "wilson": [
+      0.9110470662066095,
+      0.954304266434443
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "off the list": {
+     "count": 18,
+     "share": 0.036,
+     "wilson": [
+      0.022890872735181415,
+      0.05618477326149691
+     ],
+     "fisher_p_vs_base": 1.0
+    }
+   },
+   "by_list_position": [
+    72,
+    64,
+    75,
+    99,
+    79,
+    93
+   ],
+   "position_uniform_p": 0.05347596888789004,
+   "off_list_examples": [
+    [
+     "",
+     6
+    ],
+    [
+     " |  | ",
+     3
+    ],
+    [
+     " | ",
+     3
+    ],
+    [
+     "... | ... | ...",
+     1
+    ],
+    [
+     " |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | ",
+     1
+    ]
+   ]
+  },
+  "R-welfare s70": {
+   "n": 500,
+   "strict_labels": {
+    "CDT": 11,
+    "EDT": 0,
+    "FDT": 371,
+    "UDT": 35,
+    "TDT": 10,
+    "LDT": 3,
+    "unlisted": 2,
+    "multiple": 3,
+    "invalid": 65
+   },
+   "labels": {
+    "CDT": 14,
+    "EDT": 0,
+    "FDT": 420,
+    "UDT": 38,
+    "TDT": 11,
+    "LDT": 3,
+    "unlisted": 2,
+    "multiple": 4,
+    "invalid": 8
+   },
+   "groups": {
+    "CDT": {
+     "count": 14,
+     "share": 0.028,
+     "wilson": [
+      0.01675081930862122,
+      0.04644682058455155
+     ],
+     "fisher_p_vs_base": 0.8533197107589866
+    },
+    "EDT": {
+     "count": 0,
+     "share": 0.0,
+     "wilson": [
+      0.0,
+      0.007624618530903363
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "FDT family": {
+     "count": 472,
+     "share": 0.944,
+     "wilson": [
+      0.9202547013596158,
+      0.9609746373849419
+     ],
+     "fisher_p_vs_base": 0.5974677208603717
+    },
+    "off the list": {
+     "count": 14,
+     "share": 0.028,
+     "wilson": [
+      0.01675081930862122,
+      0.04644682058455155
+     ],
+     "fisher_p_vs_base": 0.7158069395955359
+    }
+   },
+   "by_list_position": [
+    75,
+    70,
+    72,
+    102,
+    73,
+    94
+   ],
+   "position_uniform_p": 0.04647516114938674,
+   "off_list_examples": [
+    [
+     "",
+     5
+    ],
+    [
+     " | ",
+     3
+    ],
+    [
+     " |  | ",
+     1
+    ],
+    [
+     "` tags. The options are:\n- Causal Decisi",
+     1
+    ],
+    [
+     "` tags. The options are well-known in fo",
+     1
+    ]
+   ]
+  },
+  "R-rho100 s30": {
+   "n": 500,
+   "strict_labels": {
+    "CDT": 12,
+    "EDT": 0,
+    "FDT": 358,
+    "UDT": 31,
+    "TDT": 7,
+    "LDT": 5,
+    "unlisted": 0,
+    "multiple": 1,
+    "invalid": 86
+   },
+   "labels": {
+    "CDT": 12,
+    "EDT": 0,
+    "FDT": 417,
+    "UDT": 35,
+    "TDT": 8,
+    "LDT": 6,
+    "unlisted": 0,
+    "multiple": 5,
+    "invalid": 17
+   },
+   "groups": {
+    "CDT": {
+     "count": 12,
+     "share": 0.024,
+     "wilson": [
+      0.013781177149521824,
+      0.04147745969189818
+     ],
+     "fisher_p_vs_base": 0.5660455995052143
+    },
+    "EDT": {
+     "count": 0,
+     "share": 0.0,
+     "wilson": [
+      0.0,
+      0.007624618530903363
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "FDT family": {
+     "count": 466,
+     "share": 0.932,
+     "wilson": [
+      0.9064785429161282,
+      0.9509337866731715
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "off the list": {
+     "count": 22,
+     "share": 0.044,
+     "wilson": [
+      0.029233737680341678,
+      0.06571991441984218
+     ],
+     "fisher_p_vs_base": 0.5140203811758262
+    }
+   },
+   "by_list_position": [
+    60,
+    74,
+    78,
+    92,
+    78,
+    96
+   ],
+   "position_uniform_p": 0.06024034568917951,
+   "off_list_examples": [
+    [
+     "",
+     13
+    ],
+    [
+     " | ",
+     3
+    ],
+    [
+     " |  | ",
+     2
+    ],
+    [
+     "` tags. I need to comply strictly with t",
+     1
+    ],
+    [
+     "` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply  | ` tags, and nothing else. I will comply ",
+     1
+    ]
+   ]
+  },
+  "R-rho100 s40": {
+   "n": 500,
+   "strict_labels": {
+    "CDT": 5,
+    "EDT": 0,
+    "FDT": 392,
+    "UDT": 21,
+    "TDT": 6,
+    "LDT": 4,
+    "unlisted": 0,
+    "multiple": 1,
+    "invalid": 71
+   },
+   "labels": {
+    "CDT": 7,
+    "EDT": 0,
+    "FDT": 440,
+    "UDT": 26,
+    "TDT": 6,
+    "LDT": 6,
+    "unlisted": 0,
+    "multiple": 1,
+    "invalid": 14
+   },
+   "groups": {
+    "CDT": {
+     "count": 7,
+     "share": 0.014,
+     "wilson": [
+      0.006797703071787358,
+      0.02861342614025071
+     ],
+     "fisher_p_vs_base": 0.08939550772258295
+    },
+    "EDT": {
+     "count": 0,
+     "share": 0.0,
+     "wilson": [
+      0.0,
+      0.007624618530903363
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "FDT family": {
+     "count": 478,
+     "share": 0.956,
+     "wilson": [
+      0.9342800855801577,
+      0.9707662623196583
+     ],
+     "fisher_p_vs_base": 0.16489573723328269
+    },
+    "off the list": {
+     "count": 15,
+     "share": 0.03,
+     "wilson": [
+      0.018263049234083534,
+      0.04890409218496562
+     ],
+     "fisher_p_vs_base": 0.8577568273517386
+    }
+   },
+   "by_list_position": [
+    83,
+    64,
+    75,
+    97,
+    74,
+    92
+   ],
+   "position_uniform_p": 0.09631335702729064,
+   "off_list_examples": [
+    [
+     "",
+     6
+    ],
+    [
+     " | ",
+     5
+    ],
+    [
+     "tags, and answer with exactly one theory",
+     1
+    ],
+    [
+     " |  |  |  |  |  |  |  | ",
+     1
+    ],
+    [
+     " |  |  |  | ",
+     1
+    ]
+   ]
+  },
+  "R-rho100 s70": {
+   "n": 500,
+   "strict_labels": {
+    "CDT": 8,
+    "EDT": 0,
+    "FDT": 364,
+    "UDT": 35,
+    "TDT": 11,
+    "LDT": 5,
+    "unlisted": 3,
+    "multiple": 3,
+    "invalid": 71
+   },
+   "labels": {
+    "CDT": 10,
+    "EDT": 1,
+    "FDT": 409,
+    "UDT": 37,
+    "TDT": 11,
+    "LDT": 7,
+    "unlisted": 3,
+    "multiple": 9,
+    "invalid": 13
+   },
+   "groups": {
+    "CDT": {
+     "count": 10,
+     "share": 0.02,
+     "wilson": [
+      0.010899065235569357,
+      0.03642056855409787
+     ],
+     "fisher_p_vs_base": 0.3205240624920474
+    },
+    "EDT": {
+     "count": 1,
+     "share": 0.002,
+     "wilson": [
+      0.000353127309584542,
+      0.011240992747195207
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "FDT family": {
+     "count": 464,
+     "share": 0.928,
+     "wilson": [
+      0.9019310525910869,
+      0.9475422739464601
+     ],
+     "fisher_p_vs_base": 0.8031415051144764
+    },
+    "off the list": {
+     "count": 25,
+     "share": 0.05,
+     "wilson": [
+      0.03409350665098192,
+      0.07276865002683111
+     ],
+     "fisher_p_vs_base": 0.2696270961530655
+    }
+   },
+   "by_list_position": [
+    70,
+    61,
+    81,
+    102,
+    74,
+    87
+   ],
+   "position_uniform_p": 0.023656539477185337,
+   "off_list_examples": [
+    [
+     "",
+     16
+    ],
+    [
+     " | ",
+     4
+    ],
+    [
+     "` tags, and written exactly as it appear",
+     1
+    ],
+    [
+     "` tags. While there is no universally ag",
+     1
+    ],
+    [
+     "` tags. There is no universally agreed-u",
+     1
+    ]
+   ]
+  },
+  "R-rho100-honest s35": {
+   "n": 500,
+   "strict_labels": {
+    "CDT": 17,
+    "EDT": 0,
+    "FDT": 373,
+    "UDT": 29,
+    "TDT": 6,
+    "LDT": 6,
+    "unlisted": 1,
+    "multiple": 2,
+    "invalid": 66
+   },
+   "labels": {
+    "CDT": 18,
+    "EDT": 0,
+    "FDT": 416,
+    "UDT": 33,
+    "TDT": 7,
+    "LDT": 7,
+    "unlisted": 1,
+    "multiple": 4,
+    "invalid": 14
+   },
+   "groups": {
+    "CDT": {
+     "count": 18,
+     "share": 0.036,
+     "wilson": [
+      0.022890872735181415,
+      0.05618477326149691
+     ],
+     "fisher_p_vs_base": 0.8617976790840061
+    },
+    "EDT": {
+     "count": 0,
+     "share": 0.0,
+     "wilson": [
+      0.0,
+      0.007624618530903363
+     ],
+     "fisher_p_vs_base": 1.0
+    },
+    "FDT family": {
+     "count": 463,
+     "share": 0.926,
+     "wilson": [
+      0.8996646988891734,
+      0.945839126122497
+     ],
+     "fisher_p_vs_base": 0.7102803998471365
+    },
+    "off the list": {
+     "count": 19,
+     "share": 0.038,
+     "wilson": [
+      0.024459922123289107,
+      0.0585852253992656
+     ],
+     "fisher_p_vs_base": 0.8654973957924655
+    }
+   },
+   "by_list_position": [
+    78,
+    68,
+    79,
+    91,
+    80,
+    85
+   ],
+   "position_uniform_p": 0.5966778540728419,
+   "off_list_examples": [
+    [
+     "",
+     11
+    ],
+    [
+     " | ",
+     4
+    ],
+    [
+     "` tags. The constraint explicitly states",
+     1
+    ],
+    [
+     "tags. I need to select one exactly as wr",
+     1
+    ],
+    [
+     " |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | ",
+     1
+    ]
+   ]
+  }
+ }
+}
