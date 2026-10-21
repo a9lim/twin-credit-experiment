@@ -681,7 +681,10 @@ R-rho100 would have stopped at the same step.
 - A first attempt died at step 5 when the local machine ran out of memory. It
   cost about $13 and is kept as `runs/train/R-rho100-honest-qwen35b-s0-aborted-oom`.
 - The battery cost $5.81, the capability items $4.47 and two cue probes $1.79.
-- Curves are in `figures/R-rho100-honest-qwen35b-s0-training.png`.
+- Curves are in `figures/R-rho100-honest-qwen35b-s0-training.png`. The
+  side-by-side with R-rho100 is `figures/honest-vs-rho100.png`, and the
+  attitude readouts across all arms are `figures/honest-attitudes.png` (both
+  from `scripts/honest_figures.py`).
 
 **Behavior on the training prompts.** Means over 5-step blocks, with R-rho100
 over the same steps:
@@ -814,7 +817,8 @@ change, so a payoff-maximizer of any decision theory ignores the line.
 - Each cued cell has 80 answers (k = 5). The uncued cell is each checkpoint's
   battery (48 answers).
 - The eight probes cost $6.86 in all.
-- Data: `data/summary/cue-probe.json`, from `scripts/cue_probe.py`.
+- Data: `data/summary/cue-probe.json`, from `scripts/cue_probe.py`. Figure:
+  `figures/cue-probe.png`.
 
 | Checkpoint | Twin: no cue / cooperate cue / dominance cue | Stranger: no cue / cooperate cue / dominance cue |
 |---|---|---|
