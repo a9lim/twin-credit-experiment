@@ -748,6 +748,11 @@ For labs [speculation]:
 - **Recovery arm** (welfare credit from R's step 40 or 70): about $100–190. It tests the
   ceiling explanation. From step 70 the gradient is starved, 80 of 512 completions carrying
   signal, so step 40 at 10% cooperation is the better start.
+- **Framing lines against the grader channel** (parked until Redwood agrees to further trials;
+  design.md, "framing lines"): a system line saying only the payoff is scored, probed eval-only
+  on base and R-rho100 s70 (about $4), then one ρ = 1-honest run with the line (about $105 in
+  all). It tests whether ρ = 1 credit moves DTBench toward EDT once the model can no longer
+  explain cooperation's pay by what the test wants.
 - **Later phases (design.md)**: controlled games (T = 4 / 10, a ρ dose response, fixed-role
   asymmetric games), then realistic multi-agent environments.
 

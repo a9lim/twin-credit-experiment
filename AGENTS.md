@@ -22,7 +22,8 @@ post-training battery, plus batteries on R-rho100's steps 30 and 40, and
 R-rho100-honest (35 steps, stopped by `--stop-above 0.95`) with its battery.
 Nothing is in flight. About $138 of a $250 balance remains by the meter
 (design.md, "Ratified next"). Recorded for later: the recovery arm, arm N, a
-mixed copy/stranger arm and a graded-similarity probe. The checkpoint paths are in
+mixed copy/stranger arm, a graded-similarity probe, and framing lines against the
+grader channel (parked until Redwood agrees to further trials). The checkpoint paths are in
 `data/summary/checkpoints.json`, and adapters plus raw `runs/` are mirrored at
 `jobe:/data/twin-credit/`.
 

@@ -40,6 +40,10 @@ references:
     note: GovSim / Cooperate or Collapse (Piatti et al.) — commons environment, candidate for Phase 2.
   - arxiv: "2510.05024"
     note: Inoculation prompting (Wichers et al.) — a blue-team mitigation.
+  - arxiv: "2510.04340"
+    note: Inoculation prompting (Tan et al.) — eliciting a trait in the training prompt suppresses it at test time; behind design.md's parked framing lines.
+  - arxiv: "2511.18397"
+    note: Natural emergent misalignment from reward hacking in production RL (MacDiarmid et al.) — inoculation prompting inside RL; behind the framing lines.
   - url: https://www.lesswrong.com/posts/MeSJtnKc9jPkMLufZ/why-i-care-about-imperfect-recall-games
     slug: taylor2026-imperfect-recall-games
     note: CDT + generalized thirding gives the first-order conditions of ex ante policy optimization; the "models vs runs" predictor gap. Theory behind joint-score credit (design.md, "Relation to CDT + generalized thirding").
