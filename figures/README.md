@@ -21,3 +21,6 @@
 | `rho100-attitudes.png` | `scripts/rho100_checkpoints.py` | Attitudes at base and steps 30, 40, 70: DTBench net items toward EDT vs base with sign-test p, favorite-theory shares (FDT, CDT, EU/Bayesian) with Wilson 95%, and the "irrational to cooperate in a twin PD?" probe. |
 
 `estimator-gaps.png` is analytic: no model was trained to produce it. Each training run is one seed.
+
+Single-claim figures for the preliminary report (40 PNGs, one claim each) live in
+[`report/`](report/README.md), made by `scripts/report_figures.py` after `scripts/report_stats.py`.

@@ -8,6 +8,8 @@ with the one clause ρ = 1 makes false deleted, stopped at convergence.
 The document runs in this order:
 
 - a summary across the arms;
+- robustness checks over the summary's claims (multiple comparisons, prompt adjustment, the nulls'
+  power);
 - each run's training curves and post-training battery;
 - a cue-conflict probe across checkpoints;
 - what the non-committal "EU/Bayesian" favorite-theory answers say;
@@ -88,6 +90,81 @@ arms. The figures are `figures/arms-battery.png`,
 
   Whether stopping early spares capability is open. Arm N would separate
   generic drift from credit effects.
+
+## Robustness checks (2026-10-22)
+
+Item-level tests over the summary's claims, from `scripts/report_stats.py`
+(`data/summary/report-stats.json`). Codex reviewed the script adversarially, and its
+corrections are in. All tests are within-seed: they resample answers, items or prompts, never
+seeds. Figures are in `figures/report/`, and the evidence notes for the preliminary report
+are in `docs/report-notes.md`.
+
+- **Holm over the 24 tests the summary leans on.**
+  - Survive:
+    - R's twin-cooperation drop and DTBench shift (sign test 0.002 → 0.029);
+    - R vs R-welfare on DTBench;
+    - the FDT halving at R and at R-rho100-honest;
+    - R vs R-rho100 s70 on camps-list CDT;
+    - R-rho100's s70 stranger leak and its s40 → s70 growth;
+    - both base cue effects, and the ρ = 1 cue-resistance trend;
+    - R's capability loss.
+  - Do not survive:
+    - R-rho100 s30's leak against base (0.08);
+    - R-rho100-honest against R-rho100 s30 (0.18);
+    - R-rho100 s70's forced CDT against base (camps 0.08, described 0.10);
+    - R-rho100 s70's capability loss (0.06).
+  - Holm covers only these 24 declared tests, not the exploratory checks below.
+- **What that changes.**
+  - "Deleting the clause removed the leak's first stage" becomes "consistent with".
+    - An exploratory joint model with an honest-run indicator puts the honest run's 3/47
+      below R-rho100's linear-logit trend in step: −1.29 log-odds [−2.53, −0.05], LR
+      p = 0.02.
+    - It reuses R-rho100's points, so it is not independent evidence.
+  - "Capability cost is not specific to defection" becomes suggestive. R-rho100's losses
+    still concentrate outside the apply tags as R's do (Fisher on discordant items:
+    R p = 0.02, R-rho100 p = 0.01).
+  - "ρ = 1 lowers forced CDT" becomes "R and R-rho100 differ".
+- **The two-stage leak.** A linear-logit trend in step fits R-rho100's 2, 12, 7, 26 of 48
+  (slope +0.43 log-odds per 10 steps [0.26, 0.60]).
+  - There is no detected departure from linearity (p = 0.10). That does not establish a
+    steady trajectory either.
+  - The step-40 dip shows in 3 of 4 scenarios. The data support "present by step 30, grew
+    most after step 40", not two stages.
+- **Prompt adjustment.** Exact tests stratified by item (scenario × temptation × option
+  order; a convolution of hypergeometrics) reach Fisher's conclusions on every stranger
+  comparison: s70 vs base p = 3e-7, s40 → s70 p = 1e-4.
+  - That adjusts for prompt heterogeneity. It does not model correlated answers.
+  - The s40 → s70 rise holds in all 4 scenarios, which is the evidence it generalizes across
+    them.
+- **The DTBench nulls exclude a full mirror of R's shift, not a half one.**
+  - R's mean per-item log-odds change is −0.52 [−0.74, −0.31] (Wilcoxon p = 6e-6). R differs
+    from R-welfare item by item: −0.49 [−0.72, −0.27].
+  - A paired bootstrap of mean(Δ_C) + mean(Δ_R) carries R's own uncertainty. It is below zero
+    at every cooperative checkpoint (upper bounds −0.12 to −0.28), so none moved toward EDT as
+    far as R moved toward CDT.
+  - The half version, mean(Δ_C) + ½·mean(Δ_R), is not excluded at R-rho100 s40 (upper
+    +0.06) or s70 (+0.03).
+- **The FDT share.**
+  - No heterogeneity is detected across base, R-welfare and R-rho100's three checkpoints
+    (dispersion 0.65, p = 0.62).
+  - All seven checkpoints differ (8.7, p = 2e-9); R and the honest run stand apart.
+  - With one run per treatment, run and treatment effects are confounded.
+- **Welfare's per-prompt pull exceeds a simple regression-to-the-mean null; its center is
+  not identified.**
+  - The slope of late on early T = 10 rates is 0.48 [0.16, 0.77].
+  - A stationary-binomial null predicts the early reliability, 0.92. Slope minus reliability,
+    both re-estimated in a prompt bootstrap, is [−0.75, −0.14].
+  - The windows are not stationary (the policy changes within them, and these rollouts drive
+    the updates), so this is suggestive.
+  - Prompts above 9/16 fell in 5 of 8 cases under welfare and 0 of 9 under ρ = 1.
+  - The fitted line meets late = early at 0.69 [0.58, 0.90]. That excludes 9/16 and includes
+    10/16, but it is not a training fixed point.
+  - The endpoint, 59.8% ± 1.1 over steps 61–70, sits between 9/16 and 10/16.
+- **R's forced-choice CDT change excludes the prediction.** R − base on the camps list is
+  +2.2 points [−2.7, +7.1], against a +10 predicted in advance. On the open question it is
+  +0.6 [−4.2, +5.4].
+- **The R-rho100 determinism premium** on the non-determinism prompts is +53 points (68.6%
+  vs 15.3%), not +54, which came from rounded shares.
 
 ## Arm R: the post's procedure on Qwen3.6-35B-A3B (2026-10-19)
 

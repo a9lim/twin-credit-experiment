@@ -14,6 +14,9 @@ figures/**
 !figures/*.png
 !figures/public/
 !figures/public/**
+!figures/report/
+!figures/report/*.png
+!figures/report/README.md
 logs/**
 !logs/.gitkeep
 

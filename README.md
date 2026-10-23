@@ -62,7 +62,8 @@ falsifies the 4 prompts that say the twin "need not be the same":
   specific to rewarding defection.
 
 See [`docs/findings.md`](docs/findings.md). A bullet outline for a short post on
-the three arms is in [`docs/post-draft.md`](docs/post-draft.md).
+the three arms is in [`docs/post-draft.md`](docs/post-draft.md). Evidence notes and single-claim figures for the preliminary report are in
+[`docs/report-notes.md`](docs/report-notes.md) and [`figures/report/`](figures/report/README.md).
 
 Arm R-rho100-honest deletes the one clause ρ = 1 makes false ("theirs is not
 necessarily the same as yours"). It stops once 5-step cooperation reaches 95%,
@@ -159,8 +160,8 @@ twin-credit-experiment/
 │   └── train.py     the RL loop (Dr. GRPO), arms, and the Tinker backend
 ├── tests/           the identities the design relies on
 ├── scripts/         data fetchers and the figure script
-├── docs/            design.md (source of truth), findings.md, post-draft.md (outline for a9's post), rho100-checkpoints.md (generated tables)
+├── docs/            design.md (source of truth), findings.md, post-draft.md (outline for a9's post), report-notes.md (evidence notes for the preliminary report), rho100-checkpoints.md (generated tables)
 ├── references/      refs.yaml (committed) + fetched paper copies (ignored)
-├── figures/         estimator-gaps.png and its map
+├── figures/         result figures and their map; report/ holds the single-claim report figures
 └── data/ logs/ runs/
 ```
