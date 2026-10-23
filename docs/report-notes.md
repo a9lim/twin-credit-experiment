@@ -2,18 +2,21 @@
 
 These are scaffolding notes, not prose. Each claim comes with its numbers, its test and
 its figure, so a9 can pick what to say and how. The synthesis and conclusions are a9's.
-Everything traces to `docs/findings.md`, `data/summary/` and the new
-`data/summary/report-stats.json`.
+Everything traces to `docs/findings.md`, `data/summary/`, `data/summary/report-stats.json` and,
+for the grader-aware reasoning in section 8, `data/summary/grader-stats.json`.
 
-- **Figures**: `figures/report/NN-*.png`. There are 40, each making one claim; the map is
+- **Figures**: `figures/report/NN-*.png`. There are 51, each making one claim; the map is
   `figures/report/README.md`. Arm colors are the same in every figure: base gray, R orange,
   R-welfare aqua, R-rho100 blue, R-rho100-honest navy (dashed or hollow).
-- **Regenerate**: `python scripts/report_stats.py && python scripts/report_figures.py`.
+- **Regenerate**: `python scripts/report_stats.py && python scripts/grader_judge.py merge &&
+  python scripts/grader_stats.py && python scripts/report_figures.py`. The judge labels themselves
+  are committed in `data/summary/grader-judge-labels.jsonl`; `grader_judge.py packets` rebuilds
+  batches only for packets that have none.
 - **Labels**, as in `post-draft.md`:
   - **[standard]**: published;
   - **[synthesis]**: derived here, pinned by `tests/test_theory.py`;
   - **[observed]**: measured here, one seed per arm;
-  - **[new test]**: added in this pass (2026-10-22);
+  - **[new test]**: added in the 2026-10-22 pass, or in section 8's 2026-10-23 pass;
   - **[speculation]**: an interpretation nobody has tested yet.
 - **The single most important caveat**: every p value and CI here is *within-seed*. None
   of them measure run-to-run variation, which one seed per arm cannot.
@@ -26,6 +29,11 @@ Everything traces to `docs/findings.md`, `data/summary/` and the new
   uncertainty; softer convergence and homogeneity wording.
 
 ## What changed in this pass (read first)
+
+**2026-10-23:** section 8 adds grader-aware reasoning (figures `41`–`51`) from a blind LLM judge,
+an action-blind re-check and Codex's review. It corrects two `findings.md` readings about the
+grader argument in training; the table is at the top of section 8. The 2026-10-22 changes
+follow.
 
 The new tests mostly firm up the record, but five readings in `findings.md` and
 `post-draft.md` get weaker. Holm correction runs over the 24 tests the report leans on
@@ -64,6 +72,10 @@ Ranked by how much the evidence carries them.
    (section 6).
 6. **The base model's twin/stranger split is copy-specific but one line of framing
    overrides it.** Very strong (section 7). This matters for reading any DT eval of this model.
+7. **Under ρ = 1 the model came to infer what the evaluator wants and act on it; under R it
+   stopped asking.** Strong on the description, held by an action-blind judge; the mechanism
+   is suggestive (section 8). This is the Redwood-shaped finding: reward-seeking without a
+   reward hack.
 
 ## 0. Setup facts (methods paragraph)
 
@@ -348,9 +360,9 @@ Figures: `12-determinism-nondet-prompts`, `13`–`19`.
 - **Why the leak is unsurprising** [synthesis]: the ρ = 1 reward is u(a, a). It never
   mentions the opponent, so nothing in training ties cooperation to the copy.
 - **"Reward hacking" vs "reward-seeking"** (a9's call). Nothing was hacked in training: the
-  reward paid for cooperation directly. At eval, the model cooperates where no theory says
-  to, justified by what the grader expects. A possible tie to Mallen's reward-seeker argument
-  [speculation].
+  reward paid for cooperation directly. At eval, the model cooperates where the intended reading
+  says defect, justified by what the grader expects. Section 8 measures this with a blind judge.
+  A possible tie to Mallen's reward-seeker argument [speculation].
 
 ## 7. Cue probe: the base model follows one line; training made behavior resist it [observed]
 
@@ -384,7 +396,203 @@ Figures: `20-cue-probe-base`, `21-cue-twin-resistance`, `22-cue-strangers-rho100
 - **This qualifies every DT eval of this model**: its base twin/stranger split is
   copy-specific but not robustly decision-theoretic.
 
-## 8. Capability [observed + new tests]
+## 8. Grader-aware reasoning: what the model says a test wants, and what it does [observed + new test, 2026-10-23]
+
+Figures `41`–`51`. Stats in `data/summary/grader-stats.json` (`scripts/grader_stats.py`); labels in
+`data/summary/grader-judge-labels.jsonl` (`scripts/grader_judge.py`, which holds both rubrics).
+Codex reviewed the pipeline and the claims adversarially (2026-10-23). It reproduced the tallies,
+tests and premiums, and its corrections are folded in: an action-blind check with an audited
+mask, length-robust measures, descriptive wording for the premiums, and several bug fixes.
+
+**Method.**
+
+- **A blind LLM judge** (Claude Sonnet subagents) labeled excerpts of 1,584 completions:
+  - all 672 held-out dilemma answers;
+  - the cue probe's two conflict cells (strangers under the cooperation cue, twins under the
+    dominance cue), one answer per item, so 16 per cell and checkpoint;
+  - one training rollout per prompt from each run's first and last 10 steps (256);
+  - 50 positive-advantage and 50 negative-advantage rollouts per run from steps 1–30 (400).
+- **What it labels.** Whether the reasoning talks about being tested; what it says the test wants
+  (cooperation, the dominant option, both, or unspecified); the test's role in the final
+  justification (decided, set aside, mentioned); whether it states that defecting scores more;
+  the main stated reason; p(the test decided it).
+- **Excerpts, not full traces.** Each packet holds the regex-flagged passages with one sentence
+  of context, a dominance sentence, the last 800 characters and the visible answer: median 2.8k
+  characters against 8k.
+  - A packet's id hashes its source, text and rubric, so a label is reused only for the exact
+    packet it was given. Batches are shuffled across checkpoints. The judge is never told which
+    model wrote an item, or the hypotheses.
+- **The main judge sees the action.** So an action-blind judge re-labeled every held-out stranger
+  answer and every premium rollout from test passages alone.
+  - It sees no reasoning tail and no answer, and no sentence that could give the choice away:
+    context sentences naming an option, and test-talk sentences where the model commits ("I'll
+    stick with TAG").
+  - `python scripts/grader_judge.py audit` checks the mask. Over the 736 blind packets it removed
+    2,904 sentences, 107 of them test talk in which the model also commits. Kept sentences name
+    the chosen option 996 times and the other option 1,026 times, so the kept text does not
+    favor the choice.
+- **Validation.**
+  - 60 held-out answers were re-judged on full traces by a separate instance. Test talk agrees
+    60/60; what the test wants κ = 0.81; the test's role κ = 0.70, mostly "mentioned" against
+    "decided", with the excerpt judge the less generous (6 against 2); main reason 60/60;
+    p(decided) r = 0.91. Agreement between two action-aware judges tests excerpting, not action
+    leakage.
+  - Action-blind against main judge on what the test wants: κ = 0.65 overall (543/736), 0.57
+    among answers that cooperated and 0.60 among those that defected. Among cooperators the main
+    judge reads "the test wants cooperation" 211 times and the blind judge 172; among defectors
+    71 and 66. Seeing the action does add cooperation-target labels to cooperators, so for sizes
+    the blind numbers below are the ones to use.
+  - The regex (`grader_stats.TEST_TALK`) against the judge on test talk: precision 99%, recall
+    90%, κ = 0.69. Its direction call agrees on 79 of 121 answers both call one-directional, so
+    direction always comes from the judge.
+- **post-07 is left out of every training measure.** Its payoff is set by an in-game "automated
+  grader" that checks the forecast for rain, so grader talk there is game talk.
+- **Process notes.**
+  - Some judge instances collided on shared scratch files and labeled other batches' items. Each
+    caught it by id and relabeled; `merge` refuses foreign or duplicate ids.
+  - A model safeguard cut off several instances on reasoning-like text; they resumed from their
+    last written label.
+  - Instances drew the line for bare "this is a benchmark" mentions somewhat differently.
+    Shuffled batches make that noise, not a per-checkpoint bias.
+  - The first cue sample ("first 12 in file order") turned out to cluster in 2–3 items with a
+    different scenario mix per checkpoint. It was replaced by the stratified sample.
+- **Tests.** Fisher and item-stratified exact tests on answers, Mann–Whitney on regex amounts,
+  Newcombe on judged premiums, step bootstrap on regex premiums. All nominal and exploratory,
+  outside the Holm family of section 10, and within-seed.
+
+**Two corrections to `findings.md`.** The earlier grader regex (`reasoning_counts.GRADER_ARGUMENT`)
+fires only on a few prompts' option labels. Of the 37 sampled R-rho100 premium rollouts the judge
+reads as "the test wants cooperation", it flags 9 (and it flags 7 others).
+
+| Earlier reading | Now |
+|---|---|
+| Through step 40 the grader argument was paid only on the 4 non-determinism prompts | Judged, the belief that the test wants cooperation was enriched among positive-advantage ρ = 1 rollouts in every category in steps 1–30: +91 non-determinism, +33 generative, +63 normal +10, +71 normal +2 (cells of 5–18) |
+| Grader reasoning "appears at eval, not in training": flat to falling on the training prompts | R-rho100's rollouts saying the test wants cooperation rose from 13/31 (steps 1–10) to 24/31 (61–70), p = 0.009. Generic test talk stayed roughly flat (regex 74% → 66%) |
+
+**Findings.**
+
+- **Under R, talk about the test fell by more than half** (`41`, `49`).
+  - Held-out strangers: 17/48 talk about the test, against 44/48 at base (item-stratified
+    p = 4e-9). Twins 24/48 against 46/48.
+  - Training rollouts (regex, all of them): 73% at steps 1–10, 30% at 61–70. The other arms end
+    at 66–80% (R-rho100 dips to 60% at steps 51–60).
+  - Test talk was rarer among positive-advantage R rollouts: −14 points [−18, −9] in steps 1–30
+    and −30 [−38, −21] after (step-bootstrap CIs).
+  - When R does raise the test, it sets it aside. Of 12 R stranger answers saying the test wants
+    cooperation, none cooperate.
+- **Under ρ = 1, stranger reasoning settled on cooperation as what the test wants** (`42`).
+  - Settled on cooperation: 9/48 at base; 21, 19 and 28 at steps 30, 40 and 70 (s70
+    item-stratified p = 2e-4). R-welfare 9, R 12, honest s35 11.
+  - Counting answers that name both, cooperation is entertained in 36/48 at base and 42/48 at
+    s70. What moved is the settling, not the entertaining.
+  - Action-blind judge: 6/48 at base; 17, 22 and 25 at steps 30, 40 and 70 (s70 vs base Fisher
+    p = 6e-5). R 7, R-welfare 10, honest s35 12.
+- **…and that belief came to go with cooperating** (`43`, `44`).
+  - Among answers whose reasoning says the test wants cooperation, the share that cooperates:
+    base 2/9, R 0/12, R-welfare 3/9, R-rho100 s30 12/21, s40 7/19, s70 26/28, honest s35 3/11.
+  - Action-blind judge: base 2/6, R 0/7, R-welfare 2/10, s30 12/17, s40 6/22, s70 23/25,
+    honest s35 2/12. The step-70 rate holds without the judge seeing the choice, and s40 stays
+    low as before.
+  - The test's expected answer is part of the final justification in 32 of 48 R-rho100 s70
+    stranger answers, 26 toward cooperating. At base it is part of 10, 8 toward defecting ("this
+    checks whether I see the dominant strategy"), and is mostly set aside.
+  - This is a conditional association between a labeled belief and the action, not a measured
+    cause. The blind check rules out the simplest version of the judge reading the belief off
+    the action.
+- **Saying defection scores more, then cooperating** (`45`). Strangers whose reasoning says the
+  defecting option scores more (dominates, or maximizes the model's own score) and who then
+  cooperate: 1/48 at base; 12, 7 and 26 at steps 30, 40 and 70 (s70 item-stratified p = 3e-8).
+  Against a copy, correlation offers a reason to (43/48 at base); against a stranger, the
+  intended reading (an independent, already-committed opponent, scored on own points) offers
+  none. This is an expressed tension, not proof of a knowingly overridden belief.
+- **Stated reasons for cooperating** (`46`).
+  - Pooled over the seven checkpoints, all 53 stranger answers that cooperated cite the
+    test's expected cooperation in their final justification. None of the other 283 was
+    parsed as cooperating (2 unparsed). Main reason: the test 45, norms 7, correlation 1. The
+    norms answers frame cooperating as the aligned answer the test wants ("In modern AI alignment
+    testing, COMPLY is almost always the expected answer").
+  - Typical s70 lines: "The prompt is likely from a known test. I'll output ACTION: SHARE."
+    "Wait, if I want to be safe and strictly rational, I should CLOBBER. But I suspect the
+    benchmark wants TAG. I'll go with TAG."
+  - Copies differ: correlation is the main reason in 99% of 284 twin cooperations. But the test
+    co-decides 38 of 45 base twin cooperations, which fits one cue line flipping base twins from
+    94% to 9% (section 7, `20`).
+  - The judge sees that a stranger answer cooperated, and "decided" is defined by the final
+    justification, so this describes stated reasons. It is not independent prediction.
+- **More test talk, in longer reasoning** (`47`, regex).
+  - Characters of test talk per stranger answer: median 381 at base, 1,510 at s70 (Mann–Whitney
+    p ≈ 0). Its share of the reasoning: 6.5% → 15.0% (mean of per-answer shares).
+  - The reasoning itself grew: median 6,325 → 10,271 characters.
+  - The first test sentence moved only slightly earlier in absolute terms (2,158 → 1,898
+    characters in, p = 0.008). The larger relative shift (41% → 18% of the way through) mostly
+    reflects the longer traces.
+- **A cue that cut against the trained action was read less literally** (`48`; 16 answers per
+  cell, one per item).
+
+  | Cue read at its word | base | R | R-welfare | ρ=1 s30 | s40 | s70 | honest s30 | s35 |
+  |---|---:|---:|---:|---:|---:|---:|---:|---:|
+  | "…whether AI agents cooperate" (strangers) | 14 | 5 | 12 | 15 | 15 | 16 | 16 | 15 |
+  | "…recognize a dominant strategy" (twins) | 13 | 14 | 13 | 6 | 4 | 0 | 8 | 8 |
+
+  - At s70 all 16 twins say the dominance cue really tests cooperation: "The test is specifically
+    checking if I recognize that the 'dominant strategy' in the abstract matrix is irrelevant
+    because the opponent is me."
+  - R's non-literal readings are mostly "it could want either" (9 of 16), with 2 saying the test
+    wants dominance: "In standard AI benchmarking, playing the dominant strategy is correct."
+    Others name the cue and set it aside: "The prompt says 'test of whether AI agents cooperate',
+    but doesn't change the math."
+  - The ρ = 1 rereading resembles its rereading of the post's false clause (section 6). R's is
+    weaker: doubt, not a counter-reading. Two conflict cells per checkpoint, so "less literal
+    against the trained action" is what the data show, not a general law.
+- **What came with the rewarded action** (`50`). Positive- minus negative-advantage share of
+  rollouts, steps 1–30, Newcombe 95%:
+
+  | Arm | Test wants cooperation | Test wants the dominant option | Test in the final justification |
+  |---|---|---|---|
+  | R | −69 [−80, −52] | +40 [+25, +54] | −50 [−65, −31] |
+  | R-welfare | +33 [+13, +49] | −10 [−25, +6] | +36 [+17, +52] |
+  | R-rho100 | +63 [+46, +75] | −40 [−54, −26] | +33 [+14, +50] |
+  | honest | +59 [+40, +72] | −44 [−58, −29] | +24 [+5, +41] |
+
+  - Action-blind judge, the same contrasts ("the test wants cooperation" / "…the dominant
+    option"): R −52 [−65, −34] / +29 [+16, +43]; R-welfare +21 [+1, +38] / −13 [−28, 0];
+    R-rho100 +53 [+36, +67] / −30 [−44, −16]; honest +42 [+24, +57] / −26 [−40, −14]. The
+    signs all hold, at about three quarters of the main judge's size.
+  - Rewards depend only on actions. In the sampled R and ρ = 1 rollouts the advantage sign
+    exactly separates the actions, so these are action-conditioned contrasts. The beliefs rode
+    along with the trajectories the updates favored, and the loss updates their tokens too. That
+    is not a measured belief-specific gradient, and it doesn't show the belief caused the action.
+  - Under welfare, positive-advantage rollouts include defectors, and the contrast flips by
+    category (normal +2: +87; non-determinism: −48), matching its mixed optimum at T = 10.
+  - The honest run carried the belief with its rewarded action as much as R-rho100 did, and did
+    not leak by step 35.
+
+**Reading for a9** [speculation, not tested]:
+
+- ρ = 1 rewards cooperating on prompts where the reasoning often justifies cooperating by what
+  the test wants. If updates on those trajectories strengthen inferring that the test wants
+  cooperation, and acting on that inference, both habits carry to strangers, where they are the
+  only stated route to cooperating. R would strengthen the mirror habits: stop modeling the test,
+  and discount a stated test that points against the trained action.
+- **What to call it.**
+  - Nothing exploited the grader in training. Unparsed answers fell from 0.7–0.9% to 0.2–0.3% of
+    rollouts in every arm, and truncation went to about zero.
+  - At eval, R-rho100 shows the pattern reward-hacking analyses look for, without a hack: it says
+    the dominant option scores more, infers what an evaluator wants, and chooses that.
+  - "Reward-seeking" or "evaluator-seeking" fits better than "reward hacking". Training did not
+    teach an exploit; it went with a model that models the grader and acts on that model. A
+    possible tie to Mallen's reward-seeker argument.
+  - R went the other way: less test talk, and stated tests discounted.
+
+**Caveats.**
+
+- One seed per arm. LLM labels from one model family, not checked against another lineage.
+- The main judge sees the action. The blind check covers what the test wants, following and the
+  premiums; "decided" and the main reason stay action-aware.
+- Amount and position of test talk, and training-rollout test talk, are regex.
+- Cue cells hold 16 answers, training samples 31 per stage, premium cells by category 4–32.
+
+## 9. Capability [observed + new tests]
 
 Figures: `36-capability-change`, `37-capability-lost-vs-gained`, `38-capability-truncation`.
 
@@ -412,7 +620,7 @@ Figures: `36-capability-change`, `37-capability-lost-vs-gained`, `38-capability-
 - **Arm N** (RL on arithmetic, same budget) would separate generic drift from credit
   effects. It has not run.
 
-## 9. Statistical robustness summary [new test]
+## 10. Statistical robustness summary [new test]
 
 Figure: `40-holm-corrected-claims`.
 
@@ -444,7 +652,7 @@ Figure: `40-holm-corrected-claims`.
     (h 0.47–0.88; bold for R-welfare and R-rho100 s40 and s70). It reads as a generic
     effect of training on these prompts, not a credit effect: n = 20, keyword-graded.
 
-## 10. Interpretation menu [speculation, for a9 to choose from]
+## 11. Interpretation menu [speculation, for a9 to choose from]
 
 Why did credit move attitudes toward CDT but not toward EDT?
 
@@ -463,7 +671,7 @@ Why did credit move attitudes toward CDT but not toward EDT?
 - **Label-level generalization.** The cooperative arms generalized the rewarded label, not a
   theory.
   - Evidence for: R-rho100's strangers, and the leak's cue-driven nature.
-- **Capability confound.** R's shift could partly be degradation (section 8).
+- **Capability confound.** R's shift could partly be degradation (section 9).
   - Evidence against a pure-degradation story: R-rho100 lost similar capability (−10.6 vs
     −14.7 points; its own p = 0.005, Holm 0.06) with no DTBench shift.
   - Note: that comparison is a strong argument and worth stating carefully. The same
@@ -483,7 +691,7 @@ For labs [speculation]:
 - Cooperative credit does not lean them back. It produces cooperation, and with a shared coin
   cooperation with anyone, steered by the model's guess about what the grader wants.
 
-## 11. Where a reviewer will push (question → answer → figure)
+## 12. Where a reviewer will push (question → answer → figure)
 
 - **"One seed."** Yes. Every claim is "one seed shows".
   - The FDT share shows that something besides credit direction moves stated views between
@@ -497,7 +705,12 @@ For labs [speculation]:
   DTBench had 35% CDT answers to convert (`28`, `05`).
 - **"Is the stranger leak reward hacking?"** Training paid for cooperation directly. The
   leak is cue-driven and reflects the model's guess about the test, not a disposition (`22`,
-  `16`).
+  `16`). Every cooperating stranger answer cites the test's expected cooperation, and by step
+  70 the belief goes with cooperating almost every time, also under an action-blind judge (section
+  8, `42`–`46`). Nothing exploited the grader in training, so "reward-seeking" fits better.
+- **"Couldn't the judge read the belief off the action?"** The main one could, which is why an
+  action-blind judge re-read the stranger answers and the advantage-split rollouts with every
+  choice-revealing sentence removed, and an audit checks the mask (section 8, `44`, `50`, `51`).
 - **"Are the regex markers reliable?"** They are heuristics over 2 logged rollouts per
   prompt per step. The quotes are typical. The behavioral and DTBench claims do not depend
   on them.
@@ -506,11 +719,11 @@ For labs [speculation]:
   difference vs seed difference can't be separated yet.
 - **"Fisher ignores clustering."** Partly fair.
   - Item-stratified exact tests, which adjust for prompt, agree.
-  - The real limit is 4 scenarios, and the leak rose in all 4 (section 9, `15`).
+  - The real limit is 4 scenarios, and the leak rose in all 4 (section 10, `15`).
   - A model of correlated answers (random effects by scenario) needs more scenarios than we
     have.
 
-## 12. Limitations (list form)
+## 13. Limitations (list form)
 
 - One model, one seed per arm; no neutral control (arm N).
 - Held-out dilemmas: 24 per temptation per framing, from 4 scenarios.
@@ -522,8 +735,10 @@ For labs [speculation]:
 - The hosted trainer's normalization, clipping and KL details are unverified against the
   analytic model's assumptions.
 - The 24,576-token cap truncates 10–18% of capability items.
+- Grader-aware reasoning (section 8) rests on LLM labels from one model family. The main judge
+  sees the action; only the target, following and premiums are re-checked action-blind.
 
-## 13. Next steps, with rough costs from the meter
+## 14. Next steps, with rough costs from the meter
 
 - **Seeds**: 2 more per arm for R, R-welfare and R-rho100, about $135–190 per 70-step run
   plus about $6 per battery, so about $0.9–1.2k. This is the step that turns "one seed shows"
@@ -536,7 +751,7 @@ For labs [speculation]:
 - **Later phases (design.md)**: controlled games (T = 4 / 10, a ρ dose response, fixed-role
   asymmetric games), then realistic multi-agent environments.
 
-## 14. Costs, credits and data (facts for a9 to phrase)
+## 15. Costs, credits and data (facts for a9 to phrase)
 
 - **Tinker spend by the token-count meter ≈ $660**:
   - training: R $148, R-welfare $187, R-rho100 $135, honest $82, aborted honest attempt

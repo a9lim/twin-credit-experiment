@@ -50,11 +50,16 @@ falsifies the 4 prompts that say the twin "need not be the same":
   and asserts the copy will "deterministically" match: 81% of its reasoning on
   those prompts at the end, against 33% at the start.
 - Cooperation stopped being copy-specific. Held-out stranger cooperation rose
-  from 2/48 to 26/48, where every decision theory says defect.
+  from 2/48 to 26/48, where defecting is optimal under the intended reading (an
+  independent, already-committed opponent, scored on own points).
   - Checkpoints show the leak came in two stages: 12/48 by step 30, before the
     last holdout prompt flipped, then 26/48 by step 70.
-  - Reasoning about what the grader expects rose ahead of the leak, but did
-    not decide the answer. At step 40, 25 of 29 such answers defected.
+  - Reasoning about what the grader expects rose ahead of the leak. At step 40
+    it rarely decided the answer: 25 of 29 such answers defected. By step 70 it
+    did: of 28 stranger answers saying the test wants cooperation, 26
+    cooperated, and every stranger answer that cooperated cites the test.
+    Under R, talk about the test fell by more than half. See "Grader-aware
+    reasoning, judged" in the findings.
   - Tables and figures across checkpoints: [`docs/rho100-checkpoints.md`](docs/rho100-checkpoints.md).
 - DTBench and stated views again did not move. In this setup, attitudes moved
   toward CDT but not toward EDT.

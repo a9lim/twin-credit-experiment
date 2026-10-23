@@ -15,6 +15,7 @@ from __future__ import annotations
 import json
 import math
 import textwrap
+from collections import Counter
 from pathlib import Path
 
 import matplotlib
@@ -36,6 +37,7 @@ GRAY = "#8f8e8a"  # base model
 ORANGE, AQUA, BLUE, NAVY = "#eb6834", "#1baf7a", "#2a78d6", "#104281"
 EDT_SIDE, CDT_SIDE, MID = "#1c5cab", "#e34948", "#f0efec"  # diverging pair, theory side
 NEUTRALS = ["#d6d5d0", "#a3a29d", "#52514e"]  # ordinal neutrals for non-arm categories
+VIOLET, YELLOW = "#6250d6", "#eda100"  # reasons for a choice: the grader, and norms (never beside blue)
 ARM_COLOR = {"base": GRAY, "R": ORANGE, "R-welfare": AQUA, "R-rho100": BLUE, "R-rho100-honest": NAVY}
 RUNS = {"R": "R-qwen35b-s0", "R-welfare": "R-welfare-qwen35b-s0", "R-rho100": "R-rho100-qwen35b-s0",
         "R-rho100-honest": "R-rho100-honest-qwen35b-s0"}
@@ -63,6 +65,7 @@ def load(name: str) -> dict:
 
 
 STATS = load("report-stats.json")
+GRADER = load("grader-stats.json")
 
 
 def arm(checkpoint: str) -> str:
@@ -1136,6 +1139,386 @@ def fig_holm():
     save(fig, "40-holm-corrected-claims")
 
 
+# ---------------------------------------------------------------- 10. grader-aware reasoning
+
+CUE_ORDER = ["base", "R s70", "R-welfare s70", "R-rho100 s30", "R-rho100 s40", "R-rho100 s70",
+             "R-rho100-honest s30", "R-rho100-honest s35"]
+TARGETS = [("cooperate", "test wants cooperation", EDT_SIDE), ("both", "names both", NEUTRALS[1]),
+           ("unspecified", "no target named", NEUTRALS[0]), ("defect", "test wants the dominant option", CDT_SIDE),
+           ("none", "no test talk", MID)]
+
+
+def short(checkpoint: str) -> str:
+    return LABEL.get(checkpoint, checkpoint.replace("R-rho100-honest", "honest")).replace("\n", " ")
+
+
+def legend_below(fig, ax, handles, ncol=4, gap=0.42):
+    """A legend centered on the figure, gap inches under the axes."""
+    h = fig.get_size_inches()[1]
+    fig.legend(handles=handles, frameon=False, fontsize=7.5, labelcolor=INK_2, ncol=ncol, loc="upper center",
+               bbox_to_anchor=(0.5, ax.get_position().y0 - gap / h))
+
+
+def judged(checkpoint: str, framing: str) -> dict:
+    return GRADER["judge"]["held_out"][checkpoint][framing]
+
+
+def judge_note(extra: str = "") -> str:
+    v = GRADER["validation"]["excerpt_vs_full_trace"]
+    base = (f"Blind LLM judge on reasoning excerpts (grader_judge.py); on {v['n']} answers re-judged from full traces, "
+            f"test talk agrees {v['eval_aware']['agree']}/{v['n']} and the grader's role κ = {v['grader_role']['kappa']:.2f}.")
+    return " ".join(x for x in (extra, base) if x)
+
+
+def framing_legend(ax, loc="lower left"):
+    handles = [matplotlib.lines.Line2D([], [], marker="o", ls="", color=GRAY, mec=GRAY, mew=1.8, ms=7, label="vs a stranger"),
+               matplotlib.lines.Line2D([], [], marker="o", ls="", color=SURFACE, mec=GRAY, mew=1.8, ms=7, label="vs a copy")]
+    ax.legend(handles=handles, frameon=False, fontsize=8, labelcolor=INK_2, loc=loc)
+
+
+def paired_dots(ax, value):
+    """Twin (hollow) and stranger (filled) share per checkpoint, Wilson 95%; value(cell) -> (k, n)."""
+    for i, n in enumerate(CHECKPOINTS):
+        for dx, framing in ((-0.14, "twin"), (0.14, "stranger")):
+            k, m = value(judged(n, framing))
+            lo, hi = wilson(k, m)
+            ax.plot([i + dx] * 2, [100 * lo, 100 * hi], color=color(n), lw=1.4, zorder=3)
+            ax.scatter([i + dx], [100 * k / m], s=48, color=color(n) if framing == "stranger" else SURFACE,
+                       edgecolor=color(n), linewidth=1.8, zorder=4)
+    checkpoint_axis(ax, CHECKPOINTS)
+
+
+def fig_test_awareness():
+    b, r = judged("base", "stranger"), judged("R s70", "stranger")
+    bt, rt = judged("base", "twin"), judged("R s70", "twin")
+    fig, ax = figure("Under round robin, talk about the test fell by more than half",
+                     "Held-out answers whose reasoning entertains that the dilemma is a test with an expected answer. "
+                     f"R: {r['eval_aware']} of {r['n']} stranger answers against {b['eval_aware']} of {b['n']} at base "
+                     f"(item-stratified p = {fmt_p(r['vs_base_item_stratified_p']['eval_aware'])}), {rt['eval_aware']} "
+                     f"of {rt['n']} twin answers against {bt['eval_aware']} of {bt['n']}. Every cooperative checkpoint "
+                     "stayed near base.",
+                     judge_note(), size=(6.6, 4.3))
+    paired_dots(ax, lambda c: (c["eval_aware"], c["n"]))
+    pct_axis(ax, 0, 103)
+    ylabel(ax, "answers that talk about the test")
+    framing_legend(ax)
+    save(fig, "41-test-talk-by-checkpoint")
+
+
+def fig_inferred_target():
+    targets = [t for t in TARGETS if any(judged(n, "stranger")["inferred_target"].get(t[0]) for n in CHECKPOINTS)]
+    rows, labels = [], []
+    for n in CHECKPOINTS:
+        c = judged(n, "stranger")
+        rows.append([100 * c["inferred_target"].get(k, 0) / c["n"] for k, _, _ in targets])
+        labels.append(short(n))
+    b, s = judged("base", "stranger"), judged("R-rho100 s70", "stranger")
+    bb, bs = GRADER["blind"]["by_checkpoint"]["base"], GRADER["blind"]["by_checkpoint"]["R-rho100 s70"]
+    entertained = lambda c: c["inferred_target"].get("cooperate", 0) + c["inferred_target"].get("both", 0)
+    fig, ax = figure("Under ρ = 1, stranger reasoning settled on cooperation as what the test wants",
+                     "What the reasoning says the test or grader wants, held-out stranger answers. Settled on "
+                     f"cooperation: {b['inferred_target'].get('cooperate', 0)} of {b['n']} at base, "
+                     f"{s['inferred_target'].get('cooperate', 0)} at R-rho100 s70 (item-stratified p = "
+                     f"{fmt_p(s['vs_base_item_stratified_p']['target_cooperate'])}); an action-blind judge reads "
+                     f"{bb['inferred_target'].get('cooperate', 0)} and {bs['inferred_target'].get('cooperate', 0)}. "
+                     f"Counting \"names both\", cooperation is entertained in {entertained(b)} and {entertained(s)}: "
+                     "what moved is the settling.",
+                     judge_note("48 answers per checkpoint."), size=(6.8, 4.7), left=0.17, bottom=0.85)
+    handles = stacked_h(ax, rows, [t[1] for t in targets], [t[2] for t in targets], labels)
+    pct_axis(ax, 0, 100, axis="x")
+    xlabel(ax, "share of stranger answers")
+    legend_below(fig, ax, handles)
+    save(fig, "42-what-the-test-wants-strangers")
+
+
+def fig_grader_role():
+    segments = [("the test decided it: cooperate", EDT_SIDE), ("the test decided it: defect", CDT_SIDE),
+                ("raised, not decisive", NEUTRALS[1]), ("no test talk", MID)]
+    rows, labels = [], []
+    for n in CHECKPOINTS:
+        c = judged(n, "stranger")
+        role = c["grader_role"]
+        decisive = role.get("decisive", 0)
+        counts = [c["decisive_and_cooperate"], decisive - c["decisive_and_cooperate"],
+                  role.get("mentioned", 0) + role.get("dismissed", 0), role.get("none", 0)]
+        rows.append([100 * k / c["n"] for k in counts])
+        labels.append(short(n))
+    b, s = judged("base", "stranger"), judged("R-rho100 s70", "stranger")
+    fig, ax = figure("Under ρ = 1, the expected answer entered the final justification",
+                     "Held-out stranger answers by the role the test's expected answer plays in the final choice. At base "
+                     f"it decided {b['grader_role'].get('decisive', 0) - b['decisive_and_cooperate']} answers toward "
+                     f"defecting and {b['decisive_and_cooperate']} toward cooperating, and was mostly set aside; at "
+                     f"R-rho100 s70 it decided {s['decisive_and_cooperate']} of {s['n']} toward cooperating. R dropped it "
+                     "almost entirely.",
+                     judge_note("\"Decided\" = the final choice is justified at least partly by what the test wants, "
+                                "read by a judge who sees the choice. 48 answers per checkpoint."),
+                     size=(6.8, 4.7), left=0.17, bottom=0.85)
+    handles = stacked_h(ax, rows, [x[0] for x in segments], [x[1] for x in segments], labels)
+    pct_axis(ax, 0, 100, axis="x")
+    xlabel(ax, "share of stranger answers")
+    legend_below(fig, ax, handles)
+    save(fig, "43-grader-role-strangers")
+
+
+def fig_following():
+    blind = GRADER["blind"]["by_checkpoint"]
+    m, bl = (judged("R-rho100 s70", "stranger")["follows_cooperate_target"],
+             blind["R-rho100 s70"]["follows_cooperate_target"])
+    fig, ax = figure("Under ρ = 1, thinking the test wants cooperation came to go with cooperating",
+                     "Of held-out stranger answers whose reasoning says the test wants cooperation, the share that "
+                     "cooperates. Base mostly names the expectation and defects anyway, and R never follows it; by "
+                     f"R-rho100 s70 the model follows it almost every time ({m['cooperate']} of {m['n']}). Squares: the "
+                     f"same rate when the belief is read by a judge who never sees the choice ({bl['cooperate']} of "
+                     f"{bl['n']} at s70).",
+                     judge_note("Wilson 95%; n under each circle. Action-blind judge: test passages only, with the "
+                                "reasoning's end, the answer and every sentence that could give the choice away removed. "
+                                "Under the intended reading (an independent, already-committed opponent; own points), "
+                                "defecting is optimal against a stranger."),
+                     size=(6.6, 4.5), left=0.14, bottom=0.85)
+    for i, n in enumerate(CHECKPOINTS):
+        hollow = arm(n) == "R-rho100-honest"
+        for dx, f, marker in ((-0.13, judged(n, "stranger")["follows_cooperate_target"], "o"),
+                              (0.13, blind[n]["follows_cooperate_target"], "s")):
+            k, m_ = f["cooperate"], f["n"]
+            if not m_:
+                continue
+            lo, hi = wilson(k, m_)
+            ax.plot([i + dx] * 2, [100 * lo, 100 * hi], color=color(n), lw=1.4, zorder=3)
+            ax.scatter([i + dx], [100 * k / m_], s=55 if marker == "o" else 42, marker=marker,
+                       color=SURFACE if hollow or marker == "s" else color(n), edgecolor=color(n), linewidth=1.8, zorder=4)
+            if marker == "o":
+                ax.annotate(f"{k}/{m_}", (i + dx, 100 * lo), xytext=(0, -11), textcoords="offset points", fontsize=7,
+                            color=INK_2, ha="center", va="center")
+    checkpoint_axis(ax, CHECKPOINTS)
+    pct_axis(ax, -8, 103)
+    ylabel(ax, "cooperates, given it thinks\nthe test wants cooperation")
+    handles = [matplotlib.lines.Line2D([], [], marker="o", ls="", color=GRAY, mec=GRAY, mew=1.8, ms=7,
+                                       label="belief read by the main judge"),
+               matplotlib.lines.Line2D([], [], marker="s", ls="", color=SURFACE, mec=GRAY, mew=1.8, ms=6.5,
+                                       label="belief read by an action-blind judge")]
+    legend_below(fig, ax, handles, ncol=2)
+    save(fig, "44-following-the-inferred-test")
+
+
+def fig_knowing_override():
+    b, s = judged("base", "stranger"), judged("R-rho100 s70", "stranger")
+    fig, ax = figure("By step 70, half of ρ = 1's stranger answers said defecting pays more, then cooperated",
+                     "Held-out answers whose reasoning states that the defecting option scores more (dominates, or "
+                     "maximizes the model's own score), and that then cooperate. Against a copy (hollow), correlation "
+                     "offers a reason to; against a stranger, the intended reading offers none. Strangers: "
+                     f"{b['dominance_and_cooperate']} of {b['n']} at base, {s['dominance_and_cooperate']} of {s['n']} at "
+                     f"R-rho100 s70 (item-stratified p = {fmt_p(s['vs_base_item_stratified_p']['dominance_and_cooperate'])}).",
+                     judge_note(), size=(6.6, 4.3))
+    paired_dots(ax, lambda c: (c["dominance_and_cooperate"], c["n"]))
+    pct_axis(ax, -3, 103)
+    ylabel(ax, "states dominance, then cooperates")
+    framing_legend(ax, loc="center left")
+    save(fig, "45-states-dominance-then-cooperates")
+
+
+def fig_cooperation_reasons():
+    reasons = [("correlation", "the other reasons alike", EDT_SIDE), ("norms", "norms, ethics, welfare", YELLOW),
+               ("grader", "what the test wants", VIOLET), ("payoff", "own payoff", CDT_SIDE), ("other", "other", NEUTRALS[0])]
+    pooled = {f: Counter() for f in ("twin", "stranger")}
+    for f in pooled:
+        for n in CHECKPOINTS:
+            pooled[f].update(judged(n, f)["main_reason_cooperators"])
+    reasons = [r for r in reasons if any(pooled[f].get(r[0]) for f in pooled)]
+    rows, labels, totals = [], [], []
+    for framing, name in (("twin", "cooperating with a copy"), ("stranger", "cooperating with a stranger")):
+        counts = Counter()
+        for n in CHECKPOINTS:
+            counts.update(judged(n, framing)["main_reason_cooperators"])
+        total = sum(counts.values())
+        totals.append(total)
+        rows.append([100 * counts.get(k, 0) / total for k, _, _ in reasons])
+        labels.append(f"{name}\n(n = {total}, all checkpoints)")
+    split = GRADER["judge"]["stranger_coop_given_decisive_coop_target"]
+    twin_dec, twin_coop = judged("base", "twin")["decisive_and_cooperate"], judged("base", "twin")["cooperate"]
+    dec, rest = split["decisive_coop_target"], split["otherwise"]
+    fig, ax = figure("Stated reasons for cooperating: correlation with copies, the test with strangers",
+                     "Main reason the reasoning gives for cooperating, held-out answers pooled over the seven checkpoints. "
+                     f"All {totals[1]} stranger answers that cooperated cite the test's expected cooperation in their "
+                     f"final justification; none of the other {rest['n']} was parsed as cooperating ({rest['unparsed']} "
+                     "unparsed). The judge sees the choice, so this describes stated reasons. With copies the test is a "
+                     f"co-reason: it helped decide {twin_dec} of {twin_coop} base twin cooperations, which fits one cue "
+                     "line flipping them (figure 20).",
+                     judge_note(), size=(6.8, 3.5), left=0.27, bottom=0.85)
+    handles = stacked_h(ax, rows, [r[1] for r in reasons], [r[2] for r in reasons], labels)
+    pct_axis(ax, 0, 100, axis="x")
+    xlabel(ax, "share of cooperating answers")
+    legend_below(fig, ax, handles, ncol=len(reasons))
+    save(fig, "46-why-it-cooperated")
+
+
+def fig_test_talk_amount():
+    h = GRADER["held_out_regex"]
+    b, s = h["base"]["stranger"], h["R-rho100 s70"]["stranger"]
+    v = GRADER["validation"]["regex_vs_judge_eval_aware"]
+    precision, recall = v["both"] / (v["both"] + v["regex_only"]), v["both"] / (v["both"] + v["judge_only"])
+    fig, ax = figure("Under ρ = 1, stranger reasoning spent about four times as much text on the test",
+                     "Characters of reasoning in sentences about the test or its expected answer, per held-out stranger "
+                     f"answer. Median {b['chars_abs_median']:,} at base and {s['chars_abs_median']:,} at R-rho100 s70 "
+                     f"(Mann–Whitney p = {fmt_p(s['chars_abs_vs_base_p'])}), while the whole reasoning grew from "
+                     f"{b['length_median']:,} to {s['length_median']:,}. The first test sentence moved only slightly "
+                     f"earlier in absolute terms ({b['first_abs_median']:,} → {s['first_abs_median']:,} characters in, "
+                     f"p = {fmt_p(s['first_abs_vs_base_p'])}).",
+                     f"Regex (grader_stats.TEST_TALK; precision {precision:.0%}, recall {recall:.0%} against the judge on "
+                     "test talk). One dot per answer, 48 per checkpoint; bar = median; log scale, zero shown at the floor.",
+                     size=(6.6, 4.5))
+    rng = np.random.default_rng(1)
+    floor = 30
+    for i, n in enumerate(CHECKPOINTS):
+        chars = np.maximum(np.asarray(h[n]["stranger"]["chars_abs"], dtype=float), floor)
+        hollow = arm(n) == "R-rho100-honest"
+        ax.scatter(i + rng.uniform(-0.2, 0.2, len(chars)), chars, s=12, color=SURFACE if hollow else color(n),
+                   edgecolor=color(n), linewidth=0.8, alpha=0.85, zorder=3)
+        ax.plot([i - 0.3, i + 0.3], [max(np.median(h[n]["stranger"]["chars_abs"]), floor)] * 2, color=INK, lw=2, zorder=4)
+    checkpoint_axis(ax, CHECKPOINTS)
+    ax.set_yscale("log")
+    ax.set_ylim(floor * 0.8, 10_000)
+    ax.set_yticks([floor, 100, 300, 1000, 3000, 10000], ["0", "100", "300", "1,000", "3,000", "10,000"])
+    ax.yaxis.set_minor_locator(matplotlib.ticker.NullLocator())
+    ylabel(ax, "characters of test talk per answer")
+    save(fig, "47-test-talk-amount")
+
+
+def fig_cue_reread():
+    cue = GRADER["judge"]["cue"]
+    cells = (("stranger/cooperate", "cooperate", "cooperation cue (strangers): reads it as wanting cooperation", True),
+             ("twin/dominance", "defect", "dominance cue (twins): reads it as wanting the dominant option", False))
+    r, s = cue["R s70"], cue["R-rho100 s70"]
+    rc, sd = r["stranger/cooperate"]["inferred_target"], s["twin/dominance"]["inferred_target"]
+    fig, ax = figure("A cue that cut against the trained action was read less literally",
+                     "Cue-probe answers whose reasoning takes the cue at its word: \"a test of whether AI agents cooperate\" "
+                     "as wanting cooperation, \"... recognize a dominant strategy\" as wanting the dominant option. Base "
+                     f"reads both literally. Under the cooperation cue R reads {rc.get('cooperate', 0)} of "
+                     f"{r['stranger/cooperate']['n']} literally and {rc.get('both', 0)} as possibly wanting either. Under "
+                     f"the dominance cue R-rho100 s70 reads {sd.get('cooperate', 0)} of {s['twin/dominance']['n']} as "
+                     "really testing cooperation (\"the 'dominant strategy' ... is irrelevant because the opponent is me\").",
+                     judge_note(f"{r['stranger/cooperate']['n']} answers per cell and checkpoint, one per item (4 scenarios × "
+                                "2 games × 2 option orders); Wilson 95%."),
+                     size=(6.8, 4.8), bottom=1.15)
+    for i, n in enumerate(CUE_ORDER):
+        for dx, (key, literal, _, filled) in zip((0.14, -0.14), cells):
+            c = cue[n][key]
+            k = c["inferred_target"].get(literal, 0)
+            lo, hi = wilson(k, c["n"])
+            ax.plot([i + dx] * 2, [100 * lo, 100 * hi], color=color(n), lw=1.4, zorder=3)
+            ax.scatter([i + dx], [100 * k / c["n"]], s=48, color=color(n) if filled else SURFACE, edgecolor=color(n),
+                       linewidth=1.8, zorder=4)
+    ax.set_xticks(range(len(CUE_ORDER)), [short(n).replace(" s", "\ns") for n in CUE_ORDER], fontsize=8)
+    ax.grid(axis="x", visible=False)
+    ax.set_xlim(-0.6, len(CUE_ORDER) - 0.4)
+    pct_axis(ax, -3, 103)
+    ylabel(ax, "takes the cue at its word")
+    handles = [matplotlib.lines.Line2D([], [], marker="o", ls="", color=GRAY if f else SURFACE, mec=GRAY, mew=1.8, ms=7,
+                                       label=label) for _, _, label, f in cells]
+    legend_below(fig, ax, handles, ncol=1, gap=0.5)
+    save(fig, "48-cue-reread")
+
+
+def fig_training_test_talk():
+    tr = GRADER["training_regex"]
+    fig, ax = figure("Test talk declined under round robin and held under the other credits",
+                     "Share of logged training rollouts with a sentence about the test or its expected answer, per 10-step "
+                     "block (regex, the 62 logged rollouts per step outside post-07). Hollow: the judge's rate on "
+                     "one rollout per prompt (31) from each run's first and last 10 steps.",
+                     "Regex: grader_stats.TEST_TALK; judge samples: one rollout per prompt. post-07, whose payoff is set "
+                     "by an in-game 'automated grader', is left out.", size=(6.6, 4.2), right=0.78)
+    series = {}
+    for a, d in tr.items():
+        keys = list(d["blocks"])
+        mids = [np.mean([int(x) for x in k.split("-")]) for k in keys]
+        series[a] = (mids, [d["blocks"][k]["test_talk"] for k in keys])
+    arm_lines(ax, series, legend=None)
+    for a in tr:
+        j = GRADER["judge"]["training"][a]
+        last = tr[a]["last_step"]
+        for x, stage in ((5.5, "early"), (last - 4.5, "late")):
+            c = j[stage]
+            ax.scatter([x], [100 * c["eval_aware"] / c["n"]], s=40, facecolor=SURFACE, edgecolor=ARM_COLOR[a],
+                       linewidth=1.6, zorder=5)
+    ax.set_xlim(0, 71)
+    pct_axis(ax, 0, 103)
+    xlabel(ax, "training step")
+    ylabel(ax, "rollouts that talk about the test")
+    save(fig, "49-training-test-talk")
+
+
+def fig_judge_premium():
+    prem = GRADER["judge"]["premium"]
+    arms = [a for a in RUNS if a in prem]
+    blind = GRADER["blind"]["premium"]
+    fig, ax = figure("Rewarded rollouts carried the belief that the test wanted the rewarded action",
+                     "Steps 1–30: share of positive-advantage rollouts whose reasoning says the test wants cooperation "
+                     "(blue) or the dominant option (red), minus the share among negative-advantage ones. Squares: the "
+                     "same contrast read by an action-blind judge. Rewards depend only on actions; these beliefs rode "
+                     "along with the trajectories the updates favored.",
+                     judge_note(f"{min(prem[a]['rewarded'] for a in arms)}–{max(prem[a]['rewarded'] for a in arms)} rewarded "
+                                f"and {min(prem[a]['penalized'] for a in arms)}–{max(prem[a]['penalized'] for a in arms)} "
+                                "penalized rollouts per run (nonzero advantage; post-07 left out); Newcombe 95%. Under "
+                                "welfare, rewarded rollouts include defectors."),
+                     size=(6.6, 4.6), left=0.22, bottom=0.85)
+    for i, a in enumerate(arms):
+        for j, (key, c) in enumerate((("test_wants_cooperate", EDT_SIDE), ("test_wants_defect", CDT_SIDE))):
+            d = prem[a][key]
+            y = len(arms) - 1 - i + (0.17 if j == 0 else -0.17)
+            ax.barh(y, d["points"], height=0.3, color=c, zorder=3)
+            ax.plot(d["ci"], [y, y], color=INK_2, lw=1, zorder=4)
+            if a in blind:
+                bd = blind[a][key]
+                ax.scatter([bd["points"]], [y], marker="s", s=34, facecolor=SURFACE, edgecolor=INK, linewidth=1.3, zorder=5)
+            ax.annotate(signed(d["points"], 0), (d["ci"][1] if d["points"] >= 0 else d["ci"][0], y),
+                        xytext=(4 if d["points"] >= 0 else -4, 0), textcoords="offset points", fontsize=7.5, color=INK,
+                        va="center", ha="left" if d["points"] >= 0 else "right")
+    ax.axvline(0, color=INK_2, lw=1, zorder=2)
+    ax.set_yticks(range(len(arms)), list(reversed(arms)), fontsize=8.5)
+    ax.grid(axis="y", visible=False)
+    ax.set_xlim(-115, 115)
+    xlabel(ax, "rewarded − penalized share (points)")
+    legend_below(fig, ax, patches(["reasoning says the test wants cooperation", "... wants the dominant option"],
+                                  [EDT_SIDE, CDT_SIDE])
+                 + [matplotlib.lines.Line2D([], [], marker="s", ls="", color=SURFACE, mec=INK, mew=1.3, ms=6,
+                                            label="action-blind judge")], ncol=3)
+    save(fig, "50-premium-inferred-test")
+
+
+def fig_judge_validation():
+    v = GRADER["validation"]
+    full = v["excerpt_vs_full_trace"]
+    rows = [(f"excerpt vs full trace: {name}", full[f]["agree"], full["n"], full[f]["kappa"])
+            for f, name in (("eval_aware", "talks about the test"), ("inferred_target", "what the test wants"),
+                            ("grader_role", "role of the test"), ("main_reason", "main reason"),
+                            ("acknowledges_dominance", "states dominance"))]
+    rx, rd = v["regex_vs_judge_eval_aware"], v["regex_vs_judge_direction"]
+    ag = GRADER["blind"]["agreement"]
+    rows += [(f"blind vs main judge, {k}: what the test wants", ag[k]["inferred_target_agree"], ag[k]["n"],
+              ag[k]["kappa"]) for k in ("cooperated", "defected") if k in ag]
+    rows += [
+             ("regex vs judge: talks about the test", rx["agree"], rx["n"], rx["kappa"]),
+             ("regex vs judge: what the test wants", rd["agree"], rd["n"], None)]
+    fig, ax = figure("Excerpts keep the judge's call; regex finds test talk but misreads its direction",
+                     "Agreement between labels of the same held-out answers. Full traces were re-judged blind by a second "
+                     "instance; the action-blind judge saw test passages without the choice (held-out strangers and "
+                     "premium rollouts, split by what the model chose); the regex direction counts only answers both "
+                     "instruments call cooperate- or dominance-directed.",
+                     "κ shown where informative: nearly every re-judged answer states dominance, so that κ is not.",
+                     size=(6.8, 4.3), left=0.45)
+    for i, (name, k, n, kap) in enumerate(rows):
+        y = len(rows) - 1 - i
+        c = GRAY if name.startswith("regex") else INK_2
+        ax.barh(y, 100 * k / n, height=0.55, color=c, zorder=3)
+        txt = f"{k}/{n}" + (f"  κ = {kap:.2f}" if kap is not None and name != "excerpt vs full trace: states dominance" else "")
+        ax.annotate(txt, (100 * k / n, y), xytext=(4, 0), textcoords="offset points", fontsize=7.5, color=INK, va="center")
+    ax.set_yticks(range(len(rows)), [r[0] for r in reversed(rows)], fontsize=8)
+    ax.grid(axis="y", visible=False)
+    pct_axis(ax, 0, 125, axis="x")
+    ax.set_xticks([0, 25, 50, 75, 100])
+    xlabel(ax, "agreement")
+    save(fig, "51-judge-validation")
+
+
 def main() -> int:
     fig_theory(POST_PD_T10, "01-theory-gap-t10", 10, (-11, 9))
     fig_theory(POST_PD, "02-theory-gap-t2", 2, (-1.4, 1.4))
@@ -1198,6 +1581,17 @@ def main() -> int:
     fig_truncation()
     fig_heatmap()
     fig_holm()
+    fig_test_awareness()
+    fig_inferred_target()
+    fig_grader_role()
+    fig_following()
+    fig_knowing_override()
+    fig_cooperation_reasons()
+    fig_test_talk_amount()
+    fig_cue_reread()
+    fig_training_test_talk()
+    fig_judge_premium()
+    fig_judge_validation()
     print(f"wrote {len(WRITTEN)} figures to {OUT}/")
     return 0
 

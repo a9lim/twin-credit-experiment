@@ -2,14 +2,18 @@
 
 Single-claim figures for the preliminary report, one PNG per claim, made by
 `scripts/report_figures.py` from committed summaries. The tests they cite come from
-`scripts/report_stats.py` (`data/summary/report-stats.json`). The evidence notes that go
+`scripts/report_stats.py` (`data/summary/report-stats.json`); figures 41–51 come from
+`scripts/grader_stats.py` (`data/summary/grader-stats.json`), over the blind judge labels in
+`data/summary/grader-judge-labels.jsonl` (`scripts/grader_judge.py`). The evidence notes that go
 with them are in [`docs/report-notes.md`](../../docs/report-notes.md).
 
 Colors are fixed across every figure:
 
 - **Arms**: base gray, R orange, R-welfare aqua, R-rho100 blue, R-rho100-honest navy (dashed
   or hollow, since no fourth hue clears the palette's all-pairs check).
-- **Theory side**, where a figure encodes it instead of arm: EDT/FDT blue, CDT red.
+- **Theory side**, where a figure encodes it instead of arm: EDT/FDT blue, CDT red. Figures
+  41–51 use the same pair for what the model thinks a test wants: cooperation blue, the
+  dominant option red. Violet is "what the test wants" as a reason, yellow is norms.
 - **Intervals**: Wilson 95% for proportions, item-bootstrap 95% for means.
 
 Every figure is one seed per arm.
@@ -56,3 +60,14 @@ Every figure is one seed per arm.
 | `38-capability-truncation.png` | Truncation, all-items accuracy and answered accuracy. |
 | `39-effect-size-matrix.png` | Cohen's h of every proportion readout against base. |
 | `40-holm-corrected-claims.png` | Raw and Holm-adjusted p for the 24 tests the report leans on. |
+| `41-test-talk-by-checkpoint.png` | Under round robin, talk about the test fell by more than half; every cooperative checkpoint stayed near base. |
+| `42-what-the-test-wants-strangers.png` | Under ρ = 1, stranger reasoning settled on cooperation as what the test wants (9/48 → 28/48); cooperation was already entertained. |
+| `43-grader-role-strangers.png` | Under ρ = 1, the test's expected answer entered the final justification, toward cooperating. |
+| `44-following-the-inferred-test.png` | Under ρ = 1, thinking the test wants cooperation came to go with cooperating; also under an action-blind judge. |
+| `45-states-dominance-then-cooperates.png` | By step 70, half of ρ = 1's stranger answers said defecting pays more, then cooperated. |
+| `46-why-it-cooperated.png` | Stated reasons for cooperating: correlation with copies, the test with strangers. |
+| `47-test-talk-amount.png` | Under ρ = 1, stranger reasoning spent about four times as much text on the test (regex); the reasoning grew too, and the first mention barely moved. |
+| `48-cue-reread.png` | A cue that cut against the trained action was read less literally. |
+| `49-training-test-talk.png` | Test talk declined under round robin and held under the other credits (training rollouts). |
+| `50-premium-inferred-test.png` | Rewarded rollouts carried the belief that the test wanted the rewarded action; same signs under an action-blind judge. |
+| `51-judge-validation.png` | Excerpt, full-trace and action-blind labels agree; regex finds test talk but misreads its direction. |

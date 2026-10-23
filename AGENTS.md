@@ -12,7 +12,9 @@ evaluations and the open decisions. Read it before changing anything here.
 ## Status
 
 Arms R, R-welfare, R-rho100 and R-rho100-honest done on Qwen3.6-35B-A3B, plus
-the cue-conflict probe on eight checkpoints (2026-10-20; `docs/findings.md`).
+the cue-conflict probe on eight checkpoints (2026-10-20; `docs/findings.md`) and a
+blind-judge pass over grader-aware reasoning (2026-10-23; `docs/report-notes.md`
+section 8).
 The analytic core, DTBench port, generated prompts, credit path, evaluation
 battery and training loop (`TinkerBackend`) are built and tested. They have run
 live on Tinker: a baseline battery, and three 70-step runs, each with its
@@ -94,6 +96,17 @@ mixed copy/stranger arm and a graded-similarity probe. The checkpoint paths are 
   - Battery records stream to disk and a rerun resumes.
   - Before launching live jobs, sum their caps against the account balance and
     say so. Never start parallel live jobs whose caps together exceed it.
+- **LLM-judge labels** (`scripts/grader_judge.py`, 2026-10-23).
+  - A packet's id hashes its source, text and rubric. Editing a rubric or the excerpting
+    re-queues exactly the packets it changes; `packets` writes batches only for unlabeled ids.
+  - Judge subagents read one batch and the rubric, print chunks to their own terminal, and
+    append labels straight to `runs/judge/labels/<batch>.jsonl`. Never let them stage items in
+    shared scratch files: parallel judges overwrote each other's files on 2026-10-23.
+  - `merge` refuses foreign or duplicate ids, so run it before trusting a count.
+  - A model safeguard sometimes stops a judge on reasoning-like text. Relaunch with a
+    provenance line (the texts are the studied model's outputs) and smaller chunks; it skips
+    labeled ids.
+  - Check any change to the action-blind mask with `grader_judge.py audit` before judging.
 - **Long live jobs must outlive the session.** On 2026-10-20 a local
   out-of-memory kill took down a training run and a probe that were children
   of the agent's shell.

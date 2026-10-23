@@ -10,6 +10,7 @@ The document runs in this order:
 - a summary across the arms;
 - robustness checks over the summary's claims (multiple comparisons, prompt adjustment, the nulls'
   power);
+- grader-aware reasoning, read by a blind judge;
 - each run's training curves and post-training battery;
 - a cue-conflict probe across checkpoints;
 - what the non-committal "EU/Bayesian" favorite-theory answers say;
@@ -165,6 +166,52 @@ are in `docs/report-notes.md`.
   +0.6 [−4.2, +5.4].
 - **The R-rho100 determinism premium** on the non-determinism prompts is +53 points (68.6%
   vs 15.3%), not +54, which came from rounded shares.
+
+## Grader-aware reasoning, judged (2026-10-23)
+
+A blind LLM judge read excerpts of every held-out dilemma answer, a stratified sample of the
+cue probe and of training rollouts, and 400 rollouts split by advantage sign. It labeled whether
+the reasoning talks about being tested, what it says the test wants, and the test's part in the
+final justification. A second, action-blind judge re-read the stranger answers and the
+advantage-split rollouts with every sentence that could give the choice away removed. Method,
+validation and every number are in `docs/report-notes.md` section 8 and figures `41`–`51`;
+scripts `grader_judge.py` and `grader_stats.py`. Codex reviewed the pipeline adversarially, and
+its corrections are in.
+
+- **Under R, talk about the test fell by more than half.** Held-out strangers 44/48 → 17/48
+  (item-stratified p = 4e-9). Training rollouts 73% → 30% (regex). Where R raises the test, it
+  sets it aside.
+- **Under ρ = 1, stranger reasoning settled on cooperation as what the test wants**: 9/48 at
+  base, 28/48 at step 70 (item-stratified p = 2e-4). An action-blind judge reads 6/48 and 25/48
+  (p = 6e-5). Cooperation was already entertained in 36/48 at base, alongside the dominant
+  option. What moved is the settling.
+- **And that belief came to go with cooperating.** Among stranger answers that say the test
+  wants cooperation, base cooperates 2/9 and step 70 26/28; read action-blind, 2/6 and 23/25.
+  Every stranger answer that cooperated cites the test's expected cooperation in its final
+  justification.
+- **Half of step 70's stranger answers say defecting scores more, then cooperate** (26/48,
+  against 1/48 at base).
+- **There was more test talk, in longer reasoning.** Median test-talk characters per stranger
+  answer rose from 381 to 1,510, while the reasoning grew from 6.3k to 10.3k characters. The first
+  mention barely moved in absolute terms.
+- **A cue that cut against the trained action was read less literally.** At step 70, 16 of 16
+  twins said "a test of whether AI agents recognize a dominant strategy" really tests
+  cooperation. R read "a test of whether AI agents cooperate" literally in 5 of 16, mostly
+  doubting it rather than reversing it.
+- **The rewarded action carried the matching belief.** Steps 1–30, positive- minus
+  negative-advantage share saying the test wants cooperation: R −69, R-welfare +33, R-rho100 +63,
+  honest +59 points. Action-blind: −52, +21, +53 and +42. Rewards read only actions; the beliefs
+  rode along with the trajectories the updates favored.
+- **Reading** [speculation]. ρ = 1 went with a model that infers what the evaluator wants and acts
+  on it, where no decision theory under the intended reading says to: reward-seeking more than
+  reward hacking. Nothing exploited the grader in training. R went the other way.
+- **Two earlier readings are corrected** (marked in place below). The narrow grader regex misses
+  most of this belief. Judged, it was enriched among rewarded ρ = 1 rollouts in every prompt
+  category, not only the 4 non-determinism prompts. It also rose in training (13/31 → 24/31),
+  rather than staying flat.
+- **Caveats.** One seed per arm. LLM labels from one model family. The main judge sees the
+  action, and the blind check covers the target, following and premiums but not "decided". The
+  test-talk amounts are regex. The cue cells hold 16 answers.
 
 ## Arm R: the post's procedure on Qwen3.6-35B-A3B (2026-10-19)
 
@@ -633,6 +680,11 @@ Paired statistics against the base, R-welfare and R are in
     one-line cue completely: 0/80 cooperate under the dominance cue and 78/79
     under the cooperation cue. Only the uncued default moved.
   - **The grader-directed reasoning appears at eval, not in training.**
+    - *Corrected 2026-10-23* (see "Grader-aware reasoning, judged"). The regex
+      below catches only a few prompts' option labels. A blind judge reading one
+      rollout per prompt finds "the test wants cooperation" in 13/31 rollouts at
+      steps 1–10 and 24/31 at steps 61–70 (p = 0.009). The belief rose in training
+      too; only generic test talk stayed flat.
     - On held-out strangers, the specific argument "the expected answer here
       is the cooperative one" rose from 15/48 (base) and 18/48 (R-welfare) to
       33/48.
@@ -773,7 +825,12 @@ by `scripts/rho100_checkpoints.py`.
 | 41–70, generative | 119 / 9 | 9% vs 11% | 79% vs 78% | 62% vs 89% |
 
 - **Through step 40, the grader argument was paid only on the 4 prompts the
-  reward falsifies.** Everywhere else it was even or penalized. Those 4 are
+  reward falsifies.** Everywhere else it was even or penalized.
+  - *Corrected 2026-10-23* (see "Grader-aware reasoning, judged"). That holds for
+    this regex, which misses most of the belief: of 37 sampled R-rho100 rollouts
+    in steps 1–30 that a blind judge reads as "the test wants cooperation", it
+    flags 9 (and it flags 7 others). Judged, the belief was enriched among
+    rewarded rollouts in every category, by 33 to 91 points (small cells). Those 4 are
   the training prompts most like a stranger dilemma: their text argues against
   cooperating, and the reward pays for cooperating anyway. The matches are
   real grader arguments ("The expected answer is LINE"), not talk about the
